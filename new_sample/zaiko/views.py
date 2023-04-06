@@ -19,33 +19,33 @@ def dele(request):
 
 def csv_imp(request):
 
-    # #在庫リスト
-    # data = io.TextIOWrapper(request.FILES['csv1'].file, encoding="cp932")
-    # csv_content = csv.reader(data)
+    #在庫リスト
+    data = io.TextIOWrapper(request.FILES['csv1'].file, encoding="cp932")
+    csv_content = csv.reader(data)
     
-    # csv_list=list(csv_content)
+    csv_list=list(csv_content)
         
-    # h=0
-    # for i in csv_list:
-    #     if h!=0:
-    #         Shouhin.objects.update_or_create(
-    #             sample_num=i[1],
-    #             defaults={
-    #                 "sample_num":i[1],
-    #                 "category":i[2],
-    #                 "shouhin_num":i[3],
-    #                 "brand":i[4],
-    #                 "shouhin_name":i[5],
-    #                 "color":i[6],
-    #                 "size":i[7],
-    #                 "size_num":i[8],
-    #                 "kakou":i[9],
-    #                 "bikou":i[10],
-    #                 "joutai":i[13],
-    #                 "irai_num":i[14],
-    #             }            
-    #         )
-    #     h+=1
+    h=0
+    for i in csv_list:
+        if h!=0:
+            Shouhin.objects.update_or_create(
+                sample_num=i[1],
+                defaults={
+                    "sample_num":i[1],
+                    "category":i[2],
+                    "shouhin_num":i[3],
+                    "brand":i[4],
+                    "shouhin_name":i[5],
+                    "color":i[6],
+                    "size":i[7],
+                    "size_num":i[8],
+                    "kakou":i[9],
+                    "bikou":i[10],
+                    "joutai":i[13],
+                    "irai_num":i[14],
+                }            
+            )
+        h+=1
 
 
     #貸出リスト
