@@ -9,7 +9,6 @@
 
 </head>
 <body>
-
     <div style="width: 500px;">
         <form action="{% url 'zaiko:csv_imp' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -21,11 +20,8 @@
             <br>
             <input type="submit" name="btn_upload" value="取込">
             <span style="color: red;">　{{message}}</span>
-        </div>
         </form>
     </div>
-
-
 
 </body>
 </html>
