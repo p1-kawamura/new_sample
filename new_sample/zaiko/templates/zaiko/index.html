@@ -4,9 +4,143 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <title>サンプル在庫表</title>
+
+    <style>
+        .flex{
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
 </head>
 <body>
-    hello
+    <div class="container mt-5">
+
+        <!-- 商品検索 -->
+        <div class="flex">
+            <div style="width: 200px;">
+                <input class="form-control" type="text" id="hinban_enter">
+            </div>
+            <div>
+                <select class="form-control" id="hinban" style="width: 200px;" size="5"></select>
+            </div>
+            <div>
+                <select class="form-control" id="color" style="width: 200px;" size="5"></select>
+            </div>
+            <div>
+                <select class="form-control" id="size" style="width: 200px;" size="5"></select>
+            </div>
+        </div>
+
+        <!-- 商品リスト -->
+        <div id="shouhin_list"></div>
+
+        
+
+    </div>
+
+
+
+
+    <!-- Javascript -->
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+  
+        var csrftoken = getCookie('csrftoken');
+  
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+  
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+  
+  
+  
+        //品番入力
+        $('#hinban_enter').on('input', function(e) {
+            e.preventDefault();
+  
+            $.ajax({
+                'url': '{% url "zaiko:hinban_enter_ajax" %}',
+                'type': 'POST',
+                'data': {
+                    'hinban': $('#hinban_enter').val(),
+                },
+                'dataType': 'json'
+            })
+            .done(function(response){
+                var list
+                if (response.hinban.length == 0){
+                    list='<option></option>';
+                } else {
+                    for (var i of response.hinban){
+                        list = list + '<option>' + i + '</option>';
+                    }
+                }
+                document.getElementById("hinban").innerHTML=list;             
+            });
+        });
+
+
+        //品番選択（カラー、サイズ検索）
+        $('#hinban').on('click', function(e) {
+            e.preventDefault();
+  
+            $.ajax({
+                'url': '{% url "zaiko:hinban_click_ajax" %}',
+                'type': 'POST',
+                'data': {
+                    'hinban': $('#hinban').val(),
+                },
+                'dataType': 'json'
+            })
+            .done(function(response){
+                var color_list
+                var size_list
+                for (var i of response.color){
+                    color_list = color_list + '<option>' + i + '</option>';
+                };
+                for (var i of response.size){
+                    size_list = size_list + '<option>' + i + '</option>';
+                }
+                document.getElementById("color").innerHTML=color_list; 
+                document.getElementById("size").innerHTML=size_list;
+                
+                var all_list=""
+                for (var item of response.items){
+                    all_list=all_list + "<div>サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
+                        "カラー：" + item.color + "サイズ：" + item.size + "</div>"
+                }
+                document.getElementById("shouhin_list").innerHTML=all_list; 
+            });
+        });
+
+        
+    </script>
+
 </body>
 </html>

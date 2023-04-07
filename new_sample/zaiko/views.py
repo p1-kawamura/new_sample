@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Shouhin,Rental
 import io
 import csv
+from django.http import JsonResponse
 
 
 def index(request):
@@ -11,9 +12,49 @@ def index(request):
 def csv_imp_page(request):
     return render(request,"zaiko/csv_imp.html")
 
+
 def dele(request):
     Shouhin.objects.all().delete()
     return render(request,"zaiko/csv_imp.html")
+
+
+#品番検索に入力
+def hinban_enter_ajax(request):
+    hinban=request.POST.get("hinban")
+    if len(hinban)==0:
+        shouhin_list=[]
+    else:
+        items=Shouhin.objects.filter(shouhin_num__contains = hinban)
+        shouhin_list=[]
+        for item in items:
+            if item.shouhin_num not in shouhin_list:
+                shouhin_list.append(item.shouhin_num)
+        shouhin_list.sort()
+    d={"hinban":shouhin_list}    
+    return JsonResponse(d)
+
+
+#品番リストをクリック
+def hinban_click_ajax(request):
+    hinban=request.POST.get("hinban")
+    items=Shouhin.objects.filter(shouhin_num = hinban).order_by("size_num")
+    items2=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
+    color_list=[]
+    size_list=[]
+    for item in items:
+        if item.color not in color_list:
+            color_list.append(item.color)
+        if item.size not in size_list:
+            size_list.append(item.size)
+    color_list.sort()
+    d={
+        "color":color_list,
+        "size":size_list,
+        "items":items2,
+    }
+    return JsonResponse(d)
+
+
 
 
 
