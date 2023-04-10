@@ -30,7 +30,7 @@ def hinban_enter_ajax(request):
             if item.shouhin_num not in shouhin_list:
                 shouhin_list.append(item.shouhin_num)
         shouhin_list.sort()
-    d={"hinban":shouhin_list}    
+    d={"hinban":shouhin_list}
     return JsonResponse(d)
 
 
