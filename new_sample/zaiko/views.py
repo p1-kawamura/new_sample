@@ -42,21 +42,26 @@ def hinban_click_ajax(request):
     color_list=[]
     size_list=[]
     for item in items:
+        hinmei=item.shouhin_name
+        brand=item.brand
         if item.color not in color_list:
             color_list.append(item.color)
         if item.size not in size_list:
             size_list.append(item.size)
     color_list.sort()
+    shouhin_name=hinban + "　" + hinmei
     d={
         "color":color_list,
         "size":size_list,
         "items":items2,
+        "shouhin_name":shouhin_name,
+        "brand":brand
      }
     return JsonResponse(d)
 
 
-#カラーをクリック
-def color_click_ajax(request):
+#カラー、サイズをクリック
+def color_size_click_ajax(request):
     hinban=request.POST.get("hinban")
     color=request.POST.get("color")
     size=request.POST.get("size")
@@ -79,7 +84,6 @@ def color_click_ajax(request):
         items=list(Shouhin.objects.filter(shouhin_num = hinban , color__in=color , size__in=size).order_by("color","size_num").values())
     d={"items": items}          
     return JsonResponse(d)
-
 
 
 

@@ -10,20 +10,47 @@
     <title>サンプル在庫表</title>
 
     <style>
-        .flex{
+        .flex {
             display: flex;
             flex-wrap: wrap;
         }
-        .main{
+        .main {
             padding: 0.5em 1em;
             margin: 0.5em 0;
             background: #FFF;
-            border: solid 0.5px lightslategray;
-            border-bottom: solid 2px lightslategray;
+            border: solid 0.5px rgb(190, 190, 190);
+            border-bottom: solid 2px rgb(190, 190, 190);
             box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
             border-radius: 5px;
             text-align: left;
         }
+        .main2 {
+            background: #eaf5f9;
+            border-left: solid 10px #27acd9;
+            border-bottom: solid 0.5px #27acd9;
+            padding: 10px 20px;
+            margin-top: 5px;
+        }
+        .shouhin_name {
+            position: relative;
+            padding: 10px 20px;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 10px;
+            background: #094;
+        }
+        .shouhin_name:after {
+            position: absolute;
+            bottom: -9px;
+            left: 1em;
+            width: 0;
+            height: 0;
+            content: '';
+            border-width: 10px 10px 0 10px;
+            border-style: solid;
+            border-color: #094 transparent transparent transparent;
+        }
+        
     </style>
 </head>
 <body>
@@ -38,18 +65,18 @@
                 <select class="form-control" id="hinban" style="width: 200px; height:150px;" size="5"></select>
             </div>
             <div>
-                <select class="form-control" id="color" style="font-size: 0.8em; width: 200px; height:150px;" multiple></select>
+                <select class="form-control" id="color" name="color_size" style="font-size: 0.8em; width: 200px; height:150px;" multiple></select>
             </div>
             <div>
-                <select class="form-control" id="size" style="width: 200px; height:150px;" multiple></select>
+                <select class="form-control" id="size" name="color_size" style="width: 200px; height:150px;" multiple></select>
             </div>
         </div>
 
         <!-- 商品リスト -->
-        <div id="shouhin_list"></div>
-        あ
-        
-
+        <div id="shouhin"></div>
+        <div class="mt-4">
+            <div id="shouhin_list"></div>
+        </div>
     </div>
 
 
@@ -61,7 +88,7 @@
             var cookieValue = null;
             if (document.cookie && document.cookie !== '') {
                 var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
+                for (var i = 0; i <cookies.length; i++) {
                     var cookie = jQuery.trim(cookies[i]);
                     // Does this cookie string begin with the name we want?
                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
@@ -115,6 +142,7 @@
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
                 document.getElementById("shouhin_list").innerHTML=""
+                document.getElementById("shouhin").innerHTML=""
             });
 
             
@@ -136,19 +164,27 @@
             .done(function(response){
                 var color_list
                 var size_list
+                var str
                 for (var i of response.color){
                     color_list = color_list + '<option>' + i + '</option>';
                 };
                 for (var i of response.size){
                     size_list = size_list + '<option>' + i + '</option>';
                 }
+
+                str="<div class='mt-5 shouhin_name' style='width: 500px;'>" +
+                    "<div>" + response.shouhin_name + "</div>" +
+                    "<div>" + response.brand + "</div>" +
+                    "</div>"
+        
                 document.getElementById("color").innerHTML=color_list; 
                 document.getElementById("size").innerHTML=size_list;
+                document.getElementById("shouhin").innerHTML=str;
                 
                 var all_list=""
                 for (var item of response.items){
                     all_list=all_list + 
-                    "<div class='main'>" + "サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
+                    "<div class='main2'>" + "サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
                         "カラー：" + item.color + "サイズ：" + item.size + 
                     "</div>"
                 }
@@ -157,6 +193,95 @@
             });
         });
 
+
+        //カラー選択
+        $('#color').on('click', function(e) {
+            e.preventDefault();
+
+            var color=[];
+            var elm=document.getElementById("color").options;
+            for (i=0 ; i<elm.length ; i++){
+                if (elm[i].selected){
+                    color.push(elm[i].value);
+                }
+            }
+            var size=[];
+            elm=document.getElementById("size").options;
+            for (i=0 ; i<elm.length ; i++){
+                if (elm[i].selected){
+                    size.push(elm[i].value);
+                }
+            }
+            color=color.toString();
+            size=size.toString();
+        
+            $.ajax({
+                'url': '{% url "zaiko:color_size_click_ajax" %}',
+                'type': 'POST',
+                'data': {
+                    'hinban': $('#hinban').val(),
+                    'color':color,
+                    'size':size,
+                },
+                'dataType': 'json'
+            })
+            .done(function(response){                
+                var all_list=""
+                for (var item of response.items){
+                    all_list=all_list + 
+                    "<div class='main2'>" + "サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
+                        "カラー：" + item.color + "サイズ：" + item.size + 
+                    "</div>"
+                }
+                document.getElementById("shouhin_list").innerHTML=all_list; 
+                
+            });
+        });
+
+
+        //サイズ選択
+        $('#size').on('click', function(e) {
+            e.preventDefault();
+
+            var color=[];
+            var elm=document.getElementById("color").options;
+            for (i=0 ; i<elm.length ; i++){
+                if (elm[i].selected){
+                    color.push(elm[i].value);
+                }
+            }
+            var size=[];
+            elm=document.getElementById("size").options;
+            for (i=0 ; i<elm.length ; i++){
+                if (elm[i].selected){
+                    size.push(elm[i].value);
+                }
+            }
+            color=color.toString();
+            size=size.toString();
+        
+            $.ajax({
+                'url': '{% url "zaiko:color_size_click_ajax" %}',
+                'type': 'POST',
+                'data': {
+                    'hinban': $('#hinban').val(),
+                    'color':color,
+                    'size':size,
+                },
+                'dataType': 'json'
+            })
+            .done(function(response){                
+                var all_list=""
+                for (var item of response.items){
+                    all_list=all_list + 
+                    "<div class='main2'>" + "サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
+                        "カラー：" + item.color + "サイズ：" + item.size + 
+                    "</div>"
+                }
+                document.getElementById("shouhin_list").innerHTML=all_list; 
+                
+            });
+        });
         
     </script>
     
