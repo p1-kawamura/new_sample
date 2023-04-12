@@ -24,10 +24,24 @@
             border-radius: 5px;
             text-align: left;
         }
-        .main2 {
+        .main0 {
             background: #eaf5f9;
             border-left: solid 10px #27acd9;
             border-bottom: solid 0.5px #27acd9;
+            padding: 10px 20px;
+            margin-top: 5px;
+        }
+        .main1 {
+            background: #d9d8d8;
+            border-left: solid 10px #646565;
+            border-bottom: solid 0.5px #646565;
+            padding: 10px 20px;
+            margin-top: 5px;
+        }
+        .main2 {
+            background: #e1f7d9;
+            border-left: solid 10px #60b664;
+            border-bottom: solid 0.5px #60b664;
             padding: 10px 20px;
             margin-top: 5px;
         }
@@ -54,7 +68,7 @@
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
 
         <!-- 商品検索 -->
         <div class="flex">
@@ -165,6 +179,8 @@
                 var color_list
                 var size_list
                 var str
+                var main
+
                 for (var i of response.color){
                     color_list = color_list + '<option>' + i + '</option>';
                 };
@@ -183,9 +199,16 @@
                 
                 var all_list=""
                 for (var item of response.items){
+                    if (item.joutai == 0){
+                        main="main0"
+                    } else if (item.joutai == 1){
+                        main="main1"
+                    } else {
+                        main="main2"
+                    }
                     all_list=all_list + 
-                    "<div class='main2'>" + "サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
-                        "カラー：" + item.color + "サイズ：" + item.size + 
+                    "<div class='" + main + "'>" + "サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
+                        "カラー：" + item.color + "サイズ：" + item.size + "状態：" + item.joutai +
                     "</div>"
                 }
                 document.getElementById("shouhin_list").innerHTML=all_list; 
