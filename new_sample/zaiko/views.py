@@ -51,7 +51,33 @@ def hinban_click_ajax(request):
         "color":color_list,
         "size":size_list,
         "items":items2,
-    }
+     }
+    return JsonResponse(d)
+
+
+#カラーをクリック
+def color_click_ajax(request):
+    hinban=request.POST.get("hinban")
+    color=request.POST.get("color")
+    size=request.POST.get("size")
+    try:
+        color=color.split(",")
+    except:
+        color=list(color)
+    try:
+        size=size.split(",")
+    except:
+        size=list(size)
+    #商品一覧
+    if color[0]=="" and size[0]=="":
+        items=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
+    elif color[0]!="" and size[0]=="" :
+        items=list(Shouhin.objects.filter(shouhin_num = hinban , color__in=color).order_by("color","size_num").values())
+    elif color[0]=="" and size[0]!="" :
+        items=list(Shouhin.objects.filter(shouhin_num = hinban , size__in=size).order_by("color","size_num").values())
+    else:
+        items=list(Shouhin.objects.filter(shouhin_num = hinban , color__in=color , size__in=size).order_by("color","size_num").values())
+    d={"items": items}          
     return JsonResponse(d)
 
 
