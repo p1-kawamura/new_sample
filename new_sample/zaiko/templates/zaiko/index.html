@@ -55,7 +55,7 @@
             color: #fff;
             font-weight: bold;
             border-radius: 10px;
-            background: #f77738;
+            background: #27acd9;
         }
         .shouhin_name:after {
             position: absolute;
@@ -66,7 +66,7 @@
             content: '';
             border-width: 10px 10px 0 10px;
             border-style: solid;
-            border-color: #f77738 transparent transparent transparent;
+            border-color: #27acd9 transparent transparent transparent;
         }
         .joutai1 {
             padding: 0px 10px;
@@ -84,16 +84,54 @@
             width: 70px;
             text-align: center;
         }
-        
+        .joutai2_kaijo {
+            padding: 0px 5px;
+            background-color: #fff;
+            border: solid 0.5px #60b664;
+            border-radius: 5px; 
+            width: 45px;
+            text-align: center;
+        }
+        .joutai2_kaijo a{
+            color: #60b664;
+        }
+        .title01 h2{
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 2rem 1rem 120px;
+            border: solid 2px #27acd9;
+            width: 600px;
+        }
+        .title01 h2:before {
+            position: absolute;
+            content: '';
+            top: -150%;
+            left: -100px;
+            width: 200px;
+            height: 300%;
+            transform: rotate(25deg);
+            background: #27acd9;
+        }
+        .title01 h2 span {
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            font-size: 30px;
+            font-size: 3rem;
+            padding-left: 16px;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
     <div class="container mt-5 mb-5">
 
-        
+        <div class="title01"><h2><span>01</span>サンプルを選択してください</h2></div>
 
         <!-- 商品検索 -->
-        <div class="flex">
+        <div class="flex mt-4">
             <div>
                 <div class="flex" >
                     <div>品番：</div>
@@ -209,6 +247,7 @@
                 var size_list
                 var str
                 var str2
+                var status
                 var main
 
                 for (var i of response.color){
@@ -231,26 +270,38 @@
                 for (var item of response.items){
                     if (item.joutai == 0){
                         main="main0";
-                        str="";
+                        status="";
                         str2="<input type='checkbox' class='form-check-input' name='" + item.hontai_num +"'>";
                     } else if (item.joutai == 1){
                         main="main1";
-                        str="<div class='joutai1' title='担当者　貸出日　お客様名'><a href='javascript:void(0)'>貸出中</a></div>";
                         str2=""
+                        for (var ren of response.items3){
+                            if (item.irai_num == ren.irai_num_rental){
+                                status="<div class='joutai1' title='■担当者：" + ren.busho + "　" + ren.tantou +
+                                "　　■貸出日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>" +
+                                "<a href='javascript:void(0)'>貸出中</a></div>";
+                            }
+                        }
                     } else if (item.joutai == 2){
                         main="main2"
-                        str="<div class='joutai2' title='担当者　貸出日　お客様名'><a href='javascript:void(0)'>キープ中</a></div>";
-                        str2=""
+                        str2="<div class='joutai2_kaijo' id='" + item.hontai_num + "'><a href='javascript:void(0)'>解除</a></div>"
+                        for (var ren of response.items3){
+                            if (item.irai_num == ren.irai_num_rental){
+                                status="<div class='joutai2' title='■担当者：" + ren.busho + "　" + ren.tantou +
+                                "　　■キープ日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>" +
+                                "<a href='javascript:void(0)'>キープ中</a></div>";
+                            }
+                        }
                     }
                     all_list=all_list + 
                     "<div class='" + main + " flex'>" + 
                         "<div style='width:100px;'>No." + item.sample_num + "</div>"+ 
-                        "<div style='width:150px; padding-left:20px'>" + str + "</div>"+ 
+                        "<div style='width:150px; padding-left:20px'>" + status + "</div>"+ 
                         "<div style='width:250px;'>" + item.color + "</div>"+ 
                         "<div style='width:100px;'>" + item.size + "</div>"+ 
                         "<div style='width:250px;'>" + item.kakou + "</div>"+ 
                         "<div style='width:150px;'>" + item.bikou + "</div>"+ 
-                        "<div style='width:50px; text-align: right;'>" + str2 + "</div>"+
+                        "<div style='width:50px; text-align: center;'>" + str2 + "</div>"+
                     "</div>"
                 }
                 document.getElementById("shouhin_list").innerHTML=all_list;  
@@ -359,6 +410,7 @@
                 for (var i of response.hinban){
                     list = list + '<option>' + i + '</option>';
                 }
+                document.getElementById("hinban_enter").value="";
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
@@ -381,6 +433,7 @@
                 for (var i of response.hinban){
                     list = list + '<option>' + i + '</option>';
                 }
+                document.getElementById("hinban_enter").value="";
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";

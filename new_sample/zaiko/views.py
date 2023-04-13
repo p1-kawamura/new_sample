@@ -39,6 +39,7 @@ def hinban_click_ajax(request):
     hinban=request.POST.get("hinban")
     items=Shouhin.objects.filter(shouhin_num = hinban).order_by("size_num")
     items2=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
+    items3=list(Rental.objects.all().values())
     color_list=[]
     size_list=[]
     for item in items:
@@ -54,6 +55,7 @@ def hinban_click_ajax(request):
         "color":color_list,
         "size":size_list,
         "items":items2,
+        "items3":items3,
         "shouhin_name":shouhin_name,
         "brand":brand
      }
