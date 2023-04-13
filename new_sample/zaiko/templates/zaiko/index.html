@@ -72,7 +72,6 @@
             padding: 0px 10px;
             color: #fff;
             background-color: #646565;
-            border-radius: 5px; 
             width: 70px;
             text-align: center;
         }
@@ -80,20 +79,8 @@
             padding: 0px 10px;
             color: #fff;
             background-color: #60b664;
-            border-radius: 5px; 
             width: 70px;
             text-align: center;
-        }
-        .joutai2_kaijo {
-            padding: 0px 5px;
-            background-color: #fff;
-            border: solid 0.5px #60b664;
-            border-radius: 5px; 
-            width: 45px;
-            text-align: center;
-        }
-        .joutai2_kaijo a{
-            color: #60b664;
         }
         .title01 h2{
             position: relative;
@@ -127,7 +114,7 @@
             position: relative;
             margin: 2em 0;
             padding: 0.5em 1em;
-            border: solid 3px #62c1ce;
+            border: solid 3px #fa6e66;
         }
         .point .box-title {
             position: absolute;
@@ -138,14 +125,16 @@
             height: 25px;
             line-height: 25px;
             font-size: 17px;
-            background: #62c1ce;
+            background: #fa6e66;
             color: #ffffff;
-            font-weight: bold;
             border-radius: 5px 5px 0 0;
         }
         .point p {
             margin: 0; 
             padding: 0;
+        }
+        .hover1:hover {
+            background-color: #ff6;
         }
     </style>
 </head>
@@ -179,7 +168,9 @@
             </div>
             <div class="point" style="margin-left: 30px; width: 230px;">
                 <span class="box-title">複数選択と解除</span>
-                <p>「カラー」や「サイズ」を複数選択または解除したい場合は、<br><b>「Ctrl」</b>キーを押しながら選択してください。
+                <p>「カラー」や「サイズ」を複数選択または解除したい場合は、<br>
+                    <span style="background:linear-gradient(transparent 60%, #ff6 60%);">
+                    <b>「Ctrl」</b>キーを押しながら</span>選択してください。
                 </p>
             </div>
         </div>
@@ -286,8 +277,8 @@
                     size_list = size_list + '<option>' + i + '</option>';
                 }
 
-                str="<div class='mt-5 shouhin_name' style='width: 500px;'>" +
-                    "<div>" + response.shouhin_name + "</div>" +
+                str="<div class='mt-4 shouhin_name' style='width: 500px;'>" +
+                    "<div style='font-size:1.2em'>" + response.shouhin_name + "</div>" +
                     "<div>" + response.brand + "</div>" +
                     "</div>"
         
@@ -300,7 +291,7 @@
                     if (item.joutai == 0){
                         main="main0";
                         status="";
-                        str2="<input type='checkbox' class='form-check-input' name='" + item.hontai_num +"'>";
+                        str2="<input type='checkbox' class='form-check-input' style='border-color: #646565' name='" + item.hontai_num + "'>";
                     } else if (item.joutai == 1){
                         main="main1";
                         str2=""
@@ -313,7 +304,7 @@
                         }
                     } else if (item.joutai == 2){
                         main="main2"
-                        str2="<div class='joutai2_kaijo' id='" + item.hontai_num + "'><a href='javascript:void(0)'>解除</a></div>"
+                        str2="<button class='btn btn-outline-success btn-sm' style='padding: 0px 5px;' id='" + item.hontai_num + "'>解除</button>"
                         for (var ren of response.items3){
                             if (item.irai_num == ren.irai_num_rental){
                                 status="<div class='joutai2' title='■担当者：" + ren.busho + "　" + ren.tantou +
@@ -323,7 +314,7 @@
                         }
                     }
                     all_list=all_list + 
-                    "<div class='" + main + " flex'>" + 
+                    "<div class='" + main + " flex hover1'>" + 
                         "<div style='width:100px;'>No." + item.sample_num + "</div>"+ 
                         "<div style='width:150px; padding-left:20px'>" + status + "</div>"+ 
                         "<div style='width:250px;'>" + item.color + "</div>"+ 
