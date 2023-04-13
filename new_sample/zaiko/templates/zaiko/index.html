@@ -1,142 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <title>サンプル在庫表</title>
 
-    <style>
-        .flex {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .main0 {
-            background: #e4f4fa;
-            border-left: solid 10px #27acd9;
-            border-bottom: solid 0.5px #27acd9;
-            padding: 10px 20px;
-            margin-top: 5px;
-            font-size: 0.9em;
-            width: 1100px;
-        }
-        .main1 {
-            background: #d9d8d8;
-            border-left: solid 10px #646565;
-            border-bottom: solid 0.5px #646565;
-            padding: 10px 20px;
-            margin-top: 5px;
-            font-size: 0.9em;
-            width: 1100px;
-        }
-        .main1 a {
-            text-decoration: none;
-            color: #fff;
-        }
-        .main2 {
-            background: #ddf9d3;
-            border-left: solid 10px #60b664;
-            border-bottom: solid 0.5px #60b664;
-            padding: 10px 20px;
-            margin-top: 5px;
-            font-size: 0.9em;
-            width: 1100px;
-        }
-        .main2 a {
-            text-decoration: none;
-            color: #fff;
-        }
-        .shouhin_name {
-            position: relative;
-            padding: 10px 20px;
-            color: #fff;
-            font-weight: bold;
-            border-radius: 10px;
-            background: #27acd9;
-        }
-        .shouhin_name:after {
-            position: absolute;
-            bottom: -9px;
-            left: 1em;
-            width: 0;
-            height: 0;
-            content: '';
-            border-width: 10px 10px 0 10px;
-            border-style: solid;
-            border-color: #27acd9 transparent transparent transparent;
-        }
-        .joutai1 {
-            padding: 0px 10px;
-            color: #fff;
-            background-color: #646565;
-            width: 70px;
-            text-align: center;
-        }
-        .joutai2 {
-            padding: 0px 10px;
-            color: #fff;
-            background-color: #60b664;
-            width: 70px;
-            text-align: center;
-        }
-        .title01 h2{
-            position: relative;
-            overflow: hidden;
-            padding: 1rem 2rem 1rem 120px;
-            border: solid 2px #27acd9;
-            width: 1100px;
-        }
-        .title01 h2:before {
-            position: absolute;
-            content: '';
-            top: -150%;
-            left: -100px;
-            width: 200px;
-            height: 300%;
-            transform: rotate(25deg);
-            background: #27acd9;
-        }
-        .title01 h2 span {
-            position: absolute;
-            display: block;
-            top: 5px;
-            left: 0;
-            z-index: 1;
-            font-size: 30px;
-            font-size: 3rem;
-            padding-left: 16px;
-            color: #fff;
-        }
-        .point {
-            position: relative;
-            margin: 2em 0;
-            padding: 0.5em 1em;
-            border: solid 3px #fa6e66;
-        }
-        .point .box-title {
-            position: absolute;
-            display: inline-block;
-            top: -27px;
-            left: -2.5px;
-            padding: 0 9px;
-            height: 25px;
-            line-height: 25px;
-            font-size: 17px;
-            background: #fa6e66;
-            color: #fff;
-            border-radius: 5px 5px 0 0;
-        }
-        .point p {
-            margin: 0; 
-            padding: 0;
-        }
-        .hover1:hover {
-            background-color: #ff6;
-        }
-    </style>
 </head>
 <body>
     <div class="container mt-5 mb-5">
