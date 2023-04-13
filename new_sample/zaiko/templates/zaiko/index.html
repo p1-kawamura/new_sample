@@ -123,6 +123,30 @@
             padding-left: 16px;
             color: #fff;
         }
+        .point {
+            position: relative;
+            margin: 2em 0;
+            padding: 0.5em 1em;
+            border: solid 3px #62c1ce;
+        }
+        .point .box-title {
+            position: absolute;
+            display: inline-block;
+            top: -27px;
+            left: -3px;
+            padding: 0 9px;
+            height: 25px;
+            line-height: 25px;
+            font-size: 17px;
+            background: #62c1ce;
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+        }
+        .point p {
+            margin: 0; 
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -152,6 +176,11 @@
             </div>
             <div style="margin-left: 30px;">
                 <select class="form-control" id="size" name="color_size" style="width: 150px; height:150px;" multiple></select>
+            </div>
+            <div class="point" style="margin-left: 30px; width: 230px;">
+                <span class="box-title">複数選択と解除</span>
+                <p>「カラー」や「サイズ」を複数選択または解除したい場合は、<br><b>「Ctrl」</b>キーを押しながら選択してください。
+                </p>
             </div>
         </div>
 
