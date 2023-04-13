@@ -32,6 +32,10 @@
             font-size: 0.9em;
             width: 1100px;
         }
+        .main1 a {
+            text-decoration: none;
+            color: #fff;
+        }
         .main2 {
             background: #ddf9d3;
             border-left: solid 10px #60b664;
@@ -40,6 +44,10 @@
             margin-top: 5px;
             font-size: 0.9em;
             width: 1100px;
+        }
+        .main2 a {
+            text-decoration: none;
+            color: #fff;
         }
         .shouhin_name {
             position: relative;
@@ -82,6 +90,8 @@
 <body>
     <div class="container mt-5 mb-5">
 
+        
+
         <!-- 商品検索 -->
         <div class="flex">
             <div>
@@ -89,11 +99,11 @@
                     <div>品番：</div>
                     <div style="width: 100px;"><input class="form-control" type="text" id="hinban_enter"></div>
                 </div>
-                <div class="mt-3" style="text-align: center;">
-                    <button type="button" class="btn btn-secondary" id="btn_kakou" style="width: 100px;">加工方法</button>
+                <div class="mt-3" style="text-align:right;">
+                    <button type="button" class="btn btn-secondary" id="btn_kakou" style="width: 120px;">加工サンプル</button>
                 </div>
-                <div class="mt-3" style="text-align: center;"> 
-                    <button type="button" class="btn btn-secondary" id="btn_swatch" style="width: 100px;">スワッチ</button>
+                <div class="mt-3" style="text-align:right;"> 
+                    <button type="button" class="btn btn-secondary" id="btn_swatch" style="width: 120px;">生地スワッチ</button>
                 </div>
             </div>
             <div style="margin-left: 30px;">
@@ -179,8 +189,6 @@
                 document.getElementById("shouhin_list").innerHTML=""
                 document.getElementById("shouhin_name").innerHTML=""
             });
-
-            
         });
 
 
@@ -227,11 +235,11 @@
                         str2="<input type='checkbox' class='form-check-input' name='" + item.hontai_num +"'>";
                     } else if (item.joutai == 1){
                         main="main1";
-                        str="<div class='joutai1'>貸出中</div>";
+                        str="<div class='joutai1' title='担当者　貸出日　お客様名'><a href='javascript:void(0)'>貸出中</a></div>";
                         str2=""
                     } else if (item.joutai == 2){
                         main="main2"
-                        str="<div class='joutai2'>キープ中</div>";
+                        str="<div class='joutai2' title='担当者　貸出日　お客様名'><a href='javascript:void(0)'>キープ中</a></div>";
                         str2=""
                     }
                     all_list=all_list + 
@@ -245,8 +253,7 @@
                         "<div style='width:50px; text-align: right;'>" + str2 + "</div>"+
                     "</div>"
                 }
-                document.getElementById("shouhin_list").innerHTML=all_list; 
-                
+                document.getElementById("shouhin_list").innerHTML=all_list;  
             });
         });
 
@@ -291,7 +298,6 @@
                     "</div>"
                 }
                 document.getElementById("shouhin_list").innerHTML=all_list; 
-                
             });
         });
 
@@ -336,7 +342,6 @@
                     "</div>"
                 }
                 document.getElementById("shouhin_list").innerHTML=all_list; 
-                
             });
         });
 
@@ -359,13 +364,32 @@
                 document.getElementById("size").innerHTML="";
                 document.getElementById("shouhin_list").innerHTML=""
                 document.getElementById("shouhin_name").innerHTML=""
-            });
+            });            
+        });
 
-            
+
+        //スワッチボタン
+        $('#btn_swatch').on('click', function(e) {
+            e.preventDefault();
+  
+            $.ajax({
+                'url': '{% url "zaiko:swatch_click_ajax" %}',
+                'type': 'POST',
+            })
+            .done(function(response){
+                var list
+                for (var i of response.hinban){
+                    list = list + '<option>' + i + '</option>';
+                }
+                document.getElementById("hinban").innerHTML=list;
+                document.getElementById("color").innerHTML="";
+                document.getElementById("size").innerHTML="";
+                document.getElementById("shouhin_list").innerHTML=""
+                document.getElementById("shouhin_name").innerHTML=""
+            });            
         });
         
     </script>
     
-
 </body>
 </html>

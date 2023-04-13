@@ -98,6 +98,18 @@ def kakou_click_ajax(request):
     return JsonResponse(d)
 
 
+#スワッチボタンをクリック
+def swatch_click_ajax(request):
+    items=Shouhin.objects.filter(category = "SW")
+    shouhin_list=[]
+    for item in items:
+        if item.shouhin_num not in shouhin_list:
+            shouhin_list.append(item.shouhin_num)
+    shouhin_list.sort()
+    d={"hinban":shouhin_list}
+    return JsonResponse(d)
+
+
 # 元DB取込
 def csv_imp(request):
 
