@@ -1,6 +1,18 @@
 .flex {
     display: flex;
     flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+#shouhin_all .flex{
+    align-items: flex-end;
+    width: 1100px;
+    justify-content: space-between;
+}
+.tsuika {
+    margin-right: 0;
+    margin-left: auto;
 }
 .main0 {
     background: #e4f4fa;
@@ -64,12 +76,14 @@
     text-align: center;
     cursor: pointer;
 }
+
 .title01 h2{
     position: relative;
     overflow: hidden;
     padding: 1rem 2rem 1rem 120px;
     border: solid 2px #27acd9;
     width: 1100px;
+    margin: 0 auto;
 }
 .title01 h2:before {
     position: absolute;

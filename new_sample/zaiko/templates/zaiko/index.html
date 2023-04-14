@@ -50,10 +50,20 @@
         </div>
 
         <!-- 商品リスト -->
-        <div id="shouhin_name"></div>
-        <div class="mt-4">
-            <div id="shouhin_list"></div>
+        <div id="shouhin_all" style="display: none;">
+           <div class="flex">
+            <div id="shouhin_name"></div>
+            <div class="tsuika">
+                <button type="button" class="btn btn-primary">Primary</button>
+            </div>
+        </div> 
+            <div class="mt-4">
+                <div id="shouhin_list"></div>
+            </div>
         </div>
+        
+    
+        
     </div>
 
 
@@ -118,8 +128,7 @@
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
-                document.getElementById("shouhin_list").innerHTML=""
-                document.getElementById("shouhin_name").innerHTML=""
+                document.getElementById("shouhin_all").style.display="none";
             });
         });
 
@@ -158,6 +167,7 @@
         
                 document.getElementById("color").innerHTML=color_list; 
                 document.getElementById("size").innerHTML=size_list;
+                document.getElementById("shouhin_all").style.display="block";
                 document.getElementById("shouhin_name").innerHTML=str;
                 
                 var all_list=""
@@ -308,8 +318,7 @@
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
-                document.getElementById("shouhin_list").innerHTML=""
-                document.getElementById("shouhin_name").innerHTML=""
+                document.getElementById("shouhin_all").style.display="none";
             });            
         });
 
@@ -331,8 +340,7 @@
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
-                document.getElementById("shouhin_list").innerHTML=""
-                document.getElementById("shouhin_name").innerHTML=""
+                document.getElementById("shouhin_all").style.display="none";
             });            
         });
 
