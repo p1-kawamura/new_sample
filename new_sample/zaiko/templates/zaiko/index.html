@@ -15,74 +15,113 @@
 <body>
     <div class="container mt-5 mb-5" style="margin: 0 auto;">
 
-        <div class="title01"><h2><span>01</span>サンプルを選択してください</h2></div>
+        <!-- 02ブロック （配送先入力）-->
+        <div id="send_sample">
 
-        <!-- 商品検索 -->
-        <div class="flex mt-4">
-            <div class="flex2">
-                <div>品番検索：</div>
-                <div style="width: 150px;"><input class="form-control" type="text" id="hinban_enter"></div>
+            <!-- タイトル -->
+            <div class="title02">
+                <h2><span>02</span>配送先を入力してください（サンプルを追加選択しても可）</h2>
             </div>
-            <div style="margin-left: 30px;">
-                <button type="button" class="btn btn-outline-dark" id="btn_kakou" style="width: 200px;">加工サンプルを探す</button>
+
+            <!-- 選択商品一覧 -->
+            <div class="flex mt-4">
+                <table>
+                    <tr>
+                        <td>aaaaa</td>
+                    </tr>
+                </table>
             </div>
-            <div style="margin-left: 30px;"> 
-                <button type="button" class="btn btn-outline-dark" id="btn_swatch" style="width: 200px;">生地スワッチを探す</button>
+
+            <!-- 配送先選択 -->
+            <div class="flex mt-4">
+                <div style="margin-left: 30px;">
+                    <button type="button" class="btn btn-outline-dark" id="btn_p1" style="width: 200px;">店舗・支店</button>
+                </div>
+                <div style="margin-left: 30px;"> 
+                    <button type="button" class="btn btn-outline-dark" id="btn_customer" style="width: 200px;">配送先を指定する</button>
+                </div>
+                <div style="margin-left: 30px;">
+                    <button type="button" class="btn btn-outline-dark" id="btn_p1" style="width: 200px;">キープ</button>
+                </div>  
             </div>
-            <div style="margin-left: 30px;">
-                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#toriyose_modal" style="width: 200px;">取り寄せ商品を入力する</button>
-            </div>
-        </div>
-        <div class="flex mt-4">
-            <div>
-                <select class="form-control" id="hinban" style="width: 200px; height:150px;" size="5"></select>
-            </div>
-            <div style="margin-left: 30px;">
-                <select class="form-control" id="color" name="color_size" style="font-size: 0.9em; width: 250px; height:150px;" multiple></select>
-            </div>
-            <div style="margin-left: 30px;">
-                <select class="form-control" id="size" name="color_size" style="width: 150px; height:150px;" multiple></select>
-            </div>
-            <div class="point" style="margin-left: 30px; width: 230px;">
-                <span class="box-title">複数選択と解除</span>
-                <p>「カラー」や「サイズ」を複数選択または解除したい場合は、<br>
-                    <span style="background:linear-gradient(transparent 60%, #ff6 60%);">
-                    <b>「Ctrl」</b>キーを押しながら</span>選択してください。
-                </p>
-            </div>
+
         </div>
 
-        <!-- 商品リスト -->
-        <div id="shouhin_all" style="display: none;">
-            <div class="flex">
-                <div id="shouhin_name"></div>
-                <div class="place_addlist">
-                    <button type="button" class="btn btn-primary" id="btn_addlist">依頼リストに追加</button>
+
+        <p class="mat-5"></p>
+
+
+        <!-- 01ブロック　（商品選択） -->
+        <div>
+            <!-- タイトル -->
+            <div class="title01"><h2><span>01</span>サンプルを選択してください</h2></div>
+
+            <!-- 商品検索 -->
+            <div class="flex mt-4">
+                <div class="flex2">
+                    <div>品番検索：</div>
+                    <div style="width: 150px;"><input class="form-control" type="text" id="hinban_enter"></div>
                 </div>
-            </div> 
-            <div class="mt-4">
-                <div id="shouhin_list"></div>
-            </div>
-        </div>
-        
-        <!-- モーダル -->
-        <div class="modal fade" id="toriyose_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">取り寄せ商品 の入力</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">依頼リストに追加</button>
-                    </div>
+                <div style="margin-left: 30px;">
+                    <button type="button" class="btn btn-outline-dark" id="btn_kakou" style="width: 200px;">加工サンプルを探す</button>
+                </div>
+                <div style="margin-left: 30px;"> 
+                    <button type="button" class="btn btn-outline-dark" id="btn_swatch" style="width: 200px;">生地スワッチを探す</button>
+                </div>
+                <div style="margin-left: 30px;">
+                    <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#toriyose_modal" style="width: 200px;">取り寄せ商品を入力する</button>
                 </div>
             </div>
+            <div class="flex mt-4">
+                <div>
+                    <select class="form-control" id="hinban" style="width: 200px; height:150px;" size="5"></select>
+                </div>
+                <div style="margin-left: 30px;">
+                    <select class="form-control" id="color" name="color_size" style="font-size: 0.9em; width: 250px; height:150px;" multiple></select>
+                </div>
+                <div style="margin-left: 30px;">
+                    <select class="form-control" id="size" name="color_size" style="width: 150px; height:150px;" multiple></select>
+                </div>
+                <div class="point" style="margin-left: 30px; width: 230px;">
+                    <span class="box-title">複数選択と解除</span>
+                    <p>「カラー」や「サイズ」を複数選択または解除したい場合は、<br>
+                        <span style="background:linear-gradient(transparent 60%, #ff6 60%);">
+                        <b>「Ctrl」</b>キーを押しながら</span>選択してください。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 商品リスト -->
+            <div id="shouhin_all" style="display: none;">
+                <div class="flex">
+                    <div id="shouhin_name"></div>
+                    <div class="place_addlist">
+                        <button type="button" class="btn btn-primary" id="btn_addlist">依頼リストに追加</button>
+                    </div>
+                </div> 
+                <div class="mt-4">
+                    <div id="shouhin_list"></div>
+                </div>
+            </div>
+            
+            <!-- モーダル -->
+            <div class="modal fade" id="toriyose_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">取り寄せ商品 の入力</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">依頼リストに追加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    
         
     </div>
 
