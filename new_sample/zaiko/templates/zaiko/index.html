@@ -172,8 +172,7 @@
                         for (var ren of response.items3){
                             if (item.irai_num == ren.irai_num_rental){
                                 status="<div class='joutai1' title='■担当者：" + ren.busho + "　" + ren.tantou +
-                                "　　■貸出日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>" +
-                                "<a href='javascript:void(0)'>貸出中</a></div>";
+                                "　　■貸出日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>貸出中</div>";
                             }
                         }
                     } else if (item.joutai == 2){
@@ -182,8 +181,7 @@
                         for (var ren of response.items3){
                             if (item.irai_num == ren.irai_num_rental){
                                 status="<div class='joutai2' title='■担当者：" + ren.busho + "　" + ren.tantou +
-                                "　　■キープ日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>" +
-                                "<a href='javascript:void(0)'>キープ中</a></div>";
+                                "　　■キープ日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>キープ中</div>";
                             }
                         }
                     }
