@@ -30,7 +30,7 @@
                 <button type="button" class="btn btn-outline-dark" id="btn_swatch" style="width: 200px;">生地スワッチを探す</button>
             </div>
             <div style="margin-left: 30px;">
-                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#toriyose_modal" style="width: 200px;">取寄せ商品を入力する</button>
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#toriyose_modal" style="width: 200px;">取り寄せ商品を入力する</button>
             </div>
         </div>
         <div class="flex mt-4">
@@ -56,8 +56,8 @@
         <div id="shouhin_all" style="display: none;">
             <div class="flex">
                 <div id="shouhin_name"></div>
-                <div class="tsuika">
-                    <button type="button" class="btn btn-primary">依頼リストに追加</button>
+                <div class="place_addlist">
+                    <button type="button" class="btn btn-primary" id="btn_addlist">依頼リストに追加</button>
                 </div>
             </div> 
             <div class="mt-4">
@@ -65,22 +65,21 @@
             </div>
         </div>
         
-        <!-- Modal -->
-        <div class="modal fade" id="toriyose_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- モーダル -->
+        <div class="modal fade" id="toriyose_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">取り寄せ商品 の入力</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">依頼リストに追加</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                ...
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
             </div>
         </div>
     
