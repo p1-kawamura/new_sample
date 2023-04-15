@@ -26,9 +26,11 @@
             <!-- 選択商品一覧 -->
             <div class="flex mt-4">
                 <table>
+                    {% for i in irai_shouhin_list %}
                     <tr>
-                        <td>aaaaa</td>
+                        <td>{{i}}</td>
                     </tr>
+                    {% endfor %}
                 </table>
             </div>
 
@@ -234,7 +236,7 @@
                     if (item.joutai == 0){
                         main="main0";
                         status="";
-                        str2="<input type='checkbox' class='form-check-input' style='border-color: #646565' name='" + item.hontai_num + "'>";
+                        str2="<input type='checkbox' class='form-check-input' id='check_add' style='border-color: #646565' name='" + item.hontai_num + "'>";
                     } else if (item.joutai == 1){
                         main="main1";
                         str2="";
@@ -267,7 +269,8 @@
                     "</div>"
                 }
                 document.getElementById("shouhin_list").innerHTML=all_list;
-                kaijo()
+                kaijo();
+                check_add();
             });
         });
 
@@ -441,7 +444,31 @@
                 },false)
             }
         }     
-        
+
+
+        // 依頼リストに追加ボタン
+        function check_add(){
+            var check_add=document.querySelectorAll("#check_add");
+            var btn_addlist=document.getElementById("btn_addlist");
+            var check_addlist=[];
+            btn_addlist.addEventListener("click",function(){
+                for (var i=0; i<check_add.length; i++){
+                    if (check_add[i].checked){
+                        check_addlist.push(check_add[i].name);
+                    }
+                }
+                check_addlist=check_addlist.toString()
+                $.ajax({
+                    'url': '{% url "zaiko:check_addlist_ajax" %}',
+                    'type': 'POST',
+                    'data': {"check_addlist":check_addlist},
+                    'dataType': 'json'
+                })
+                .done(function(response){                
+                    window.location.reload()
+                })
+            },false)
+        }
     </script>
 
     <!-- モーダル用 -->

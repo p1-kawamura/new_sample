@@ -6,7 +6,16 @@ from django.http import JsonResponse
 
 
 def index(request):
-    return render(request,"zaiko/index.html")
+    if "sample" not in request.session:
+        request.session["sample"]=[]
+    irai_shouhin_list=request.session["sample"]
+    print(irai_shouhin_list)
+    da=[]
+    for i in irai_shouhin_list:
+        list_a=[a]
+        da.append(list_a)
+    print(da)
+    return render(request,"zaiko/index.html",{irai_shouhin_list:da})
 
 
 def csv_imp_page(request):
@@ -114,14 +123,30 @@ def swatch_click_ajax(request):
 
 #キープの解除
 def keep_kaijo_ajax(request):
-    # keep_hontai_num=request.POST.get("hontai_num")
-    # keep_irai_num=request.POST.get("irai_num")
-    # shouhin=Shouhin.objects.get(hontai_num=keep_hontai_num)
-    # shouhin.joutai=0
-    # shouhin.irai_num=0
-    # shouhin.save()
-    # if Shouhin.objects.filter(irai_num=keep_irai_num).count()==0:
-    #     Rental.objects.get(irai_num_rental=keep_irai_num).delete()
+    keep_hontai_num=request.POST.get("hontai_num")
+    keep_irai_num=request.POST.get("irai_num")
+    shouhin=Shouhin.objects.get(hontai_num=keep_hontai_num)
+    shouhin.joutai=0
+    shouhin.irai_num=0
+    shouhin.save()
+    if Shouhin.objects.filter(irai_num=keep_irai_num).count()==0:
+        Rental.objects.get(irai_num_rental=keep_irai_num).delete()
+    d={"":""}
+    return JsonResponse(d)
+
+
+#依頼商品追加ボタン
+def check_addlist_ajax(request):
+    check_addlist=request.POST.get("check_addlist")
+    try:
+        check_addlist=check_addlist.split(",")
+    except:
+        check_addlist=list(check_addlist)
+    ses=list(request.session["sample"])
+    for i in check_addlist:
+        if i not in ses:
+            ses.append(i)
+    request.session["sample"]=ses
     d={"":""}
     return JsonResponse(d)
 
