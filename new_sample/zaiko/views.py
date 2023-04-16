@@ -8,14 +8,30 @@ from django.http import JsonResponse
 def index(request):
     if "sample" not in request.session:
         request.session["sample"]=[]
-    irai_shouhin_list=request.session["sample"]
+    irai_shouhin_list=list(request.session["sample"])
+    data=[]
     print(irai_shouhin_list)
-    da=[]
     for i in irai_shouhin_list:
-        list_a=[a]
-        da.append(list_a)
-    print(da)
-    return render(request,"zaiko/index.html",{irai_shouhin_list:da})
+        if i=="":
+            irai_shouhin_list.remove("")
+    print(irai_shouhin_list)
+    for i in irai_shouhin_list:
+        shouhin=Shouhin.objects.get(hontai_num=i)
+        data2={}
+        data2["hontai_num"]=shouhin.hontai_num
+        data2["sample_num"]=shouhin.sample_num
+        data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
+        data2["color"]=shouhin.color
+        data2["size"]=shouhin.size
+        data2["kubun"]="在庫"
+        data.append(data2)
+    if len(data)==0:
+        hyouji="no"
+    else:
+        hyouji="yes"
+    return render(request,"zaiko/index.html",{"irai_shouhin_list":data,"hyouji":hyouji})
 
 
 def csv_imp_page(request):
@@ -93,7 +109,11 @@ def color_size_click_ajax(request):
         items=list(Shouhin.objects.filter(shouhin_num = hinban , size__in=size).order_by("color","size_num").values())
     else:
         items=list(Shouhin.objects.filter(shouhin_num = hinban , color__in=color , size__in=size).order_by("color","size_num").values())
-    d={"items": items}          
+    items3=list(Rental.objects.all().values())
+    d={
+        "items": items,
+        "items3": items3
+        }          
     return JsonResponse(d)
 
 
@@ -146,6 +166,16 @@ def check_addlist_ajax(request):
     for i in check_addlist:
         if i not in ses:
             ses.append(i)
+    request.session["sample"]=ses
+    d={"":""}
+    return JsonResponse(d)
+
+
+# 依頼商品から削除
+def irai_del_ajax(request):
+    del_num=request.POST.get("irai_del")
+    ses=list(request.session["sample"])
+    ses.remove(del_num)
     request.session["sample"]=ses
     d={"":""}
     return JsonResponse(d)

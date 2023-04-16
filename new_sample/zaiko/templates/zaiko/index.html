@@ -16,7 +16,11 @@
     <div class="container mt-5 mb-5" style="margin: 0 auto;">
 
         <!-- 02ブロック （配送先入力）-->
-        <div id="send_sample">
+        {% if hyouji == "no" %}
+        <div style="display: none;">
+        {% else %}
+        <div>
+        {% endif %}
 
             <!-- タイトル -->
             <div class="title02">
@@ -25,32 +29,55 @@
 
             <!-- 選択商品一覧 -->
             <div class="flex mt-4">
-                <table>
-                    {% for i in irai_shouhin_list %}
-                    <tr>
-                        <td>{{i}}</td>
-                    </tr>
-                    {% endfor %}
+                <table class="table table-bordered" style="width: 1100px;">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th>サンプルNo</th>
+                            <th>商品番号</th>
+                            <th>ブランド</th>
+                            <th>商品名</th>
+                            <th>カラー</th>
+                            <th>サイズ</th>
+                            <th>区分</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in irai_shouhin_list %}
+                        <tr>
+                            <td>{{i.sample_num}}</td>
+                            <td>{{i.shouhin_num}}</td>
+                            <td>{{i.brand}}</td>
+                            <td>{{i.shouhin_name}}</td>
+                            <td>{{i.color}}</td>
+                            <td>{{i.size}}</td>
+                            <td>{{i.kubun}}</td>
+                            <td style="text-align: center;">
+                                <button type="button" class="btn btn-outline-dark btn-sm" id="irai_del" name={{i.hontai_num}}>取消</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
 
             <!-- 配送先選択 -->
             <div class="flex mt-4">
                 <div style="margin-left: 30px;">
-                    <button type="button" class="btn btn-outline-dark" id="btn_p1" style="width: 200px;">本社・直営・FC店舗</button>
+                    <button type="button" class="btn btn-outline-danger" id="btn_p1" style="width: 200px;">本社・直営・FC店舗</button>
                 </div>
                 <div style="margin-left: 30px;"> 
-                    <button type="button" class="btn btn-outline-dark" id="btn_customer" style="width: 200px;">配送先を指定する</button>
+                    <button type="button" class="btn btn-outline-danger" id="btn_customer" style="width: 200px;">配送先を指定する</button>
                 </div>
                 <div style="margin-left: 30px;">
-                    <button type="button" class="btn btn-outline-dark" id="btn_p1" style="width: 200px;">キープのみ</button>
+                    <button type="button" class="btn btn-outline-danger" id="btn_p1" style="width: 200px;">キープのみ</button>
                 </div>  
             </div>
 
         </div>
 
 
-        <p class="mat-5"></p>
+        <p class="mt-5"></p>
 
 
         <!-- 01ブロック　（商品選択） -->
@@ -306,15 +333,51 @@
                 },
                 'dataType': 'json'
             })
-            .done(function(response){                
+            .done(function(response){       
+                var str
+                var str2
+                var status
+                var main         
                 var all_list=""
                 for (var item of response.items){
+                    if (item.joutai == 0){
+                        main="main0";
+                        status="";
+                        str2="<input type='checkbox' class='form-check-input' id='check_add' style='border-color: #646565' name='" + item.hontai_num + "'>";
+                    } else if (item.joutai == 1){
+                        main="main1";
+                        str2="";
+                        for (var ren of response.items3){
+                            if (item.irai_num == ren.irai_num_rental){
+                                status="<div class='joutai1' title='■担当者：" + ren.busho + "　" + ren.tantou +
+                                "　　■貸出日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>貸出中</div>";
+                            }
+                        }
+                    } else if (item.joutai == 2){
+                        main="main2";
+                        for (var ren of response.items3){
+                            if (item.irai_num == ren.irai_num_rental){
+                                str2="<button type='button' class='btn btn-outline-success btn-sm' style='padding: 0px 5px;'" + 
+                                    "name='" + item.hontai_num + ","+ item.irai_num + "," + ren.busho + "　" + ren.tantou + "' id='kaijo'>解除</button>";
+                                status="<div class='joutai2' title='■担当者：" + ren.busho + "　" + ren.tantou +
+                                    "　　■キープ日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>キープ中</div>";
+                            }
+                        }
+                    }
                     all_list=all_list + 
-                    "<div class='main2'>" + "サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
-                        "カラー：" + item.color + "サイズ：" + item.size + 
+                    "<div class='" + main + " flex hover1'>" + 
+                        "<div style='width:100px;'>No." + item.sample_num + "</div>"+ 
+                        "<div style='width:150px; padding-left:20px'>" + status + "</div>"+ 
+                        "<div style='width:250px;'>" + item.color + "</div>"+ 
+                        "<div style='width:100px;'>" + item.size + "</div>"+ 
+                        "<div style='width:250px;'>" + item.kakou + "</div>"+ 
+                        "<div style='width:150px;'>" + item.bikou + "</div>"+ 
+                        "<div style='width:50px; text-align: center;'>" + str2 + "</div>"+
                     "</div>"
                 }
-                document.getElementById("shouhin_list").innerHTML=all_list; 
+                document.getElementById("shouhin_list").innerHTML=all_list;
+                kaijo();
+                check_add();
             });
         });
 
@@ -350,15 +413,51 @@
                 },
                 'dataType': 'json'
             })
-            .done(function(response){                
+            .done(function(response){          
+                var str
+                var str2
+                var status
+                var main         
                 var all_list=""
                 for (var item of response.items){
+                    if (item.joutai == 0){
+                        main="main0";
+                        status="";
+                        str2="<input type='checkbox' class='form-check-input' id='check_add' style='border-color: #646565' name='" + item.hontai_num + "'>";
+                    } else if (item.joutai == 1){
+                        main="main1";
+                        str2="";
+                        for (var ren of response.items3){
+                            if (item.irai_num == ren.irai_num_rental){
+                                status="<div class='joutai1' title='■担当者：" + ren.busho + "　" + ren.tantou +
+                                "　　■貸出日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>貸出中</div>";
+                            }
+                        }
+                    } else if (item.joutai == 2){
+                        main="main2";
+                        for (var ren of response.items3){
+                            if (item.irai_num == ren.irai_num_rental){
+                                str2="<button type='button' class='btn btn-outline-success btn-sm' style='padding: 0px 5px;'" + 
+                                    "name='" + item.hontai_num + ","+ item.irai_num + "," + ren.busho + "　" + ren.tantou + "' id='kaijo'>解除</button>";
+                                status="<div class='joutai2' title='■担当者：" + ren.busho + "　" + ren.tantou +
+                                    "　　■キープ日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>キープ中</div>";
+                            }
+                        }
+                    }
                     all_list=all_list + 
-                    "<div class='main2'>" + "サンプルNo：" + item.sample_num + "商品名：" + item.shouhin_name +
-                        "カラー：" + item.color + "サイズ：" + item.size + 
+                    "<div class='" + main + " flex hover1'>" + 
+                        "<div style='width:100px;'>No." + item.sample_num + "</div>"+ 
+                        "<div style='width:150px; padding-left:20px'>" + status + "</div>"+ 
+                        "<div style='width:250px;'>" + item.color + "</div>"+ 
+                        "<div style='width:100px;'>" + item.size + "</div>"+ 
+                        "<div style='width:250px;'>" + item.kakou + "</div>"+ 
+                        "<div style='width:150px;'>" + item.bikou + "</div>"+ 
+                        "<div style='width:50px; text-align: center;'>" + str2 + "</div>"+
                     "</div>"
                 }
-                document.getElementById("shouhin_list").innerHTML=all_list; 
+                document.getElementById("shouhin_list").innerHTML=all_list;
+                kaijo();
+                check_add();
             });
         });
 
@@ -469,6 +568,31 @@
                 })
             },false)
         }
+
+
+        // 依頼リストから削除
+        irai_del()
+        function irai_del(){
+            var irai=document.querySelectorAll("#irai_del");
+            for (var i=0; i<irai.length; i++){
+                irai[i].addEventListener("click",function(){
+                    console.log(this.name);
+                    $.ajax({
+                        'url': '{% url "zaiko:irai_del_ajax" %}',
+                        'type': 'POST',
+                        'data': {"irai_del":this.name},
+                        'dataType': 'json'
+                    })
+                    .done(function(response){                
+                        window.location.reload()
+                    })
+                },false)
+            }
+        }    
+
+        
+
+
     </script>
 
     <!-- モーダル用 -->
