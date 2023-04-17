@@ -556,7 +556,6 @@
                         check_addlist.push(check_add[i].name);
                     }
                 }
-                console.log(check_addlist);
                 check_addlist=check_addlist.toString()
                 $.ajax({
                     'url': '{% url "zaiko:check_addlist_ajax" %}',
