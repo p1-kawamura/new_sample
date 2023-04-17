@@ -15,7 +15,14 @@ def test(request):
     url="https://core-sys.p1-intl.co.jp/p1web/v1/customers/" + cus_id + "/receivedOrders"
     res=requests.get(url)
     res=res.json()
-    return render(request,"zaiko/kokyaku.html",{"res":res})
+    res=res["receivedOrders"]
+
+
+    url2="https://core-sys.p1-intl.co.jp/p1web/v1/customers/" + cus_id
+    res2=requests.get(url2)
+    res2=res2.json()
+
+    return render(request,"zaiko/kokyaku.html",{"res":res,"res2":res2})
 
 
 # ---------ここまで　顧客APIテスト--------------

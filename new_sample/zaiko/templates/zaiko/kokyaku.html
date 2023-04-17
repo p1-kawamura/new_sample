@@ -10,12 +10,43 @@
     <h2>顧客テスト</h2>
     <div>
         <form action="{% url 'zaiko:test' %}" method="POST">{% csrf_token %}
-            <input type="text" name="cus_id">
+            <input type="text" name="cus_id">157017
             <button type="submit">取得</button>
         </form>
+        <a href="{% url 'zaiko:index2' %}">再テスト</a>
     </div>
+    <div style="margin-top: 30px;">
+            顧客ID：{{res2.id}}<br>
+            姓名：{{res2.nameLast}} {{res2.nameFirst}}<br>
+            会社名：{{res2.corporateName}}<br>
+            部課名：{{res2.departmentName}}<br>
+            職業：{{res2.occupation}}<br>
+            郵便番号：{{res2.zipCode}}<br>
+            住所：{{res2.prefecture}}{{res2.city}}{{res2.address1}}{{res2.address2}}<br>
+            電話番号：{{res2.tel}}<br>
+            携帯番号：{{res2.mobilePhone}}<br>
+            メールアドレス：{{res2.contactEmail}}<br>
+            性別：{{res2.sexId}}<br>
+            メルマガ送付：{{res2.isNotSentMailMagazine}}<br>
+
+    </div>
+    <hr>
     <div>
-        {{res}}
+        {% for est in res %}
+        <div style="margin-top: 30px;">
+            見積番号：{{est.estimationNumber}}<br>
+            見積バージョン：{{est.estimationVersion}}<br>
+            ステータス：{{est.estimationStatus}}<br>
+            初回見積日：{{est.firstEstimationDate}}<br>
+            受注日：{{est.orderReceivedDate}}<br>
+            金額：{{est.totalPrice}}<br>
+            数量：{{est.sumItemQuantity}}<br>
+            {% for img in est.designPatterns %}
+                柄名：{{img.name}}
+            {% endfor %}
+        </div>
+        {% endfor %}
     </div>
+    
 </body>
 </html>
