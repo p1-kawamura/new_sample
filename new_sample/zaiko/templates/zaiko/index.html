@@ -556,6 +556,7 @@
                         check_addlist.push(check_add[i].name);
                     }
                 }
+                console.log(check_addlist);
                 check_addlist=check_addlist.toString()
                 $.ajax({
                     'url': '{% url "zaiko:check_addlist_ajax" %}',
@@ -576,7 +577,6 @@
             var irai=document.querySelectorAll("#irai_del");
             for (var i=0; i<irai.length; i++){
                 irai[i].addEventListener("click",function(){
-                    console.log(this.name);
                     $.ajax({
                         'url': '{% url "zaiko:irai_del_ajax" %}',
                         'type': 'POST',

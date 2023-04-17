@@ -36,6 +36,7 @@ def index(request):
         if i=="":
             irai_shouhin_list.remove("")
     print(irai_shouhin_list)
+    request.session["sample"]=irai_shouhin_list
     for i in irai_shouhin_list:
         shouhin=Shouhin.objects.get(hontai_num=i)
         data2={}
