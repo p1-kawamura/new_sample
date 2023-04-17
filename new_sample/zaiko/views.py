@@ -3,8 +3,22 @@ from .models import Shouhin,Rental
 import io
 import csv
 from django.http import JsonResponse
+import requests
 
 
+# 顧客APIテスト
+def index2(request):
+    return render(request,"zaiko/kokyaku.html")
+
+def test(request):
+    cus_id=request.POST["cus_id"]
+    url="https://core-sys.p1-intl.co.jp/p1web/v1/customers/" + cus_id + "/receivedOrders"
+    res=requests.get(url)
+    res=res.json()
+    return render(request,"zaiko/kokyaku.html",{"res":res})
+
+
+# ---------ここまで　顧客APIテスト--------------
 def index(request):
     if "sample" not in request.session:
         request.session["sample"]=[]
