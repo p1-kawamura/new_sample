@@ -19,7 +19,9 @@
         {% if hyouji == "no" %}
         <div style="display: none;">
         {% else %}
-        <div>
+        <script>window.scroll({top: 0, behavior: 'smooth'});</script>
+        <div style="margin-bottom: 150px;">
+
         {% endif %}
 
             <!-- タイトル -->
@@ -75,10 +77,6 @@
             </div>
 
         </div>
-
-
-        <p class="mt-5"></p>
-
 
         <!-- 01ブロック　（商品選択） -->
         <div>
@@ -206,6 +204,7 @@
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
+                window.shouhin_all.location.href = "shouhin_all";
             });
         });
 
@@ -233,7 +232,7 @@
                 }
                 document.getElementById("color").innerHTML=color_list; 
                 document.getElementById("size").innerHTML=size_list;
-                window.shouhin_all.location.href = "hinban_click_ajax2";
+                window.shouhin_all.location.href = "hinban_click_ajax2";   
             });
         });
 
@@ -270,7 +269,7 @@
                 'dataType': 'json'
             })
             .done(function(response){       
-                window.shouhin_all.location.href = "color_size_click_ajax";
+                window.shouhin_all.location.href = "color_size_click_ajax2";
             });
         });
 
@@ -307,50 +306,7 @@
                 'dataType': 'json'
             })
             .done(function(response){          
-                var str
-                var str2
-                var status
-                var main         
-                var all_list=""
-                for (var item of response.items){
-                    if (item.joutai == 0){
-                        main="main0";
-                        status="";
-                        str2="<input type='checkbox' class='form-check-input' id='check_add' style='border-color: #646565' name='" + item.hontai_num + "'>";
-                    } else if (item.joutai == 1){
-                        main="main1";
-                        str2="";
-                        for (var ren of response.items3){
-                            if (item.irai_num == ren.irai_num_rental){
-                                status="<div class='joutai1' title='■担当者：" + ren.busho + "　" + ren.tantou +
-                                "　　■貸出日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>貸出中</div>";
-                            }
-                        }
-                    } else if (item.joutai == 2){
-                        main="main2";
-                        for (var ren of response.items3){
-                            if (item.irai_num == ren.irai_num_rental){
-                                str2="<button type='button' class='btn btn-outline-success btn-sm' style='padding: 0px 5px;'" + 
-                                    "name='" + item.hontai_num + ","+ item.irai_num + "," + ren.busho + "　" + ren.tantou + "' id='kaijo'>解除</button>";
-                                status="<div class='joutai2' title='■担当者：" + ren.busho + "　" + ren.tantou +
-                                    "　　■キープ日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>キープ中</div>";
-                            }
-                        }
-                    }
-                    all_list=all_list + 
-                    "<div class='" + main + " flex hover1'>" + 
-                        "<div style='width:100px;'>No." + item.sample_num + "</div>"+ 
-                        "<div style='width:150px; padding-left:20px'>" + status + "</div>"+ 
-                        "<div style='width:250px;'>" + item.color + "</div>"+ 
-                        "<div style='width:100px;'>" + item.size + "</div>"+ 
-                        "<div style='width:250px;'>" + item.kakou + "</div>"+ 
-                        "<div style='width:150px;'>" + item.bikou + "</div>"+ 
-                        "<div style='width:50px; text-align: center;'>" + str2 + "</div>"+
-                    "</div>"
-                }
-                document.getElementById("shouhin_list").innerHTML=all_list;
-                kaijo();
-                check_add();
+                window.shouhin_all.location.href = "color_size_click_ajax2";
             });
         });
 
@@ -421,7 +377,7 @@
                         'dataType': 'json'
                     })
                     .done(function(response){                
-                        window.location.reload()
+                        window.location.reload();
                     })
                 },false)
             }

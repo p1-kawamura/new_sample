@@ -13,6 +13,7 @@
 <body>
     <div id="shouhin_all">
         <!-- 商品名 -->
+        {% if shouhin_hyouji != "no" %}
         <div>
             <div class="flex">
                 <div class='mt-4 shouhin_name' style='width: 600px;'>
@@ -24,6 +25,7 @@
                 </div>
             </div>      
         </div>
+        {% endif %}
 
         <!-- 商品リスト -->
         <div class="mt-4">
@@ -167,7 +169,7 @@
                     'dataType': 'json'
                 })
                 .done(function(response){         
-                    window.top.location.reload()     
+                    window.top.location.reload();
                 })
             },false)
         }

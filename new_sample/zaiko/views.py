@@ -31,6 +31,15 @@ def index(request):
         request.session["sample"]=[]
     if "hinban" not in request.session:
         request.session["hinban"]=[]
+    if "color" not in request.session:
+        request.session["color"]=[]
+    if "size" not in request.session:
+        request.session["size"]=[]
+    if "shouhin_name" not in request.session:
+        request.session["size"]=[]
+    if "brand" not in request.session:
+        request.session["brand"]=[]
+
     irai_shouhin_list=list(request.session["sample"])
     data=[]
     for i in irai_shouhin_list:
@@ -53,7 +62,7 @@ def index(request):
 
 
 def shouhin_all(request):
-    return render(request,"zaiko/shouhin_all.html")
+    return render(request,"zaiko/shouhin_all.html",{"shouhin_hyouji":"no"})
 
 
 def csv_imp_page(request):
@@ -106,9 +115,10 @@ def hinban_click_ajax2(request):
     hinban=request.session["hinban"]
     items=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
     items2=list(Rental.objects.all().values())
-    hinmei=items[0]["shouhin_name"]
-    brand=items[0]["brand"]
-    shouhin_name=hinban + "　" + hinmei
+    shouhin_name=hinban + "　" + items[0]["shouhin_name"]
+    brand=items[0]["brand"]  
+    request.session["shouhin_name"]=shouhin_name
+    request.session["brand"]=brand
     data={
         "items":items,
         "items2":items2,
@@ -120,9 +130,21 @@ def hinban_click_ajax2(request):
 
 #カラー、サイズをクリック
 def color_size_click_ajax(request):
-    hinban=request.POST.get("hinban")
     color=request.POST.get("color")
-    size=request.POST.get("size")
+    size=request.POST.get("size") 
+    request.session["color"]=color
+    request.session["size"]=size
+    d={"":""}
+    return JsonResponse(d)
+
+
+#カラー、サイズをクリック（商品一覧）
+def color_size_click_ajax2(request):
+    hinban=request.session["hinban"]
+    color=request.session["color"]
+    size=request.session["size"]
+    shouhin_name=request.session["shouhin_name"]
+    brand=request.session["brand"]
     try:
         color=color.split(",")
     except:
@@ -131,6 +153,7 @@ def color_size_click_ajax(request):
         size=size.split(",")
     except:
         size=list(size)
+
     #商品一覧
     if color[0]=="" and size[0]=="":
         items=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
@@ -140,12 +163,14 @@ def color_size_click_ajax(request):
         items=list(Shouhin.objects.filter(shouhin_num = hinban , size__in=size).order_by("color","size_num").values())
     else:
         items=list(Shouhin.objects.filter(shouhin_num = hinban , color__in=color , size__in=size).order_by("color","size_num").values())
-    items3=list(Rental.objects.all().values())
-    d={
+    items2=list(Rental.objects.all().values())
+    data={
         "items": items,
-        "items3": items3
-        }          
-    return JsonResponse(d)
+        "items2": items2,
+        "shouhin_name":shouhin_name,
+        "brand":brand
+        }
+    return render(request,"zaiko/shouhin_all.html",data)
 
 
 #加工方法ボタンをクリック
