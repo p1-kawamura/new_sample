@@ -1,12 +1,13 @@
 from django.urls import path
-from .views import index,csv_imp,csv_imp_page,dele,hinban_enter_ajax,hinban_click_ajax,color_size_click_ajax,\
+from .views import index,shouhin_all,csv_imp,csv_imp_page,dele,hinban_enter_ajax,hinban_click_ajax,color_size_click_ajax,\
                     kakou_click_ajax,swatch_click_ajax,keep_kaijo_ajax,check_addlist_ajax,irai_del_ajax,\
-                    index2,test
+                    index2,test,hinban_click_ajax2
 
 
 app_name="zaiko"
 urlpatterns = [
     path('', index, name="index"),
+    path('shouhin_all/', shouhin_all, name="shouhin_all"), 
     path('csv_imp_page/', csv_imp_page, name="csv_imp_page"), 
     path('csv_imp/', csv_imp, name="csv_imp"),
     path('dele/', dele, name="dele"), 
@@ -18,6 +19,7 @@ urlpatterns = [
     path('keep_kaijo_ajax/', keep_kaijo_ajax, name="keep_kaijo_ajax"),
     path('check_addlist_ajax/', check_addlist_ajax, name="check_addlist_ajax"),
     path('irai_del_ajax/', irai_del_ajax, name="irai_del_ajax"),
+    path('hinban_click_ajax2/', hinban_click_ajax2, name="hinban_click_ajax2"),
     path('index2/', index2, name="index2"), #顧客APIテスト
     path('test/', test, name="test"), #顧客APIテスト
 ]

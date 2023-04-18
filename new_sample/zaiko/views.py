@@ -29,14 +29,10 @@ def test(request):
 def index(request):
     if "sample" not in request.session:
         request.session["sample"]=[]
+    if "hinban" not in request.session:
+        request.session["hinban"]=[]
     irai_shouhin_list=list(request.session["sample"])
     data=[]
-    print(irai_shouhin_list)
-    for i in irai_shouhin_list:
-        if i=="":
-            irai_shouhin_list.remove("")
-    print(irai_shouhin_list)
-    request.session["sample"]=irai_shouhin_list
     for i in irai_shouhin_list:
         shouhin=Shouhin.objects.get(hontai_num=i)
         data2={}
@@ -54,6 +50,10 @@ def index(request):
     else:
         hyouji="yes"
     return render(request,"zaiko/index.html",{"irai_shouhin_list":data,"hyouji":hyouji})
+
+
+def shouhin_all(request):
+    return render(request,"zaiko/shouhin_all.html")
 
 
 def csv_imp_page(request):
@@ -81,32 +81,41 @@ def hinban_enter_ajax(request):
     return JsonResponse(d)
 
 
-#品番リストをクリック
+#品番リストをクリック（リストボックス）
 def hinban_click_ajax(request):
     hinban=request.POST.get("hinban")
+    request.session["hinban"]=hinban
     items=Shouhin.objects.filter(shouhin_num = hinban).order_by("size_num")
-    items2=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
-    items3=list(Rental.objects.all().values())
     color_list=[]
     size_list=[]
     for item in items:
-        hinmei=item.shouhin_name
-        brand=item.brand
         if item.color not in color_list:
             color_list.append(item.color)
         if item.size not in size_list:
             size_list.append(item.size)
     color_list.sort()
-    shouhin_name=hinban + "　" + hinmei
     d={
         "color":color_list,
         "size":size_list,
-        "items":items2,
-        "items3":items3,
+     }
+    return JsonResponse(d)
+
+
+#品番リストをクリック（商品一覧）
+def hinban_click_ajax2(request):
+    hinban=request.session["hinban"]
+    items=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
+    items2=list(Rental.objects.all().values())
+    hinmei=items[0]["shouhin_name"]
+    brand=items[0]["brand"]
+    shouhin_name=hinban + "　" + hinmei
+    data={
+        "items":items,
+        "items2":items2,
         "shouhin_name":shouhin_name,
         "brand":brand
      }
-    return JsonResponse(d)
+    return render(request,"zaiko/shouhin_all.html",data)
 
 
 #カラー、サイズをクリック

@@ -121,19 +121,7 @@
             </div>
 
             <!-- 商品リスト -->
-            
-
-            <!-- <div id="shouhin_all" style="display: none;">
-                <div class="flex">
-                    <div id="shouhin_name"></div>
-                    <div class="place_addlist">
-                        <button type="button" class="btn btn-primary" id="btn_addlist">依頼リストに追加</button>
-                    </div>
-                </div> 
-                <div class="mt-4">
-                    <div id="shouhin_list"></div>
-                </div>
-            </div> -->
+            <iframe src="{% url 'zaiko:shouhin_all' %}" name="shouhin_all" width="100%" height="500px"></iframe>
             
             <!-- モーダル -->
             <div class="modal fade" id="toriyose_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -218,7 +206,6 @@
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
-                document.getElementById("shouhin_all").style.display="none";
             });
         });
 
@@ -238,68 +225,15 @@
             .done(function(response){
                 var color_list
                 var size_list
-                var str
-                var str2
-                var status
-                var main
-
                 for (var i of response.color){
                     color_list = color_list + '<option>' + i + '</option>';
                 };
                 for (var i of response.size){
                     size_list = size_list + '<option>' + i + '</option>';
                 }
-
-                str="<div class='mt-4 shouhin_name' style='width: 500px;'>" +
-                    "<div style='font-size:1.2em'>" + response.shouhin_name + "</div>" +
-                    "<div>" + response.brand + "</div>" +
-                    "</div>"
-        
                 document.getElementById("color").innerHTML=color_list; 
                 document.getElementById("size").innerHTML=size_list;
-                document.getElementById("shouhin_all").style.display="block";
-                document.getElementById("shouhin_name").innerHTML=str;
-                
-                var all_list=""
-                for (var item of response.items){
-                    if (item.joutai == 0){
-                        main="main0";
-                        status="";
-                        str2="<input type='checkbox' class='form-check-input' id='check_add' style='border-color: #646565' name='" + item.hontai_num + "'>";
-                    } else if (item.joutai == 1){
-                        main="main1";
-                        str2="";
-                        for (var ren of response.items3){
-                            if (item.irai_num == ren.irai_num_rental){
-                                status="<div class='joutai1' title='■担当者：" + ren.busho + "　" + ren.tantou +
-                                "　　■貸出日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>貸出中</div>";
-                            }
-                        }
-                    } else if (item.joutai == 2){
-                        main="main2";
-                        for (var ren of response.items3){
-                            if (item.irai_num == ren.irai_num_rental){
-                                str2="<button type='button' class='btn btn-outline-success btn-sm' style='padding: 0px 5px;'" + 
-                                    "name='" + item.hontai_num + ","+ item.irai_num + "," + ren.busho + "　" + ren.tantou + "' id='kaijo'>解除</button>";
-                                status="<div class='joutai2' title='■担当者：" + ren.busho + "　" + ren.tantou +
-                                    "　　■キープ日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>キープ中</div>";
-                            }
-                        }
-                    }
-                    all_list=all_list + 
-                    "<div class='" + main + " flex hover1'>" + 
-                        "<div style='width:100px;'>No." + item.sample_num + "</div>"+ 
-                        "<div style='width:150px; padding-left:20px'>" + status + "</div>"+ 
-                        "<div style='width:250px;'>" + item.color + "</div>"+ 
-                        "<div style='width:100px;'>" + item.size + "</div>"+ 
-                        "<div style='width:250px;'>" + item.kakou + "</div>"+ 
-                        "<div style='width:150px;'>" + item.bikou + "</div>"+ 
-                        "<div style='width:50px; text-align: center;'>" + str2 + "</div>"+
-                    "</div>"
-                }
-                document.getElementById("shouhin_list").innerHTML=all_list;
-                kaijo();
-                check_add();
+                window.shouhin_all.location.href = "hinban_click_ajax2";
             });
         });
 
@@ -336,50 +270,7 @@
                 'dataType': 'json'
             })
             .done(function(response){       
-                var str
-                var str2
-                var status
-                var main         
-                var all_list=""
-                for (var item of response.items){
-                    if (item.joutai == 0){
-                        main="main0";
-                        status="";
-                        str2="<input type='checkbox' class='form-check-input' id='check_add' style='border-color: #646565' name='" + item.hontai_num + "'>";
-                    } else if (item.joutai == 1){
-                        main="main1";
-                        str2="";
-                        for (var ren of response.items3){
-                            if (item.irai_num == ren.irai_num_rental){
-                                status="<div class='joutai1' title='■担当者：" + ren.busho + "　" + ren.tantou +
-                                "　　■貸出日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>貸出中</div>";
-                            }
-                        }
-                    } else if (item.joutai == 2){
-                        main="main2";
-                        for (var ren of response.items3){
-                            if (item.irai_num == ren.irai_num_rental){
-                                str2="<button type='button' class='btn btn-outline-success btn-sm' style='padding: 0px 5px;'" + 
-                                    "name='" + item.hontai_num + ","+ item.irai_num + "," + ren.busho + "　" + ren.tantou + "' id='kaijo'>解除</button>";
-                                status="<div class='joutai2' title='■担当者：" + ren.busho + "　" + ren.tantou +
-                                    "　　■キープ日：" + ren.rental_day + "　　■お客様：" + ren.com_name +" " + ren.cus_name + "'>キープ中</div>";
-                            }
-                        }
-                    }
-                    all_list=all_list + 
-                    "<div class='" + main + " flex hover1'>" + 
-                        "<div style='width:100px;'>No." + item.sample_num + "</div>"+ 
-                        "<div style='width:150px; padding-left:20px'>" + status + "</div>"+ 
-                        "<div style='width:250px;'>" + item.color + "</div>"+ 
-                        "<div style='width:100px;'>" + item.size + "</div>"+ 
-                        "<div style='width:250px;'>" + item.kakou + "</div>"+ 
-                        "<div style='width:150px;'>" + item.bikou + "</div>"+ 
-                        "<div style='width:50px; text-align: center;'>" + str2 + "</div>"+
-                    "</div>"
-                }
-                document.getElementById("shouhin_list").innerHTML=all_list;
-                kaijo();
-                check_add();
+                window.shouhin_all.location.href = "color_size_click_ajax";
             });
         });
 
@@ -481,7 +372,6 @@
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
-                document.getElementById("shouhin_all").style.display="none";
             });            
         });
 
@@ -503,7 +393,6 @@
                 document.getElementById("hinban").innerHTML=list;
                 document.getElementById("color").innerHTML="";
                 document.getElementById("size").innerHTML="";
-                document.getElementById("shouhin_all").style.display="none";
             });            
         });
 
@@ -514,62 +403,9 @@
             document.getElementById("hinban").innerHTML="";
             document.getElementById("color").innerHTML="";
             document.getElementById("size").innerHTML="";
-            document.getElementById("shouhin_all").style.display="none";
             
             
         })
-
-
-        // キープ解除
-        function kaijo(){
-            var kaijo=document.querySelectorAll("#kaijo");
-            for (var i=0; i<kaijo.length; i++){
-                kaijo[i].addEventListener("click",function(){
-                    var arr=this.name.split(",");
-                    var result = window.confirm(arr[2] + "さんがキープしています。\n\n本当に解除しますか？");
-                    if (result){
-                        $.ajax({
-                            'url': '{% url "zaiko:keep_kaijo_ajax" %}',
-                            'type': 'POST',
-                            'data': {
-                                "hontai_num":arr[0],
-                                "irai_num":arr[1],
-                            },
-                            'dataType': 'json'
-                        })
-                        var oya=this.parentNode.parentNode;
-                        oya.className="main0 flex hover1";
-                        oya.children[1].innerHTML="";
-                        oya.children[6].innerHTML="<input type='checkbox' class='form-check-input' style='border-color: #646565' name='" + arr[0] + "'>";
-                    }
-                },false)
-            }
-        }     
-
-
-        // 依頼リストに追加ボタン
-        function check_add(){
-            var check_add=document.querySelectorAll("#check_add");
-            var btn_addlist=document.getElementById("btn_addlist");
-            var check_addlist=[];
-            btn_addlist.addEventListener("click",function(){
-                for (var i=0; i<check_add.length; i++){
-                    if (check_add[i].checked){
-                        check_addlist.push(check_add[i].name);
-                    }
-                }
-                check_addlist=check_addlist.toString()
-                $.ajax({
-                    'url': '{% url "zaiko:check_addlist_ajax" %}',
-                    'type': 'POST',
-                    'data': {"check_addlist":check_addlist},
-                    'dataType': 'json'
-                })
-                .done(function(response){                
-                    window.location.reload()
-                })
-            },false)
-        }
 
 
         // 依頼リストから削除

@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>商品一覧</title>
+</head>
+<body>
+    <div id="shouhin_all">
+        <!-- 商品名 -->
+        <div>
+            <div class="flex">
+                <div class='mt-4 shouhin_name' style='width: 600px;'>
+                    <div style='font-size:1.2em'>{{shouhin_name}}</div>
+                    <div>{{brand}}</div>
+                </div>
+                <div class="place_addlist">
+                    <button type="button" class="btn btn-primary" id="btn_addlist">依頼リストに追加</button>
+                </div>
+            </div>      
+        </div>
+
+        <!-- 商品リスト -->
+        <div class="mt-4">
+        {% for item in items %}
+
+            {% if item.joutai == 0 %}
+                <div class='main0 flex hover1'>
+                    <div style='width:100px;'>No.{{item.sample_num}}</div>
+                    <div style='width:150px; padding-left:20px'></div>
+                    <div style='width:250px;'>{{item.color}}</div>
+                    <div style='width:100px;'>{{item.size}}</div>
+                    <div style='width:250px;'>{{item.kakou}}</div>
+                    <div style='width:150px;'>{{item.bikou}}</div>
+                    <div style='width:50px; text-align: center;'>
+                        <input type='checkbox' class='form-check-input' id='check_add' style='border-color: #646565' name={{item.hontai_num}}>
+                    </div>
+                </div>
+            {% elif item.joutai == 1 %}
+                <div class='main1 flex hover1'>
+                    <div style='width:100px;'>No.{{item.sample_num}}</div>
+                    <div style='width:150px; padding-left:20px'>
+                        {% for ren in items2 %}
+                            {% if item.irai_num == ren.irai_num_rental %}
+                            <div class='joutai1' title='■担当者：{{ren.busho}}　{{ren.tantou}}　　■貸出日：{{ren.rental_day}}　　■お客様：{{ren.com_name}}  {{ren.cus_name}}'>貸出中</div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div style='width:250px;'>{{item.color}}</div>
+                    <div style='width:100px;'>{{item.size}}</div>
+                    <div style='width:250px;'>{{item.kakou}}</div>
+                    <div style='width:150px;'>{{item.bikou}}</div>
+                    <div style='width:50px; text-align: center;'></div>
+                </div>
+            {% elif item.joutai == 2 %}
+                <div class='main2 flex hover1'>
+                    <div style='width:100px;'>No.{{item.sample_num}}</div>
+                    <div style='width:150px; padding-left:20px'>
+                        {% for ren in items2 %}
+                            {% if item.irai_num == ren.irai_num_rental %}
+                            <div class='joutai2' title='■担当者：{{ren.busho}}　{{ren.tantou}}　　■キープ日：{{ren.rental_day}}　　■お客様：{{ren.com_name}}  {{ren.cus_name}}'>キープ中</div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div style='width:250px;'>{{item.color}}</div>
+                    <div style='width:100px;'>{{item.size}}</div>
+                    <div style='width:250px;'>{{item.kakou}}</div>
+                    <div style='width:150px;'>{{item.bikou}}</div>
+                    <div style='width:50px; text-align: center;'>
+                        {% for ren in items2 %}
+                            {% if item.irai_num == ren.irai_num_rental %}
+                            <button type='button' class='btn btn-outline-success btn-sm' style='padding: 0px 5px;' name='{{item.hontai_num}},{{item.irai_num}},{{ren.busho}}　{{ren.tantou}}' id='kaijo'>解除</button>                   
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- 各種Ajax -->
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i <cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+  
+        var csrftoken = getCookie('csrftoken');
+  
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+  
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+  
+        // キープ解除
+        kaijo()
+        function kaijo(){
+            var kaijo=document.querySelectorAll("#kaijo");
+            for (var i=0; i<kaijo.length; i++){
+                kaijo[i].addEventListener("click",function(){
+                    var arr=this.name.split(",");
+                    var result = window.confirm(arr[2] + "さんがキープしています。\n\n本当に解除しますか？");
+                    if (result){
+                        $.ajax({
+                            'url': '{% url "zaiko:keep_kaijo_ajax" %}',
+                            'type': 'POST',
+                            'data': {
+                                "hontai_num":arr[0],
+                                "irai_num":arr[1],
+                            },
+                            'dataType': 'json'
+                        })
+                        var oya=this.parentNode.parentNode;
+                        oya.className="main0 flex hover1";
+                        oya.children[1].innerHTML="";
+                        oya.children[6].innerHTML="<input type='checkbox' class='form-check-input' style='border-color: #646565' name='" + arr[0] + "'>";
+                    }
+                },false)
+            }
+        }     
+
+        // 依頼リストに追加ボタン
+        check_add()
+        function check_add(){
+            var check_add=document.querySelectorAll("#check_add");
+            var btn_addlist=document.getElementById("btn_addlist");
+            var check_addlist=[];
+            btn_addlist.addEventListener("click",function(){
+                for (var i=0; i<check_add.length; i++){
+                    if (check_add[i].checked){
+                        check_addlist.push(check_add[i].name);
+                    }
+                }
+                check_addlist=check_addlist.toString()
+                console.log(check_addlist);
+                $.ajax({
+                    'url': '{% url "zaiko:check_addlist_ajax" %}',
+                    'type': 'POST',
+                    'data': {"check_addlist":check_addlist},
+                    'dataType': 'json'
+                })
+                .done(function(response){         
+                    window.top.location.reload()     
+                })
+            },false)
+        }
+
+    </script>
+
+</body>
+</html>
+
+
+                
