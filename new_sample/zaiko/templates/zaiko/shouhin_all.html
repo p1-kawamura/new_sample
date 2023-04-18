@@ -160,17 +160,19 @@
                         check_addlist.push(check_add[i].name);
                     }
                 }
-                check_addlist=check_addlist.toString()
-                console.log(check_addlist);
-                $.ajax({
-                    'url': '{% url "zaiko:check_addlist_ajax" %}',
-                    'type': 'POST',
-                    'data': {"check_addlist":check_addlist},
-                    'dataType': 'json'
-                })
-                .done(function(response){         
-                    window.top.location.reload();
-                })
+                if (check_addlist.length>0){
+                    check_addlist=check_addlist.toString()
+
+                    $.ajax({
+                        'url': '{% url "zaiko:check_addlist_ajax" %}',
+                        'type': 'POST',
+                        'data': {"check_addlist":check_addlist},
+                        'dataType': 'json'
+                    })
+                    .done(function(response){         
+                        window.top.location.reload();
+                    })
+                }
             },false)
         }
 

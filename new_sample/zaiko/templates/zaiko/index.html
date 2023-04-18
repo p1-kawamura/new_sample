@@ -18,10 +18,6 @@
         <!-- 02ブロック （配送先入力）-->
         {% if hyouji == "no" %}
         <div style="display: none;">
-        {% else %}
-        <script>window.scroll({top: 0, behavior: 'smooth'});</script>
-        <div style="margin-bottom: 150px;">
-
         {% endif %}
 
             <!-- タイトル -->
@@ -77,9 +73,16 @@
             </div>
 
         </div>
+        
 
         <!-- 01ブロック　（商品選択） -->
+        {% if hyouji != "no" %}
+        <div style="margin-top: 150px;"></div>
+        <script>window.scroll({top: 0, behavior: 'smooth'});</script>
+        {% else %}
         <div>
+        {% endif %}
+
             <!-- タイトル -->
             <div class="title01"><h2><span>01</span>サンプルを選択してください</h2></div>
 
@@ -119,7 +122,7 @@
             </div>
 
             <!-- 商品リスト -->
-            <iframe src="{% url 'zaiko:shouhin_all' %}" name="shouhin_all" width="100%" height="500px"></iframe>
+            <iframe src="{% url 'zaiko:shouhin_all' %}" name="shouhin_all" width="100%" height="400px"></iframe>
             
             <!-- モーダル -->
             <div class="modal fade" id="toriyose_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -141,7 +144,7 @@
         </div>
         
     </div>
-
+    
 
 
 
