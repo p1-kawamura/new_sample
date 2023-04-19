@@ -161,52 +161,27 @@
                                             <th style="width: 15%;">ブランド</th>
                                             <th style="width: 40%;">商品名</th>
                                             <th style="width: 15%;">カラー</th>
-                                            <th style="width: 8%;">サイズ選択</th>
-                                            <th style="width: 7%;">サイズ</th>
+                                            <th style="width: 15%;">サイズ</th>
+                                            <th style="display: none;"></th>
                                         </tr>
                                         {% with ''|center:5 as range %}
                                         {% for _ in range %}
                                         <tr>
                                             <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
-                                            <!-- <td>
-                                                <select name="" id="size_select_choose" style="width: 100%;">
-                                                    {% for size in size_list %}
-                                                    <option>{{size}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </td> -->
                                             <td>
-                                                <input list="list" type="text" id="input2">
+                                                <input list="list" type="text" id="size_choose_input">
                                                 <datalist id="list">
                                                     {% for size in size_list %}
                                                     <option value="{{size}}"></option>
                                                     {% endfor %}
                                                 </datalist>
                                             </td>
-                                            <td contenteditable="true" id="size_select_text"></td>
+                                            <td style="display: none;"></td>
                                         </tr>
                                         {% endfor %}
                                         {% endwith %}
                                     </table>
                                 </div>
-
-                                <!-- <div>
-                                    <input list="list" type="text" id="input2">
-                                    <datalist id="list">
-                                      <option value="Java"></option>
-                                      <option value="JavaScript"></option>
-                                      <option value="Ruby"></option>
-                                      <option value="Python"></option>
-                                      <option value="PHP"></option>
-                                      <option value="TypeScript"></option>
-                                      <option value="HTML"></option>
-                                      <option value="CSS"></option>
-                                    </datalist>
-                                  </div>
-                              　　// ここを追記
-                                  <p id="dataListResult"></p> -->
-
-
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -219,15 +194,6 @@
         
     </div>
     
-    <script>
-        const input = document.querySelector("#input2");
-        const dataListResult = document.querySelector("#dataListResult");
-
-        input.addEventListener("change", (e) => {
-        const value = input.value;
-        dataListResult.innerHTML = value;
-        });
-    </script>
 
 
     <!-- 各種Ajax -->
@@ -448,20 +414,17 @@
 
 
         // 取寄せサイズ選択
-        var size_choose = document.querySelectorAll("#size_select_choose")
-        var size_choose_kekka = document.querySelectorAll("#size_select_text")
-        for (var i=0; i<size_choose.length; i++){
-            size_choose[i].addEventListener("change",function(){
+        var size = document.querySelectorAll("#size_choose_input");
+        for (var i=0; i<size.length; i++){
+            size[i].addEventListener("change",function(){
                 this.parentElement.nextElementSibling.innerHTML=this.value; 
-                },false)
-            }
-            
+            },false)
+        };
+
 
         // 取り寄せ商品の取り込み
         $('#toriyose_add').on('click', function(e) {
             e.preventDefault();
-            var size = document.querySelectorAll("#input2");
-            console.log(size);
             var table = document.getElementById('toriyose_teble');
             var rows = [];
             for (r = 0; r < table.rows.length; r++) {
@@ -469,14 +432,11 @@
                 for (c = 0; c < table.rows[r].cells.length; c++) {
                     if (c != 4){
                         row[c] = table.rows[r].cells[c].textContent;
-                    } else {
-                        row[c] = table.rows[r].cells[4].firstChild.value;
                     };
                 };
                 rows[r] = row;
             }
             rows=JSON.stringify(rows);
-            console.log(rows);
             $.ajax({
                 'url': '{% url "zaiko:toriyose_add_ajax" %}',
                 'type': 'POST',
