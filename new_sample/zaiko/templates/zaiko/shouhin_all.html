@@ -23,6 +23,9 @@
                 <div class="place_addlist">
                     <button type="button" class="btn btn-primary" id="btn_addlist">依頼リストに追加</button>
                 </div>
+                <script>
+                    check_add()
+                </script>
             </div>      
         </div>
         {% endif %}
@@ -149,7 +152,6 @@
         }     
 
         // 依頼リストに追加ボタン
-        check_add()
         function check_add(){
             var check_add=document.querySelectorAll("#check_add");
             var btn_addlist=document.getElementById("btn_addlist");
