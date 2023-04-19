@@ -7,10 +7,10 @@ import requests
 
 
 # 顧客APIテスト
-def index2(request):
+def kokyaku_index(request):
     return render(request,"zaiko/kokyaku.html")
 
-def test(request):
+def kokyaku_api(request):
     cus_id=request.POST["cus_id"]
     url="https://core-sys.p1-intl.co.jp/p1web/v1/customers/" + cus_id + "/receivedOrders"
     res=requests.get(url)
@@ -54,14 +54,11 @@ def index(request):
         data2["size"]=shouhin.size
         data2["kubun"]="在庫"
         data.append(data2)
-    if len(data)==0:
-        hyouji="no"
-    else:
-        hyouji="yes"
+    kazu=len(data)
     size_list=Size.objects.all().order_by("size_num")
     params={
         "irai_shouhin_list":data,
-        "hyouji":hyouji,
+        "kazu":kazu,
         "size_list":size_list
     }
     return render(request,"zaiko/index.html",params)
@@ -229,6 +226,16 @@ def check_addlist_ajax(request):
         if i not in ses:
             ses.append(i)
     request.session["sample"]=ses
+    d={"":""}
+    return JsonResponse(d)
+
+
+#取寄せ商品追加ボタン（モーダル）
+def toriyose_add_ajax(request):
+    data=request.POST.get("rows")
+    print("---結果---")
+    print(data)
+    
     d={"":""}
     return JsonResponse(d)
 

@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>顧客APIテスト</title>
 </head>
 <body>
     <h2>顧客テスト</h2>
     <div>
-        <form action="{% url 'zaiko:test' %}" method="POST">{% csrf_token %}
+        <form action="{% url 'zaiko:kokyaku_api' %}" method="POST">{% csrf_token %}
             <input type="text" name="cus_id">157017
             <button type="submit">取得</button>
         </form>
-        <a href="{% url 'zaiko:index2' %}">再テスト</a>
+        <a href="{% url 'zaiko:kokyaku_index' %}">再テスト</a>
     </div>
     <div style="margin-top: 30px;">
             顧客ID：{{res2.id}}<br>

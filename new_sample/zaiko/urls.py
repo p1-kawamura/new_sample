@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import index,shouhin_all,csv_imp,csv_imp_page,dele,hinban_enter_ajax,hinban_click_ajax,color_size_click_ajax,\
                     kakou_click_ajax,swatch_click_ajax,keep_kaijo_ajax,check_addlist_ajax,irai_del_ajax,\
-                    index2,test,hinban_click_ajax2,color_size_click_ajax2
+                    kokyaku_index,kokyaku_api,hinban_click_ajax2,color_size_click_ajax2,toriyose_add_ajax
 
 
 app_name="zaiko"
@@ -21,6 +21,7 @@ urlpatterns = [
     path('irai_del_ajax/', irai_del_ajax, name="irai_del_ajax"),
     path('hinban_click_ajax2/', hinban_click_ajax2, name="hinban_click_ajax2"),
     path('color_size_click_ajax2/', color_size_click_ajax2, name="color_size_click_ajax2"),
-    path('index2/', index2, name="index2"), #顧客APIテスト
-    path('test/', test, name="test"), #顧客APIテスト
+    path('toriyose_add_ajax/', toriyose_add_ajax, name="toriyose_add_ajax"),
+    path('kokyaku_index/', kokyaku_index, name="kokyaku_index"), #顧客APIテスト
+    path('kokyaku_api/', kokyaku_api, name="kokyaku_api"), #顧客APIテスト
 ]

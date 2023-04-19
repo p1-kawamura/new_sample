@@ -16,14 +16,28 @@
     <div class="container mt-5 mb-5" style="margin: 0 auto;">
 
         <!-- 02ブロック （配送先入力）-->
-        {% if hyouji == "no" %}
+        {% if kazu == 0 %}
         <div style="display: none;">
+        {% else %}
+        <div>
         {% endif %}
 
             <!-- タイトル -->
             <div class="title02">
-                <h2><span>02</span>配送先を入力してください（サンプルを追加選択しても可）</h2>
+                <h2><span class="number">02</span>配送先を入力してください<span>（サンプルを追加選択しても可）</span></h2>
             </div>
+
+            <!-- サンプル数量 -->
+            {% if kazu > 5 %}
+            <div class="alert alert-danger d-flex align-items-center flex" role="alert" style="margin-top: 30px; width: 50%";>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16">
+                  <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+                <div>
+                  サンプル貸出し、キープは5点までです！
+                </div>
+            </div>
+            {% endif %}
 
             <!-- 選択商品一覧 -->
             <div class="flex mt-4">
@@ -60,6 +74,7 @@
             </div>
 
             <!-- 配送先選択 -->
+            {% if kazu <=  5 %}
             <div class="flex mt-4">
                 <div style="margin-left: 30px;">
                     <button type="button" class="btn btn-outline-danger" id="btn_p1" style="width: 200px;">本社・直営・FC店舗</button>
@@ -71,12 +86,13 @@
                     <button type="button" class="btn btn-outline-danger" id="btn_p1" style="width: 200px;">キープのみ</button>
                 </div>  
             </div>
+            {% endif %}
 
         </div>
         
 
         <!-- 01ブロック　（商品選択） -->
-        {% if hyouji != "no" %}
+        {% if kazu > 0 %}
         <div style="margin-top: 150px;"></div>
         <script>window.scroll({top: 0, behavior: 'smooth'});</script>
         {% else %}
@@ -84,7 +100,7 @@
         {% endif %}
 
             <!-- タイトル -->
-            <div class="title01"><h2><span>01</span>サンプルを選択してください</h2></div>
+            <div class="title01"><h2><span class="number">01</span>サンプルを選択してください<span>（貸出し、キープは5点までです）</span></h2></div>
 
             <!-- 商品検索 -->
             <div class="flex mt-4">
@@ -139,26 +155,27 @@
                                     ・メーカーへの発注は各自でお願いします。（納品先は「物流センター」宛てにして下さい）
                                 </div>
                                 <div class="mt-3">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" id="toriyose_teble">
                                         <tr class="table-secondary">
                                             <th style="width: 15%;">商品番号</th>
                                             <th style="width: 15%;">ブランド</th>
-                                            <th style="width: 43%;">商品名</th>
+                                            <th style="width: 40%;">商品名</th>
                                             <th style="width: 15%;">カラー</th>
-                                            <th style="width: 12%;">サイズ</th>
+                                            <th style="width: 8%;">サイズ選択</th>
+                                            <th style="width: 7%;">サイズ</th>
                                         </tr>
                                         {% with ''|center:5 as range %}
                                         {% for _ in range %}
                                         <tr>
                                             <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
-                                            <td contenteditable="true">
-                                                <input type="text" list="size_list" autocomplete="off" style="width: 100%">
-                                                <datalist id="size_list">
+                                            <td>
+                                                <select name="" id="size_select_choose" style="width: 100%;">
                                                     {% for size in size_list %}
-                                                    <option value="{{size}}">
+                                                    <option>{{size}}</option>
                                                     {% endfor %}
-                                                </datalist>
+                                                </select>
                                             </td>
+                                            <td contenteditable="true" id="size_select_text"></td>
                                         </tr>
                                         {% endfor %}
                                         {% endwith %}
@@ -167,7 +184,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">依頼リストに追加</button>
+                            <button type="button" class="btn btn-primary" id="toriyose_add">依頼リストに追加</button>
                         </div>
                     </div>
                 </div>
@@ -393,9 +410,50 @@
             document.getElementById("hinban").innerHTML="";
             document.getElementById("color").innerHTML="";
             document.getElementById("size").innerHTML="";
-            
-            
         })
+
+
+        // 取寄せサイズ選択
+        var size_choose = document.querySelectorAll("#size_select_choose")
+        var size_choose_kekka = document.querySelectorAll("#size_select_text")
+        for (var i=0; i<size_choose.length; i++){
+            size_choose[i].addEventListener("change",function(){
+                this.parentElement.nextElementSibling.innerHTML=this.value; 
+                },false)
+            }
+            
+
+        // 取り寄せ商品の取り込み
+        $('#toriyose_add').on('click', function(e) {
+            e.preventDefault();
+            var size = document.querySelectorAll("#size_data_list");
+            console.log(size);
+            var table = document.getElementById('toriyose_teble');
+            var rows = [];
+            for (r = 0; r < table.rows.length; r++) {
+                var row = [];
+                for (c = 0; c < table.rows[r].cells.length; c++) {
+                    if (c != 4){
+                        row[c] = table.rows[r].cells[c].textContent;
+                    } else {
+                        row[c] = size[r].textContent;
+                    };
+                };
+                rows[r] = row;
+            }
+            rows=JSON.stringify(rows);
+            console.log(rows);
+            $.ajax({
+                'url': '{% url "zaiko:toriyose_add_ajax" %}',
+                'type': 'POST',
+                'data': {'rows':rows},
+                'dataType': 'json'
+            })
+            .done(function(response){
+                // window.location.reload();
+            });            
+        });
+        
 
 
         // 依頼リストから削除
