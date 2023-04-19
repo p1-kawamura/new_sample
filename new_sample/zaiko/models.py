@@ -34,4 +34,12 @@ class Rental(models.Model):
 
     def __str__(self):
         return self.tantou
+    
+
+class Size(models.Model):
+    size_num=models.IntegerField("順番",null=False)
+    size=models.CharField("サイズ",max_length=30,blank=True)
+
+    def __str__(self):
+        return self.size
 

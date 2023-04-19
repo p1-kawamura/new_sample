@@ -138,15 +138,26 @@
                                     <tr class="table-secondary">
                                         <th style="width: 15%;">商品番号</th>
                                         <th style="width: 15%;">ブランド</th>
-                                        <th style="width: 45%;">商品名</th>
+                                        <th style="width: 40%;">商品名</th>
                                         <th style="width: 15%;">カラー</th>
-                                        <th style="width: 10%;">サイズ</th>
+                                        <th style="width: 15%;">サイズ</th>
                                     </tr>
-                                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"><td contenteditable="true"></td><td contenteditable="true"></td></td></tr>
-                                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"><td contenteditable="true"></td><td contenteditable="true"></td></td></tr>
-                                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"><td contenteditable="true"></td><td contenteditable="true"></td></td></tr>
-                                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"><td contenteditable="true"></td><td contenteditable="true"></td></td></tr>
+                                    {% with ''|center:5 as range %}
+                                    {% for _ in range %}
+                                    <tr>
+                                        <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+                                        <td contenteditable="true">
+                                            <input type="text" list="size_list" autocomplete="off" style="width: 100%">
+                                            <datalist id="size_list">
+                                                {% for size in size_list %}
+                                                <option value="{{size}}">
+                                                {% endfor %}
+                                            </datalist>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endwith %}
+
                                 </table>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Shouhin,Rental
+from .models import Shouhin,Rental,Size
 import io
 import csv
 from django.http import JsonResponse
@@ -58,7 +58,13 @@ def index(request):
         hyouji="no"
     else:
         hyouji="yes"
-    return render(request,"zaiko/index.html",{"irai_shouhin_list":data,"hyouji":hyouji})
+    size_list=Size.objects.all().order_by("size_num")
+    params={
+        "irai_shouhin_list":data,
+        "hyouji":hyouji,
+        "size_list":size_list
+    }
+    return render(request,"zaiko/index.html",params)
 
 
 def shouhin_all(request):
@@ -290,6 +296,25 @@ def csv_imp(request):
                     "nouhin_day":i[6],
                     "bikou1":i[7],
                     "bikou2":i[8],
+                }            
+            )
+        h+=1
+
+    
+    #サイズリスト
+    data = io.TextIOWrapper(request.FILES['csv3'].file, encoding="cp932")
+    csv_content = csv.reader(data)
+    
+    csv_list=list(csv_content)
+        
+    h=0
+    for i in csv_list:
+        if h!=0:
+            Size.objects.update_or_create(
+                size_num=i[0],
+                defaults={
+                    "size_num":i[0],
+                    "size":i[1],
                 }            
             )
         h+=1  
