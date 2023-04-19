@@ -134,31 +134,36 @@
                         </div>
                         <div class="modal-body">
                             <div>
-                                <table class="table table-bordered">
-                                    <tr class="table-secondary">
-                                        <th style="width: 15%;">商品番号</th>
-                                        <th style="width: 15%;">ブランド</th>
-                                        <th style="width: 40%;">商品名</th>
-                                        <th style="width: 15%;">カラー</th>
-                                        <th style="width: 15%;">サイズ</th>
-                                    </tr>
-                                    {% with ''|center:5 as range %}
-                                    {% for _ in range %}
-                                    <tr>
-                                        <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
-                                        <td contenteditable="true">
-                                            <input type="text" list="size_list" autocomplete="off" style="width: 100%">
-                                            <datalist id="size_list">
-                                                {% for size in size_list %}
-                                                <option value="{{size}}">
-                                                {% endfor %}
-                                            </datalist>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% endwith %}
-
-                                </table>
+                                <div>
+                                    ・発注した商品詳細を手入力して下さい（登録サイズがリストに無い場合は、直接入力してください）<br>
+                                    ・メーカーへの発注は各自でお願いします。（納品先は「物流センター」宛てにして下さい）
+                                </div>
+                                <div class="mt-3">
+                                    <table class="table table-bordered">
+                                        <tr class="table-secondary">
+                                            <th style="width: 15%;">商品番号</th>
+                                            <th style="width: 15%;">ブランド</th>
+                                            <th style="width: 43%;">商品名</th>
+                                            <th style="width: 15%;">カラー</th>
+                                            <th style="width: 12%;">サイズ</th>
+                                        </tr>
+                                        {% with ''|center:5 as range %}
+                                        {% for _ in range %}
+                                        <tr>
+                                            <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+                                            <td contenteditable="true">
+                                                <input type="text" list="size_list" autocomplete="off" style="width: 100%">
+                                                <datalist id="size_list">
+                                                    {% for size in size_list %}
+                                                    <option value="{{size}}">
+                                                    {% endfor %}
+                                                </datalist>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endwith %}
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
