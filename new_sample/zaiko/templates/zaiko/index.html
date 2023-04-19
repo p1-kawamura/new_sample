@@ -168,12 +168,20 @@
                                         {% for _ in range %}
                                         <tr>
                                             <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
-                                            <td>
+                                            <!-- <td>
                                                 <select name="" id="size_select_choose" style="width: 100%;">
                                                     {% for size in size_list %}
                                                     <option>{{size}}</option>
                                                     {% endfor %}
                                                 </select>
+                                            </td> -->
+                                            <td>
+                                                <input list="list" type="text" id="input2">
+                                                <datalist id="list">
+                                                    {% for size in size_list %}
+                                                    <option value="{{size}}"></option>
+                                                    {% endfor %}
+                                                </datalist>
                                             </td>
                                             <td contenteditable="true" id="size_select_text"></td>
                                         </tr>
@@ -181,6 +189,24 @@
                                         {% endwith %}
                                     </table>
                                 </div>
+
+                                <!-- <div>
+                                    <input list="list" type="text" id="input2">
+                                    <datalist id="list">
+                                      <option value="Java"></option>
+                                      <option value="JavaScript"></option>
+                                      <option value="Ruby"></option>
+                                      <option value="Python"></option>
+                                      <option value="PHP"></option>
+                                      <option value="TypeScript"></option>
+                                      <option value="HTML"></option>
+                                      <option value="CSS"></option>
+                                    </datalist>
+                                  </div>
+                              　　// ここを追記
+                                  <p id="dataListResult"></p> -->
+
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -193,7 +219,15 @@
         
     </div>
     
+    <script>
+        const input = document.querySelector("#input2");
+        const dataListResult = document.querySelector("#dataListResult");
 
+        input.addEventListener("change", (e) => {
+        const value = input.value;
+        dataListResult.innerHTML = value;
+        });
+    </script>
 
 
     <!-- 各種Ajax -->
@@ -426,7 +460,7 @@
         // 取り寄せ商品の取り込み
         $('#toriyose_add').on('click', function(e) {
             e.preventDefault();
-            var size = document.querySelectorAll("#size_data_list");
+            var size = document.querySelectorAll("#input2");
             console.log(size);
             var table = document.getElementById('toriyose_teble');
             var rows = [];
@@ -436,7 +470,7 @@
                     if (c != 4){
                         row[c] = table.rows[r].cells[c].textContent;
                     } else {
-                        row[c] = size[r].textContent;
+                        row[c] = table.rows[r].cells[4].firstChild.value;
                     };
                 };
                 rows[r] = row;
