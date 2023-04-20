@@ -4,6 +4,8 @@ import io
 import csv
 from django.http import JsonResponse
 import requests
+import json
+from django.db.models import Max
 
 
 # 顧客APIテスト
@@ -233,9 +235,21 @@ def check_addlist_ajax(request):
 #取寄せ商品追加ボタン（モーダル）
 def toriyose_add_ajax(request):
     data=request.POST.get("rows")
-    print("---結果---")
+    data=json.loads(data)
+    ses=list(request.session["sample"])
+    print(ses)
     print(data)
-    
+    for i in range(1,6):
+        li=data[i]
+        if li[0]!="":
+            try:
+                size_num=Size.objects.get(size=li[5]).size_num
+            except:
+                size_num=0
+            Shouhin.objects.create(shouhin_num=li[0], brand=li[1], shouhin_name=li[2], color=li[3], size=li[5], size_num=size_num)
+            hontai=Shouhin.objects.all().aggregate(Max("hontai_num"))
+            ses.append(hontai['hontai_num__max'])
+    request.session["sample"]=ses 
     d={"":""}
     return JsonResponse(d)
 

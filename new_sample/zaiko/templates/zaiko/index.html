@@ -436,7 +436,7 @@
                 };
                 rows[r] = row;
             }
-            rows=JSON.stringify(rows);
+            rows = JSON.stringify(rows);
             $.ajax({
                 'url': '{% url "zaiko:toriyose_add_ajax" %}',
                 'type': 'POST',
@@ -444,7 +444,7 @@
                 'dataType': 'json'
             })
             .done(function(response){
-                // window.location.reload();
+                window.location.reload();
             });            
         });
         
