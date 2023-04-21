@@ -125,7 +125,6 @@ padding-left: 18px;
     color: #fff;
 
 }
-
 .title02 h2{
     position: relative;
     overflow: hidden;
@@ -170,4 +169,10 @@ padding-left: 18px;
 }
 .hover1:hover {
     background-color: #ff6;
+}
+.haisou_title {
+    padding: 0.25em 0.5em;
+    color: #494949;
+    background: transparent;
+    border-left: solid 5px #f75f58;
 }

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Shouhin,Rental,Size
+from .models import Shouhin,Rental,Size,Shozoku
 import io
 import csv
 from django.http import JsonResponse
@@ -62,10 +62,12 @@ def index(request):
         data.append(data2)
     kazu=len(data)
     size_list=Size.objects.all().order_by("size_num")
+    shozoku_list=Shozoku.objects.all()
     params={
         "irai_shouhin_list":data,
         "kazu":kazu,
-        "size_list":size_list
+        "size_list":size_list,
+        "shozoku_list":shozoku_list
     }
     return render(request,"zaiko/index.html",params)
 

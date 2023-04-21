@@ -43,3 +43,10 @@ class Size(models.Model):
     def __str__(self):
         return self.size
 
+
+class Shozoku(models.Model):
+    shozoku=models.CharField("所属",max_length=30)
+
+    def __str__(self):
+        return self.shozoku
+
