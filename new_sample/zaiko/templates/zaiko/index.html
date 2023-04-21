@@ -77,13 +77,13 @@
             {% if kazu <=  5 %}
             <div class="flex mt-4">
                 <div style="margin-left: 30px;">
-                    <button type="button" class="btn btn-outline-danger" id="btn_p1" style="width: 200px;">店舗宛て</button>
+                    <button type="button" class="btn btn-outline-danger" id="btn_tempo" style="width: 200px;">店舗宛て</button>
                 </div>
                 <div style="margin-left: 30px;"> 
-                    <button type="button" class="btn btn-outline-danger" id="btn_customer" style="width: 200px;">顧客宛て</button>
+                    <button type="button" class="btn btn-outline-danger" id="btn_cus" style="width: 200px;">顧客宛て</button>
                 </div>
                 <div style="margin-left: 30px;">
-                    <button type="button" class="btn btn-outline-danger" id="btn_p1" style="width: 200px;">キープのみ</button>
+                    <button type="button" class="btn btn-outline-danger" id="btn_keep" style="width: 200px;">キープのみ</button>
                 </div>  
             </div>
 
@@ -91,24 +91,66 @@
             <div class="mt-5">
 
                 <!-- 店舗 -->
-                <div id="haisou_tempo">
-
+                <div id="haisou_tempo" style="display: none;">
+                    <form action="">{% csrf_token %}
+                        <div>
+                            <div class="haisou_title">店舗宛て</div>
+                            <div class="flex2 mt-4">
+                                <div>所属：</div>
+                                <div>
+                                    <select class="form-select" name="" id="tempo_shozoku">
+                                        <option></option>
+                                        {% for i in shozoku_list %}
+                                        <option>{{i}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div style="margin-left: 50px;">担当者：</div>
+                                <div><input  class="form-control" type="text" name=""></div>
+                                <div style="margin-left: 50px;">配送先：</div>
+                                <div>
+                                    <select class="form-select" name="" id="tempo_haisou">
+                                        <option></option>
+                                        {% for i in shozoku_list %}
+                                        <option>{{i}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-3" style="width: 40%;">
+                                <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
+                                <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                            </div>
+                            <div class="haisou_kokyaku mt-4" style="width: 250px;">顧客情報（納品書の宛名）</div>
+                            <div class="flex2 mt-3">
+                                <div>会社名：</div>
+                                <div><input  class="form-control" type="text" name=""></div>
+                                <div style="margin-left: 50px;">氏名：</div>
+                                <div><input  class="form-control" type="text" name=""></div>
+                                <div style="margin-left: 50px;">納品書日付：</div>
+                                <div><input  class="form-control" type="date" name=""></div>
+                            </div>
+                            <div class="mt-3">
+                                <div style="width: 40%;">
+                                    <div>納品書備考：</div>
+                                    <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                                </div>
+                            </div>
+                            <div class="mt-3"><button type="submit" class="btn btn-danger">確定する</button></div>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- 顧客-->
-                <div id="haisou_cus">
-
-                </div>
-
-                <!-- キープ -->
-                <div id="haisou_keep">
-                    <form action="">
+                <div id="haisou_cus" style="display: none;">
+                    <form action="">{% csrf_token %}
                         <div>
-                            <div class="haisou_title">キープのみ</div>
-                            <div class="flex2">
+                            <div class="haisou_title">顧客宛て</div>
+                            <div class="flex2 mt-4">
                                 <div>所属：</div>
                                 <div>
                                     <select class="form-select" name="" >
+                                        <option></option>
                                         {% for i in shozoku_list %}
                                         <option>{{i}}</option>
                                         {% endfor %}
@@ -117,20 +159,84 @@
                                 <div style="margin-left: 50px;">担当者：</div>
                                 <div><input  class="form-control" type="text" name=""></div>
                             </div>
+                            <div class="mt-3" style="width: 40%;">
+                                <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
+                                <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                            </div>
+                            <div class="haisou_kokyaku mt-4" style="width: 120px;">配送先情報</div>
                             <div class="flex2 mt-3">
-                                <div>顧客会社名：</div>
+                                <div>会社名：</div>
+                                <div><input  class="form-control" type="text" name="" id="cus_haisou_com"></div>
+                                <div style="margin-left: 50px;">氏名：</div>
+                                <div><input  class="form-control" type="text" name="" id="cus_haisou_name"></div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>郵便番号：</div>
+                                <div><input  class="form-control" type="text" name="" style="width: 100px;"></div>
+                                <div style="margin-left: 50px;">住所：</div>
+                                <div><input  class="form-control" type="text" name="" style="width: 600px;"></div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>電話番号：</div>
                                 <div><input  class="form-control" type="text" name=""></div>
-                                <div style="margin-left: 50px;">顧客氏名：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div style="margin-left: 50px;">メールアドレス（発送連絡）：</div>
+                                <div><input  class="form-control" type="email" name=""></div>
+                            </div>
+                            <div class="haisou_kokyaku mt-4" style="width: 120px;">納品書情報</div>
+                            <div class="flex2 mt-3">
+                                <div>会社名：</div>
+                                <div><input  class="form-control" type="text" name=""  id="cus_nouhin_com"></div>
+                                <div style="margin-left: 50px;">氏名：</div>
+                                <div><input  class="form-control" type="text" name=""  id="cus_nouhin_name"></div>
+                                <div style="margin-left: 50px;">納品書日付：</div>
+                                <div><input  class="form-control" type="date" name=""></div>
                             </div>
                             <div class="mt-3">
-                                <div>備考：</div>
-                                <div><textarea class="form-control" style="width: 50%;" name="" rows="3"></textarea></div>
+                                <div style="width: 40%;">
+                                    <div>納品書備考：</div>
+                                    <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                                </div>
                             </div>
                             <div class="mt-3"><button type="submit" class="btn btn-danger">確定する</button></div>
                         </div>
                     </form>
                 </div>
+
+                <!-- キープ -->
+                <div id="haisou_keep" style="display: none;">
+                    <form action="">{% csrf_token %}
+                        <div>
+                            <div class="haisou_title">キープのみ</div>
+                            <div class="flex2 mt-4">
+                                <div>所属：</div>
+                                <div>
+                                    <select class="form-select" name="" >
+                                        <option></option>
+                                        {% for i in shozoku_list %}
+                                        <option>{{i}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div style="margin-left: 50px;">担当者：</div>
+                                <div><input  class="form-control" type="text" name=""></div>
+                            </div>
+                            <div class="haisou_kokyaku mt-4" style="width: 100px;">顧客情報</div>
+                            <div class="flex2 mt-3">
+                                <div>会社名：</div>
+                                <div><input  class="form-control" type="text" name=""></div>
+                                <div style="margin-left: 50px;">氏名：</div>
+                                <div><input  class="form-control" type="text" name=""></div>
+                            </div>
+                            <div class="mt-3">
+                                <div>備考：</div>
+                                <div><textarea class="form-control" style="width: 40%;" name="" rows="3"></textarea></div>
+                            </div>
+                            <div class="mt-3"><button type="submit" class="btn btn-danger">確定する</button></div>
+                        </div>
+                    </form>
+                </div>
+
+                
 
             </div>
 
@@ -517,7 +623,51 @@
             }
         }    
 
-        
+
+        // 配送先ボタン
+        var tempo=document.getElementById("btn_tempo")
+        var cus=document.getElementById("btn_cus")
+        var keep=document.getElementById("btn_keep")
+        var tempo2=document.getElementById("haisou_tempo")
+        var cus2=document.getElementById("haisou_cus")
+        var keep2=document.getElementById("haisou_keep")
+        tempo.addEventListener("click",function(){
+            tempo2.style.display="block";
+            cus2.style.display="none";
+            keep2.style.display="none";
+        })
+        cus.addEventListener("click",function(){
+            tempo2.style.display="none";
+            cus2.style.display="block";
+            keep2.style.display="none";
+        })
+        keep.addEventListener("click",function(){
+            tempo2.style.display="none";
+            cus2.style.display="none";
+            keep2.style.display="block";
+        })
+
+
+        // 自動転記
+        var tempo_shozoku = document.getElementById("tempo_shozoku")
+        var tempo_haisou = document.getElementById("tempo_haisou")
+        tempo_shozoku.addEventListener("change",function(){
+            num=tempo_shozoku.selectedIndex;
+            tempo_haisou.selectedIndex=num;
+        })
+        var cus_haisou_com = document.getElementById("cus_haisou_com")
+        var cus_haisou_name = document.getElementById("cus_haisou_name")
+        var cus_nouhin_com = document.getElementById("cus_nouhin_com")
+        var cus_nouhin_name = document.getElementById("cus_nouhin_name")
+        cus_haisou_com.addEventListener("change",function(){
+            cus_nouhin_com.value = cus_haisou_com.value;
+        })
+        cus_haisou_name.addEventListener("change",function(){
+            cus_nouhin_name.value = cus_haisou_name.value;
+        })
+
+
+
 
 
     </script>

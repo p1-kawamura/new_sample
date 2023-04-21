@@ -171,8 +171,17 @@ padding-left: 18px;
     background-color: #ff6;
 }
 .haisou_title {
-    padding: 0.25em 0.5em;
-    color: #494949;
-    background: transparent;
-    border-left: solid 5px #f75f58;
+    color: #fff;
+    background-color: #f75f58;
+    padding: 0.5em;
+    border-radius: 0.25rem;
+    width: 200px;
+    text-align: center;
+    font-weight: bold;
+}
+.haisou_kokyaku {
+    padding: 0.5em;/*文字周りの余白*/
+    color: #333;/*文字色*/
+    background: #f8eddf;/*背景色*/
+    border-left: solid 5px #ffaf58;/*左線（実線 太さ 色）*/
 }
