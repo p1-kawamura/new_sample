@@ -1,25 +1,35 @@
 from django.contrib import admin
-from .models import Shouhin,Rental,Size,Shozoku
+from .models import Shouhin,Rental,Size,Shozoku,Rireki_rental,Rireki_shouhin
 from django.contrib.admin import ModelAdmin
 
-class Sho(ModelAdmin):
+class A_shouhin(ModelAdmin):
     model=Shouhin
     list_display=["hontai_num","sample_num","shouhin_name","joutai","irai_num"]
 
-class Ren(ModelAdmin):
+class A_rental(ModelAdmin):
     model=Rental
     list_display=["irai_num_rental","rental_day","tantou"]
 
-class Si(ModelAdmin):
+class A_size(ModelAdmin):
     model=Size
     list_display=["size_num","size"]
 
-class Shozo(ModelAdmin):
+class A_shozoku(ModelAdmin):
     model=Shozoku
     list_display=["shozoku"]
 
+class A_rireki_rental(ModelAdmin):
+    model=Rireki_rental
+    list_display=["irai_num","irai_type","rental_day","tantou","haisou_cus","haisou_tempo"]
 
-admin.site.register(Shouhin,Sho)
-admin.site.register(Rental,Ren)
-admin.site.register(Size,Si)
-admin.site.register(Shozoku,Shozo)
+class A_Rireki_shouhin(ModelAdmin):
+    model=Rireki_shouhin
+    list_display=["irai_num","irai_hontai_num"]
+
+
+admin.site.register(Shouhin,A_shouhin)
+admin.site.register(Rental,A_rental)
+admin.site.register(Size,A_size)
+admin.site.register(Shozoku,A_shozoku)
+admin.site.register(Rireki_rental,A_rireki_rental)
+admin.site.register(Rireki_shouhin,A_Rireki_shouhin)

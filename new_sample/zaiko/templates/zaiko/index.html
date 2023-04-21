@@ -76,25 +76,98 @@
             <!-- 配送先選択 -->
             {% if kazu <=  5 %}
             <div class="flex mt-4">
-                <div style="margin-left: 30px;">
-                    <button type="button" class="btn btn-outline-danger" id="btn_tempo" style="width: 200px;">店舗宛て</button>
+                <div> 
+                    <button type="button" class="btn btn-outline-danger" id="btn_cus" style="width: 150px;">顧客</button>
                 </div>
-                <div style="margin-left: 30px;"> 
-                    <button type="button" class="btn btn-outline-danger" id="btn_cus" style="width: 200px;">顧客宛て</button>
+                <div style="margin-left: 50px;">
+                    <button type="button" class="btn btn-outline-danger" id="btn_tempo" style="width: 150px;">店舗</button>
                 </div>
-                <div style="margin-left: 30px;">
-                    <button type="button" class="btn btn-outline-danger" id="btn_keep" style="width: 200px;">キープのみ</button>
+                <div style="margin-left: 50px;">
+                    <button type="button" class="btn btn-outline-danger" id="btn_keep" style="width: 150px;">キープ</button>
                 </div>  
             </div>
 
             <!-- 配送先の入力 -->
             <div class="mt-5">
 
+                <!-- 顧客-->
+                <div id="haisou_cus" style="display: none;">
+                    <form action="">{% csrf_token %}
+                        <div>
+                            <div class="haisou_title">顧客</div>
+                            <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
+
+                            <div class="flex2 mt-4">
+                                <div>所属：</div>
+                                <div>
+                                    <select class="form-select" name="" >
+                                        <option></option>
+                                        {% for i in shozoku_list %}
+                                        <option>{{i}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div style="margin-left: 50px;">担当者：</div>
+                                <div><input  class="form-control" type="text" name=""></div>
+                            </div>
+                            <div class="mt-3" style="width: 40%;">
+                                <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
+                                <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                            </div>
+
+                            <div class="haisou_kokyaku mt-5" style="width: 120px;">配送先情報</div>
+
+                            <div class="flex2 mt-3">
+                                <div>会社名：</div>
+                                <div><input  class="form-control" type="text" name="" id="cus_haisou_com"></div>
+                                <div style="margin-left: 50px;">氏名：</div>
+                                <div><input  class="form-control" type="text" name="" id="cus_haisou_name"></div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>郵便番号：</div>
+                                <div><input  class="form-control" type="text" name="" style="width: 100px;"></div>
+                                <div style="margin-left: 50px;">住所：</div>
+                                <div><input  class="form-control" type="text" name="" style="width: 600px;"></div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>電話番号：</div>
+                                <div><input  class="form-control" type="text" name=""></div>
+                                <div style="margin-left: 50px;">メールアドレス（発送連絡）：</div>
+                                <div><input  class="form-control" type="email" name=""></div>
+                            </div>
+
+                            <div class="haisou_kokyaku mt-5" style="width: 120px;">納品書情報</div>
+
+                            <div class="flex2 mt-3">
+                                <div>会社名：</div>
+                                <div><input  class="form-control" type="text" name=""  id="cus_nouhin_com"></div>
+                                <div style="margin-left: 50px;">氏名：</div>
+                                <div><input  class="form-control" type="text" name=""  id="cus_nouhin_name"></div>
+                                <div style="margin-left: 50px;">納品書日付：</div>
+                                <div><input  class="form-control" type="date" name=""></div>
+                            </div>
+                            <div class="mt-3">
+                                <div style="width: 40%;">
+                                    <div>納品書備考：</div>
+                                    <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <button type="submit" class="btn btn-outline-danger" style="height: 4em;"><img src="{% static 'tamori.gif' %}"> 
+                                    >> では、上記住所へ直送します！（クリックして送信）
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                 <!-- 店舗 -->
                 <div id="haisou_tempo" style="display: none;">
                     <form action="">{% csrf_token %}
                         <div>
-                            <div class="haisou_title">店舗宛て</div>
+                            <div class="haisou_title">店舗</div>
+                            <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
+
                             <div class="flex2 mt-4">
                                 <div>所属：</div>
                                 <div>
@@ -121,73 +194,14 @@
                                 <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
                                 <div><textarea class="form-control" name="" rows="3"></textarea></div>
                             </div>
-                            <div class="haisou_kokyaku mt-4" style="width: 250px;">顧客情報（納品書の宛名）</div>
-                            <div class="flex2 mt-3">
-                                <div>会社名：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
-                                <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
-                                <div style="margin-left: 50px;">納品書日付：</div>
-                                <div><input  class="form-control" type="date" name=""></div>
-                            </div>
-                            <div class="mt-3">
-                                <div style="width: 40%;">
-                                    <div>納品書備考：</div>
-                                    <div><textarea class="form-control" name="" rows="3"></textarea></div>
-                                </div>
-                            </div>
-                            <div class="mt-3"><button type="submit" class="btn btn-danger">確定する</button></div>
-                        </div>
-                    </form>
-                </div>
 
-                <!-- 顧客-->
-                <div id="haisou_cus" style="display: none;">
-                    <form action="">{% csrf_token %}
-                        <div>
-                            <div class="haisou_title">顧客宛て</div>
-                            <div class="flex2 mt-4">
-                                <div>所属：</div>
-                                <div>
-                                    <select class="form-select" name="" >
-                                        <option></option>
-                                        {% for i in shozoku_list %}
-                                        <option>{{i}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div style="margin-left: 50px;">担当者：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
-                            </div>
-                            <div class="mt-3" style="width: 40%;">
-                                <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
-                                <div><textarea class="form-control" name="" rows="3"></textarea></div>
-                            </div>
-                            <div class="haisou_kokyaku mt-4" style="width: 120px;">配送先情報</div>
+                            <div class="haisou_kokyaku mt-5" style="width: 250px;">顧客情報（納品書の宛名）</div>
+
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" name="" id="cus_haisou_com"></div>
-                                <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" name="" id="cus_haisou_name"></div>
-                            </div>
-                            <div class="flex2 mt-3">
-                                <div>郵便番号：</div>
-                                <div><input  class="form-control" type="text" name="" style="width: 100px;"></div>
-                                <div style="margin-left: 50px;">住所：</div>
-                                <div><input  class="form-control" type="text" name="" style="width: 600px;"></div>
-                            </div>
-                            <div class="flex2 mt-3">
-                                <div>電話番号：</div>
                                 <div><input  class="form-control" type="text" name=""></div>
-                                <div style="margin-left: 50px;">メールアドレス（発送連絡）：</div>
-                                <div><input  class="form-control" type="email" name=""></div>
-                            </div>
-                            <div class="haisou_kokyaku mt-4" style="width: 120px;">納品書情報</div>
-                            <div class="flex2 mt-3">
-                                <div>会社名：</div>
-                                <div><input  class="form-control" type="text" name=""  id="cus_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" name=""  id="cus_nouhin_name"></div>
+                                <div><input  class="form-control" type="text" name=""></div>
                                 <div style="margin-left: 50px;">納品書日付：</div>
                                 <div><input  class="form-control" type="date" name=""></div>
                             </div>
@@ -197,7 +211,11 @@
                                     <div><textarea class="form-control" name="" rows="3"></textarea></div>
                                 </div>
                             </div>
-                            <div class="mt-3"><button type="submit" class="btn btn-danger">確定する</button></div>
+                            <div class="mt-5">
+                                <button type="submit" class="btn btn-outline-danger" style="height: 4em;"><img src="{% static 'tamori.gif' %}"> 
+                                    >> では、店舗へ直送します！（クリックして送信）
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -206,7 +224,9 @@
                 <div id="haisou_keep" style="display: none;">
                     <form action="">{% csrf_token %}
                         <div>
-                            <div class="haisou_title">キープのみ</div>
+                            <div class="haisou_title">キープ</div>
+                            <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
+
                             <div class="flex2 mt-4">
                                 <div>所属：</div>
                                 <div>
@@ -220,7 +240,9 @@
                                 <div style="margin-left: 50px;">担当者：</div>
                                 <div><input  class="form-control" type="text" name=""></div>
                             </div>
-                            <div class="haisou_kokyaku mt-4" style="width: 100px;">顧客情報</div>
+                            
+                            <div class="haisou_kokyaku mt-5" style="width: 100px;">顧客情報</div>
+
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
                                 <div><input  class="form-control" type="text" name=""></div>
@@ -231,12 +253,14 @@
                                 <div>備考：</div>
                                 <div><textarea class="form-control" style="width: 40%;" name="" rows="3"></textarea></div>
                             </div>
-                            <div class="mt-3"><button type="submit" class="btn btn-danger">確定する</button></div>
+                            <div class="mt-5">
+                                <button type="submit" class="btn btn-outline-danger" style="height: 4em;"><img src="{% static 'tamori.gif' %}"> 
+                                    >> では、キープを確定します！（クリックして送信）
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
-
-                
 
             </div>
 

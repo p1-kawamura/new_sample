@@ -24,13 +24,10 @@ class Shouhin(models.Model):
 class Rental(models.Model):
     irai_num_rental=models.IntegerField("依頼No",null=False)
     rental_day=models.DateField("貸出日",null=True,blank=True,default="")
-    busho=models.CharField("部署",max_length=30,blank=True)
+    busho=models.CharField("所属",max_length=30,blank=True)
     tantou=models.CharField("担当者",max_length=30,blank=True)
     com_name=models.CharField("会社名",max_length=30,blank=True)
     cus_name=models.CharField("名前",max_length=30,blank=True)
-    nouhin_day=models.DateField("納品書日付",null=True,blank=True,default="")
-    bikou1=models.TextField("備考1",blank=True)
-    bikou2=models.TextField("備考2",blank=True)
 
     def __str__(self):
         return self.tantou
@@ -50,3 +47,33 @@ class Shozoku(models.Model):
     def __str__(self):
         return self.shozoku
 
+
+class Rireki_rental(models.Model):
+    irai_num=models.IntegerField("依頼No",null=False)
+    irai_type=models.IntegerField("内容")
+    rental_day=models.DateField("貸出日",auto_now_add=True)
+    shozoku=models.CharField("所属",max_length=30,blank=True)
+    tantou=models.CharField("担当者",max_length=30,blank=True)
+    haisou_tempo=models.CharField("配送店舗",max_length=30,blank=True)
+    haisou_com=models.CharField("会社名",max_length=30,blank=True)
+    haisou_cus=models.CharField("名前",max_length=30,blank=True)
+    haisou_yubin=models.CharField("郵便番号",max_length=30,blank=True)
+    haisou_adress=models.CharField("住所",max_length=100,blank=True)
+    haisou_tel=models.CharField("電話番号",max_length=30,blank=True)
+    haisou_mail=models.CharField("メールアドレス",max_length=100,blank=True)
+    nouhin_com=models.CharField("納品書会社名",max_length=30,blank=True)
+    nouhin_cus=models.CharField("納品書名前",max_length=30,blank=True)
+    nouhin_day=models.DateField("納品書日付",null=True,blank=True,default="")
+    bikou1=models.TextField("備考（納品）",blank=True)
+    bikou2=models.TextField("備考（依頼）",blank=True)
+
+    def __str__(self):
+        return str(self.irai_num)
+    
+
+class Rireki_shouhin(models.Model):
+    irai_num=models.IntegerField("依頼No")
+    irai_hontai_num=models.IntegerField("本体No")
+
+    def __str__(self):
+        return str(self.irai_num)
