@@ -65,12 +65,14 @@ def index(request):
     size_list=Size.objects.all().order_by("size_num")
     shozoku_list=Shozoku.objects.all()
     today=datetime.date.today().strftime("%Y-%m-%d")
+    kigen=(datetime.date.today() + datetime.timedelta(days=14)).strftime("%Y-%m-%d")
     params={
         "irai_shouhin_list":data,
         "kazu":kazu,
         "size_list":size_list,
         "shozoku_list":shozoku_list,
-        "today":today
+        "today":today,
+        "kigen":kigen
     }
     return render(request,"zaiko/index.html",params)
 

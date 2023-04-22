@@ -177,11 +177,16 @@ padding-left: 18px;
     border-radius: 0.25rem;
     width: 150px;
     text-align: center;
-    /* font-weight: bold; */
 }
 .haisou_kokyaku {
-    padding: 0.5em;/*文字周りの余白*/
-    color: #333;/*文字色*/
-    background: #ffeacf;/*背景色*/
-    border-left: solid 5px #ffaf58;/*左線（実線 太さ 色）*/
+    padding: 0.5em;
+    color: #333;
+    background: #ffeacf;
+    border-left: solid 5px #ffaf58;
+}
+.haisou_kokyaku_pass {
+    padding: 0.5em;
+    color: #333;
+    background: #d7fac7;
+    border-left: solid 5px #59b801;
 }
