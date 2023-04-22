@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import requests
 import json
 from django.db.models import Max
+import datetime
 
 
 
@@ -63,11 +64,13 @@ def index(request):
     kazu=len(data)
     size_list=Size.objects.all().order_by("size_num")
     shozoku_list=Shozoku.objects.all()
+    today=datetime.date.today().strftime("%Y-%m-%d")
     params={
         "irai_shouhin_list":data,
         "kazu":kazu,
         "size_list":size_list,
-        "shozoku_list":shozoku_list
+        "shozoku_list":shozoku_list,
+        "today":today
     }
     return render(request,"zaiko/index.html",params)
 
