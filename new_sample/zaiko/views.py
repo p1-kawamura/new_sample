@@ -47,11 +47,6 @@ def index(request):
     data=[]
     for i in irai_shouhin_list:
         data2={}
-        if "a" in i:
-            i=i.replace("a","")
-            data2["kubun"]="取り寄せ"
-        else:
-            data2["kubun"]="在庫"
         shouhin=Shouhin.objects.get(hontai_num=i)
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
@@ -60,6 +55,10 @@ def index(request):
         data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
+        if shouhin.sample_num=="":
+            data2["kubun"]="取り寄せ"
+        else:
+            data2["kubun"]="在庫"
         data.append(data2)
     kazu=len(data)
     size_list=Size.objects.all().order_by("size_num")
@@ -257,7 +256,7 @@ def toriyose_add_ajax(request):
                 size_num=0
             Shouhin.objects.create(shouhin_num=li[0], brand=li[1], shouhin_name=li[2], color=li[3], size=li[5], size_num=size_num)
             hontai=Shouhin.objects.all().aggregate(Max("hontai_num"))
-            ses.append("a"+ str(hontai['hontai_num__max']))
+            ses.append(str(hontai['hontai_num__max']))
     request.session["sample"]=ses 
     d={"":""}
     return JsonResponse(d)
@@ -267,12 +266,10 @@ def toriyose_add_ajax(request):
 def irai_del_ajax(request):
     del_num=request.POST.get("irai_del")
     ses=list(request.session["sample"])
-    try:
-        ses.remove(del_num)
-    except:
-        del_num2="a"+ del_num
-        ses.remove(del_num2)
-        Shouhin.objects.get(hontai_num=del_num).delete()
+    shouhin=Shouhin.objects.get(hontai_num=del_num)
+    if shouhin.sample_num == "":
+        shouhin.delete()
+    ses.remove(del_num)
     request.session["sample"]=ses
     d={"":""}
     return JsonResponse(d)

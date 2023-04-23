@@ -642,7 +642,7 @@
             $.ajax({
                 'url': '{% url "zaiko:toriyose_add_ajax" %}',
                 'type': 'POST',
-                'data': {'rows':rows},
+                'data': {'rows':rows,csrfmiddlewaretoken: '{{ csrf_token }}'},
                 'dataType': 'json'
             })
             .done(function(response){
