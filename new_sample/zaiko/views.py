@@ -10,7 +10,7 @@ import datetime
 
 
 
-# 顧客APIテスト
+# -----------顧客APIテスト----------
 def kokyaku_index(request):
     return render(request,"zaiko/kokyaku.html")
 
@@ -28,6 +28,7 @@ def kokyaku_api(request):
 
     return render(request,"zaiko/kokyaku.html",{"res":res,"res2":res2})
 
+# -----------ここまで----------
 
 def index(request):
     if "sample" not in request.session:
