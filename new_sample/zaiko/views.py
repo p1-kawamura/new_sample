@@ -275,6 +275,14 @@ def irai_del_ajax(request):
     return JsonResponse(d)
 
 
+# 配送先（顧客）
+def haisou_cus(request):
+    shozoku=request.POST["c_shozoku"]
+    tantou=request.POST["c_tantou"]
+    print(shozoku,tantou)
+    return redirect("zaiko:index")
+
+
 # 元DB取込
 def csv_imp(request):
 

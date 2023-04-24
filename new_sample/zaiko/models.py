@@ -23,7 +23,7 @@ class Shouhin(models.Model):
 
 class Rental(models.Model):
     irai_num_rental=models.IntegerField("依頼No",null=False)
-    rental_day=models.DateField("貸出日",null=True,blank=True,default="")
+    rental_day=models.DateField("貸出日",auto_now_add=True)
     busho=models.CharField("所属",max_length=30,blank=True)
     tantou=models.CharField("担当者",max_length=30,blank=True)
     com_name=models.CharField("会社名",max_length=30,blank=True)
@@ -63,9 +63,12 @@ class Rireki_rental(models.Model):
     haisou_mail=models.CharField("メールアドレス",max_length=100,blank=True)
     nouhin_com=models.CharField("納品書会社名",max_length=30,blank=True)
     nouhin_cus=models.CharField("納品書名前",max_length=30,blank=True)
-    nouhin_day=models.DateField("納品書日付",null=True,blank=True,default="")
+    nouhin_day=models.CharField("納品書日付",max_length=30,null=True,blank=True,default="")
+    rental_maxday=models.CharField("貸出期限",max_length=30,null=True,blank=True,default="")
     bikou1=models.TextField("備考（納品）",blank=True)
     bikou2=models.TextField("備考（依頼）",blank=True)
+    status=models.IntegerField("状態",default=0)
+    password=models.CharField("パスワード",max_length=20,default="")
 
     def __str__(self):
         return str(self.irai_num)

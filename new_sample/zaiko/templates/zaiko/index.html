@@ -88,11 +88,11 @@
             </div>
 
             <!-- 配送先の入力 -->
-            <div class="mt-5">
+            <div class="nyuryoku mt-5">
 
                 <!-- 顧客-->
                 <div id="haisou_cus" style="display: none;">
-                    <form action="" method="post">{% csrf_token %}
+                    <form action="{% url 'zaiko:haisou_cus' %}" method="post">{% csrf_token %}
                         <div>
                             <div class="haisou_title">顧客</div>
                             <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
@@ -100,7 +100,7 @@
                             <div class="flex2 mt-4">
                                 <div>所属：</div>
                                 <div>
-                                    <select class="form-select" name="" >
+                                    <select class="form-select" id="c_shozoku" name="c_shozoku">
                                         <option></option>
                                         {% for i in shozoku_list %}
                                         <option>{{i}}</option>
@@ -108,59 +108,59 @@
                                     </select>
                                 </div>
                                 <div style="margin-left: 50px;">担当者：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div><input  class="form-control" type="text" id="c_tantou" name="c_tantou"></div>
                             </div>
                             <div class="mt-3" style="width: 40%;">
                                 <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
-                                <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                                <div><textarea class="form-control" id="c_bikou2" name="c_bikou2" rows="3"></textarea></div>
                             </div>
 
                             <div class="haisou_kokyaku mt-5" style="width: 120px;">配送先情報</div>
 
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" name="" id="cus_haisou_com"></div>
+                                <div><input  class="form-control" type="text" id="c_haisou_com" name="c_haisou_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" name="" id="cus_haisou_name"></div>
+                                <div><input  class="form-control" type="text" id="c_haisou_cus" name="c_haisou_cus"></div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>郵便番号：</div>
-                                <div><input  class="form-control" type="text" name="" style="width: 100px;"></div>
+                                <div><input  class="form-control" type="text" id="c_haisou_yubin" name="c_haisou_yubin" style="width: 100px;"></div>
                                 <div style="margin-left: 50px;">住所：</div>
-                                <div><input  class="form-control" type="text" name="" style="width: 600px;"></div>
+                                <div><input  class="form-control" type="text" id="c_haisou_adress" name="c_haisou_adress" style="width: 600px;"></div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>電話番号：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div><input  class="form-control" type="text" id="c_haisou_tell" name="c_haisou_tell"></div>
                                 <div style="margin-left: 50px;">メールアドレス（発送連絡）：</div>
-                                <div><input  class="form-control" type="email" name=""></div>
+                                <div><input  class="form-control" type="email" id="c_haisou_mail" name="c_haisou_mail"></div>
                             </div>
 
                             <div class="haisou_kokyaku mt-5" style="width: 120px;">納品書情報</div>
 
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" name=""  id="cus_nouhin_com"></div>
+                                <div><input  class="form-control" type="text" id="c_nouhin_com" name="c_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" name=""  id="cus_nouhin_name"></div>
+                                <div><input  class="form-control" type="text" id="c_nouhin_cus"name="c_nouhin_cus"></div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>納品書日付：</div>
-                                <div><input  class="form-control" style="text-align: center;" type="date" name="" id="haisou_cus_nouhin" value="{{today}}"></div>
+                                <div><input  class="form-control" style="text-align: center;" type="date" id="c_nouhin_day" name="c_nouhin_day" value="{{today}}"></div>
                                 <div style="margin-left: 50px;">貸出期限：</div>
-                                <div><input  class="form-control" style="text-align: center;" type="date" name="" id="haisou_cus_kigen" value="{{kigen}}" readonly></div>
+                                <div><input  class="form-control" style="text-align: center;" type="date" id="c_rental_maxday" name="c_rental_maxday" value="{{kigen}}" readonly></div>
                             </div>
                             <div class="mt-3">
                                 <div style="width: 40%;">
                                     <div>納品書備考：</div>
-                                    <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                                    <div><textarea class="form-control" id="c_bikou1" name="c_bikou1" rows="3"></textarea></div>
                                 </div>
                             </div>
 
                             <div class="haisou_kokyaku_pass mt-5" style="width: 120px;">案件パスワード</div>
 
                             <div class="flex2 mt-3">
-                                <div><input  class="form-control" type="password" name="" style="width: 120px;"></div>
+                                <div><input  class="form-control" type="password" id="c_password" name="c_password" style="width: 120px;"></div>
                                 <div style="margin-left: 0.5em; font-size: 0.9em;">（※依頼の変更、削除に使用します）</div>
                             </div>
 
@@ -183,7 +183,7 @@
                             <div class="flex2 mt-4">
                                 <div>所属：</div>
                                 <div>
-                                    <select class="form-select" name="" id="tempo_shozoku">
+                                    <select class="form-select" id="t_shozoku" name="t_shozoku">
                                         <option></option>
                                         {% for i in shozoku_list %}
                                         <option>{{i}}</option>
@@ -191,10 +191,10 @@
                                     </select>
                                 </div>
                                 <div style="margin-left: 50px;">担当者：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div><input  class="form-control" type="text" id="t_tantou" name="t_tantou"></div>
                                 <div style="margin-left: 50px;">配送先：</div>
                                 <div>
-                                    <select class="form-select" name="" id="tempo_haisou">
+                                    <select class="form-select" id="t_haisou_tempo" name="t_haisou_tempo">
                                         <option></option>
                                         {% for i in shozoku_list %}
                                         <option>{{i}}</option>
@@ -204,34 +204,34 @@
                             </div>
                             <div class="mt-3" style="width: 40%;">
                                 <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
-                                <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                                <div><textarea class="form-control" id="t_bikou2" name="t_bikou2" rows="3"></textarea></div>
                             </div>
 
                             <div class="haisou_kokyaku mt-5" style="width: 250px;">顧客情報（納品書の宛名）</div>
 
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div><input  class="form-control" type="text" id="t_nouhin_com" name="t_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div><input  class="form-control" type="text" id="t_nouhin_cus" name="t_nouhin_cus"></div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>納品書日付：</div>
-                                <div><input  class="form-control" style="text-align: center;" type="date" name=""  id="haisou_tempo_nouhin" value="{{today}}"></div>
+                                <div><input  class="form-control" style="text-align: center;" type="date" id="t_nouhin_day" name="t_nouhin_day" value="{{today}}"></div>
                                 <div style="margin-left: 50px;">貸出期限：</div>
-                                <div><input  class="form-control" style="text-align: center;" type="date" name=""  id="haisou_tempo_kigen" value="{{kigen}}" readonly></div>
+                                <div><input  class="form-control" style="text-align: center;" type="date" id="t_rental_maxday" name="t_rental_maxday" value="{{kigen}}" readonly></div>
                             </div>
                             <div class="mt-3">
                                 <div style="width: 40%;">
                                     <div>納品書備考：</div>
-                                    <div><textarea class="form-control" name="" rows="3"></textarea></div>
+                                    <div><textarea class="form-control" id="t_bikou1" name="t_bikou1" rows="3"></textarea></div>
                                 </div>
                             </div>
 
                             <div class="haisou_kokyaku_pass mt-5" style="width: 120px;">案件パスワード</div>
 
                             <div class="flex2 mt-3">
-                                <div><input  class="form-control" type="password" name="" style="width: 120px;"></div>
+                                <div><input  class="form-control" type="password" id="t_password" name="t_password" style="width: 120px;"></div>
                                 <div style="margin-left: 0.5em; font-size: 0.9em;">（※依頼の変更、削除に使用します）</div>
                             </div>
 
@@ -254,7 +254,7 @@
                             <div class="flex2 mt-4">
                                 <div>所属：</div>
                                 <div>
-                                    <select class="form-select" name="" >
+                                    <select class="form-select" id="k_shozoku" name="k_shozoku">
                                         <option></option>
                                         {% for i in shozoku_list %}
                                         <option>{{i}}</option>
@@ -661,7 +661,7 @@
                     $.ajax({
                         'url': '{% url "zaiko:irai_del_ajax" %}',
                         'type': 'POST',
-                        'data': {"irai_del":this.name},
+                        'data': {"irai_del":this.name ,csrfmiddlewaretoken: '{{ csrf_token }}'},
                         'dataType': 'json'
                     })
                     .done(function(response){                
@@ -697,26 +697,26 @@
 
 
         // 自動転記
-        var tempo_shozoku = document.getElementById("tempo_shozoku");
-        var tempo_haisou = document.getElementById("tempo_haisou");
-        tempo_shozoku.addEventListener("change",function(){
-            num=tempo_shozoku.selectedIndex;
-            tempo_haisou.selectedIndex=num;
+        var t_shozoku = document.getElementById("t_shozoku");
+        var t_haisou_tempo = document.getElementById("t_haisou_tempo");
+        t_shozoku.addEventListener("change",function(){
+            num=t_shozoku.selectedIndex;
+            t_haisou_tempo.selectedIndex=num;
         })
-        var cus_haisou_com = document.getElementById("cus_haisou_com");
-        var cus_haisou_name = document.getElementById("cus_haisou_name");
-        var cus_nouhin_com = document.getElementById("cus_nouhin_com");
-        var cus_nouhin_name = document.getElementById("cus_nouhin_name");
-        cus_haisou_com.addEventListener("change",function(){
-            cus_nouhin_com.value = cus_haisou_com.value;
+        var c_haisou_com = document.getElementById("c_haisou_com");
+        var c_haisou_cus = document.getElementById("c_haisou_cus");
+        var c_nouhin_com = document.getElementById("c_nouhin_com");
+        var c_nouhin_cus = document.getElementById("c_nouhin_cus");
+        c_haisou_com.addEventListener("change",function(){
+            c_nouhin_com.value = c_haisou_com.value;
         })
-        cus_haisou_name.addEventListener("change",function(){
-            cus_nouhin_name.value = cus_haisou_name.value;
+        c_haisou_cus.addEventListener("change",function(){
+            c_nouhin_cus.value = c_haisou_cus.value;
         })    
-        var haisou_cus_nouhin = document.getElementById("haisou_cus_nouhin");
-        var haisou_cus_kigen = document.getElementById("haisou_cus_kigen");
-        haisou_cus_nouhin.addEventListener("change",function(){
-            var dtobj = new Date(haisou_cus_nouhin.value);
+        var c_nouhin_day = document.getElementById("c_nouhin_day");
+        var c_rental_maxday = document.getElementById("c_rental_maxday");
+        c_nouhin_day.addEventListener("change",function(){
+            var dtobj = new Date(c_nouhin_day.value);
             dtobj.setDate(dtobj.getDate() + 14);
 
             var date = GetDateString(dtobj);
@@ -725,12 +725,12 @@
             m=arr[1].toString().padStart( 2, '0');
             d=arr[2].toString().padStart( 2, '0');
             kigen=y + "-" + m + "-" + d;
-            haisou_cus_kigen.value = kigen;
+            c_rental_maxday.value = kigen;
         })
-        var haisou_tempo_nouhin = document.getElementById("haisou_tempo_nouhin");
-        var haisou_tempo_kigen = document.getElementById("haisou_tempo_kigen");
-        haisou_tempo_nouhin.addEventListener("change",function(){
-            var dtobj = new Date(haisou_tempo_nouhin.value);
+        var t_nouhin_day = document.getElementById("t_nouhin_day");
+        var t_rental_maxday = document.getElementById("t_rental_maxday");
+        t_nouhin_day.addEventListener("change",function(){
+            var dtobj = new Date(t_nouhin_day.value);
             dtobj.setDate(dtobj.getDate() + 14);
 
             var date = GetDateString(dtobj);
@@ -739,9 +739,8 @@
             m=arr[1].toString().padStart( 2, '0');
             d=arr[2].toString().padStart( 2, '0');
             kigen=y + "-" + m + "-" + d;
-            haisou_tempo_kigen.value = kigen;
+            t_rental_maxday.value = kigen;
         })
-
 
 
         function GetDateString(dateobj) {
