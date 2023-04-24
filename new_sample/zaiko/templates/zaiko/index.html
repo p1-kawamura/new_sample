@@ -92,7 +92,7 @@
 
                 <!-- 顧客-->
                 <div id="haisou_cus" style="display: none;">
-                    <form action="">{% csrf_token %}
+                    <form action="" method="post">{% csrf_token %}
                         <div>
                             <div class="haisou_title">顧客</div>
                             <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
@@ -673,12 +673,12 @@
 
 
         // 配送先ボタン
-        var tempo=document.getElementById("btn_tempo")
-        var cus=document.getElementById("btn_cus")
-        var keep=document.getElementById("btn_keep")
-        var tempo2=document.getElementById("haisou_tempo")
-        var cus2=document.getElementById("haisou_cus")
-        var keep2=document.getElementById("haisou_keep")
+        var tempo=document.getElementById("btn_tempo");
+        var cus=document.getElementById("btn_cus");
+        var keep=document.getElementById("btn_keep");
+        var tempo2=document.getElementById("haisou_tempo");
+        var cus2=document.getElementById("haisou_cus");
+        var keep2=document.getElementById("haisou_keep");
         tempo.addEventListener("click",function(){
             tempo2.style.display="block";
             cus2.style.display="none";
@@ -697,24 +697,24 @@
 
 
         // 自動転記
-        var tempo_shozoku = document.getElementById("tempo_shozoku")
-        var tempo_haisou = document.getElementById("tempo_haisou")
+        var tempo_shozoku = document.getElementById("tempo_shozoku");
+        var tempo_haisou = document.getElementById("tempo_haisou");
         tempo_shozoku.addEventListener("change",function(){
             num=tempo_shozoku.selectedIndex;
             tempo_haisou.selectedIndex=num;
         })
-        var cus_haisou_com = document.getElementById("cus_haisou_com")
-        var cus_haisou_name = document.getElementById("cus_haisou_name")
-        var cus_nouhin_com = document.getElementById("cus_nouhin_com")
-        var cus_nouhin_name = document.getElementById("cus_nouhin_name")
+        var cus_haisou_com = document.getElementById("cus_haisou_com");
+        var cus_haisou_name = document.getElementById("cus_haisou_name");
+        var cus_nouhin_com = document.getElementById("cus_nouhin_com");
+        var cus_nouhin_name = document.getElementById("cus_nouhin_name");
         cus_haisou_com.addEventListener("change",function(){
             cus_nouhin_com.value = cus_haisou_com.value;
         })
         cus_haisou_name.addEventListener("change",function(){
             cus_nouhin_name.value = cus_haisou_name.value;
         })    
-        var haisou_cus_nouhin = document.getElementById("haisou_cus_nouhin")
-        var haisou_cus_kigen = document.getElementById("haisou_cus_kigen")
+        var haisou_cus_nouhin = document.getElementById("haisou_cus_nouhin");
+        var haisou_cus_kigen = document.getElementById("haisou_cus_kigen");
         haisou_cus_nouhin.addEventListener("change",function(){
             var dtobj = new Date(haisou_cus_nouhin.value);
             dtobj.setDate(dtobj.getDate() + 14);
@@ -722,34 +722,22 @@
             var date = GetDateString(dtobj);
             var arr=date.split("/")
             y=arr[0];
-            m=arr[1];
-            d=arr[2];
-            if (m.length == 1){
-                m= "0" + m;
-            };
-            if (d.length == 1){
-                d= "0" + d;
-            };
+            m=arr[1].toString().padStart( 2, '0');
+            d=arr[2].toString().padStart( 2, '0');
             kigen=y + "-" + m + "-" + d;
             haisou_cus_kigen.value = kigen;
         })
-        var haisou_tempo_nouhin = document.getElementById("haisou_tempo_nouhin")
-        var haisou_tempo_kigen = document.getElementById("haisou_tempo_kigen")
+        var haisou_tempo_nouhin = document.getElementById("haisou_tempo_nouhin");
+        var haisou_tempo_kigen = document.getElementById("haisou_tempo_kigen");
         haisou_tempo_nouhin.addEventListener("change",function(){
             var dtobj = new Date(haisou_tempo_nouhin.value);
             dtobj.setDate(dtobj.getDate() + 14);
 
             var date = GetDateString(dtobj);
-            var arr=date.split("/")
+            var arr=date.split("/");
             y=arr[0];
-            m=arr[1];
-            d=arr[2];
-            if (m.length == 1){
-                m= "0" + m;
-            };
-            if (d.length == 1){
-                d= "0" + d;
-            };
+            m=arr[1].toString().padStart( 2, '0');
+            d=arr[2].toString().padStart( 2, '0');
             kigen=y + "-" + m + "-" + d;
             haisou_tempo_kigen.value = kigen;
         })
