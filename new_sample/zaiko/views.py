@@ -276,6 +276,24 @@ def irai_del_ajax(request):
     return JsonResponse(d)
 
 
+
+#依頼前最終確認
+def last_kakunin(request):
+    ses=list(request.session["sample"])
+    data=[]
+    for i in ses:
+        joutai=Shouhin.objects.get(hontai_num=i).joutai
+        if joutai !=0:
+            data.append(i)
+    if len(data)>0:
+        kekka="no"
+    else:
+        kekka="ok"
+    d={"kekka":kekka,"data":data}
+    return JsonResponse(d)
+    
+
+
 # 配送先（顧客）
 def haisou_cus(request):
     shozoku=request.POST["c_shozoku"]
