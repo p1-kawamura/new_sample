@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Shouhin,Rental,Size,Shozoku
+from .models import Shouhin,Rental,Size,Shozoku,Rireki_rental,Rireki_shouhin
 import io
 import csv
 from django.http import JsonResponse
@@ -80,6 +80,9 @@ def index(request):
 def shouhin_all(request):
     return render(request,"zaiko/shouhin_all.html",{"shouhin_hyouji":"no"})
 
+
+def irai_success(request):
+    return render(request,"zaiko/success.html")
 
 def csv_imp_page(request):
     return render(request,"zaiko/csv_imp.html")
@@ -276,7 +279,6 @@ def irai_del_ajax(request):
     return JsonResponse(d)
 
 
-
 #依頼前最終確認
 def last_kakunin(request):
     ses=list(request.session["sample"])
@@ -294,12 +296,113 @@ def last_kakunin(request):
     
 
 
-# 配送先（顧客）
-def haisou_cus(request):
+# 依頼確定（顧客　貸出：1　履歴内容：0）
+def haisou_cus_success(request):
     shozoku=request.POST["c_shozoku"]
     tantou=request.POST["c_tantou"]
+    bikou2=request.POST["c_bikou2"]
+    haisou_com=request.POST["c_haisou_com"]
+    haisou_cus=request.POST["c_haisou_cus"]
+    haisou_yubin=request.POST["c_haisou_yubin"]
+    haisou_adress=request.POST["c_haisou_adress"]
+    haisou_tel=request.POST["c_haisou_tel"]
+    haisou_mail=request.POST["c_haisou_mail"]
+    nouhin_com=request.POST["c_nouhin_com"]
+    nouhin_cus=request.POST["c_nouhin_cus"]
+    nouhin_day=request.POST["c_nouhin_day"]
+    rental_maxday=request.POST["c_rental_maxday"]
+    bikou1=request.POST["c_bikou1"]
+    password=request.POST["c_password"]
+    ses=list(request.session["sample"])
+    irai_num=Rireki_rental.objects.all().aggregate(Max("irai_num"))
+    irai_num=irai_num['irai_num__max'] + 1
+    for i in ses:
+        # 商品DB
+        item=Shouhin.objects.get(hontai_num=i)
+        item.joutai=1
+        item.irai_num=irai_num
+        item.save()
+        # 履歴商品DB
+        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i)
+
+    #貸出DB
+    Rental.objects.create(
+        irai_num_rental = irai_num,
+        busho = shozoku,
+        tantou = tantou,
+        com_name = nouhin_com,
+        cus_name = nouhin_cus,
+    )
+    #貸出履歴DB
+    Rireki_rental.objects.create(
+        irai_num = irai_num,
+        irai_type = 0,
+        shozoku = shozoku,
+        tantou = tantou,
+        haisou_com = haisou_com,
+        haisou_cus = haisou_cus,
+        haisou_yubin = haisou_yubin,
+        haisou_adress = haisou_adress,
+        haisou_tel = haisou_tel,
+        haisou_mail = haisou_mail,
+        nouhin_com = nouhin_com,
+        nouhin_cus = nouhin_cus,
+        nouhin_day = nouhin_day,
+        rental_maxday = rental_maxday,
+        bikou1 = bikou1,
+        bikou2 = bikou2,
+        password = password,
+    )
+    irai_shouhin_list=list(request.session["sample"])
+    data=[]
+    for i in irai_shouhin_list:
+        data2={}
+        shouhin=Shouhin.objects.get(hontai_num=i)
+        data2["hontai_num"]=shouhin.hontai_num
+        data2["sample_num"]=shouhin.sample_num
+        data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
+        data2["color"]=shouhin.color
+        data2["size"]=shouhin.size
+        if shouhin.sample_num=="":
+            data2["kubun"]="取り寄せ"
+        else:
+            data2["kubun"]="在庫"
+        data.append(data2)
+
+
+    params={
+        "irai_shouhin_list":data,
+    }
+    request.session.clear()
+    return render(request,"zaiko/success.html",params)
+
+
+# 依頼確定（店舗）
+def haisou_tempo_success(request):
+    shozoku=request.POST["t_shozoku"]
+    tantou=request.POST["t_tantou"]
     print(shozoku,tantou)
     return redirect("zaiko:index")
+
+
+# 依頼確定（キープ）
+def haisou_keep_success(request):
+    shozoku=request.POST["k_shozoku"]
+    tantou=request.POST["k_tantou"]
+    print(shozoku,tantou)
+    return redirect("zaiko:index")
+
+
+
+
+
+
+
+
+
+
 
 
 # 元DB取込

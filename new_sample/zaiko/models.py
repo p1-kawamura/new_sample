@@ -69,6 +69,8 @@ class Rireki_rental(models.Model):
     bikou2=models.TextField("備考（依頼）",blank=True)
     status=models.IntegerField("状態",default=0)
     password=models.CharField("パスワード",max_length=20,default="")
+    unsou_com=models.CharField("運送会社",max_length=20,default="")
+    unsou_num=models.CharField("問い合わせ番号",max_length=20,default="")
 
     def __str__(self):
         return str(self.irai_num)

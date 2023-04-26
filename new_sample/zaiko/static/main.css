@@ -17,12 +17,10 @@
     width: 1100px;
     justify-content: space-between;
 }
-
 .nyuryoku {
     width: 1100px;
     margin: 0 auto;
 }
-
 .place_addlist {
     margin-right: 0;
     margin-left: auto;
@@ -111,14 +109,16 @@
 }
 
 .title01 h2 span,
-.title02 h2 span {
+.title02 h2 span,
+.title03 h2 span {
 color: #333333;
 font-size: 18px;
 padding-left: 18px;
 }
 
 .title01 h2 span.number,
-.title02 h2 span.number
+.title02 h2 span.number,
+.title03 h2 span.number
 {
     position: absolute;
     display: block;
@@ -148,6 +148,24 @@ padding-left: 18px;
     height: 300%;
     transform: rotate(25deg);
     background: #f75f58;
+}
+.title03 h2{
+    position: relative;
+    overflow: hidden;
+    padding: 1rem 2rem 1rem 120px;
+    border: solid 2px #349102;
+    width: 1100px;
+    margin: 0 auto;
+}
+.title03 h2:before {
+    position: absolute;
+    content: '';
+    top: -150%;
+    left: -100px;
+    width: 200px;
+    height: 300%;
+    transform: rotate(25deg);
+    background: #349102;
 }
 
 .point {
@@ -195,4 +213,9 @@ padding-left: 18px;
     color: #333;
     background: #d7fac7;
     border-left: solid 5px #59b801;
+}
+.hissu {
+    font-size: 1.5em;
+    color: red;
+    margin-left: 5px;
 }

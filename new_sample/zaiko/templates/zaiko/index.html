@@ -35,6 +35,12 @@
                 　サンプル貸出し、キープは5点までです！
             </div>
             {% endif %}
+            <div id="kekka_fail" style="display: none;">
+                <div class="alert alert-danger d-flex align-items-center flex" role="alert" style="margin-top: 30px; width: 50%; text-align: center;";>
+                    <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.4em;"></i>
+                    　既に貸出されたサンプルが含まれています！
+                </div>
+            </div>
 
             <!-- 選択商品一覧 -->
             <div class="flex mt-4">
@@ -54,13 +60,13 @@
                     <tbody>
                         {% for i in irai_shouhin_list %}
                         <tr>
-                            <td>{{i.sample_num}}</td>
-                            <td>{{i.shouhin_num}}</td>
-                            <td>{{i.brand}}</td>
-                            <td>{{i.shouhin_name}}</td>
-                            <td>{{i.color}}</td>
-                            <td>{{i.size}}</td>
-                            <td>{{i.kubun}}</td>
+                            <td style="vertical-align: middle;">{{i.sample_num}}</td>
+                            <td style="vertical-align: middle;">{{i.shouhin_num}}</td>
+                            <td style="vertical-align: middle;">{{i.brand}}</td>
+                            <td style="vertical-align: middle;">{{i.shouhin_name}}</td>
+                            <td style="vertical-align: middle;">{{i.color}}</td>
+                            <td style="vertical-align: middle;">{{i.size}}</td>
+                            <td style="vertical-align: middle;">{{i.kubun}}</td>
                             <td style="text-align: center;">
                                 <button type="button" class="btn btn-outline-dark btn-sm" id="irai_del" name={{i.hontai_num}}>取消</button>
                             </td>
@@ -89,7 +95,7 @@
 
                 <!-- 顧客-->
                 <div id="haisou_cus" style="display: none;">
-                    <form action="{% url 'zaiko:haisou_cus' %}" method="post">{% csrf_token %}
+                    <form action="{% url 'zaiko:haisou_cus_success' %}" method="post" name="haisou_cus_form">{% csrf_token %}
                         <div>
                             <div class="haisou_title">顧客</div>
                             <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
@@ -97,15 +103,16 @@
                             <div class="flex2 mt-4">
                                 <div>所属：</div>
                                 <div>
-                                    <select class="form-select" id="c_shozoku" name="c_shozoku">
+                                    <select class="form-select" id="c_shozoku" name="c_shozoku" required>
                                         <option></option>
                                         {% for i in shozoku_list %}
                                         <option>{{i}}</option>
                                         {% endfor %}
                                     </select>
-                                </div>
+                                </div><div class="hissu">*</div>
                                 <div style="margin-left: 50px;">担当者：</div>
-                                <div><input  class="form-control" type="text" id="c_tantou" name="c_tantou"></div>
+                                <div><input  class="form-control" type="text" id="c_tantou" name="c_tantou" required></div>
+                                <div class="hissu">*</div>
                             </div>
                             <div class="mt-3" style="width: 40%;">
                                 <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
@@ -119,16 +126,20 @@
                                 <div><input  class="form-control" type="text" id="c_haisou_com" name="c_haisou_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
                                 <div><input  class="form-control" type="text" id="c_haisou_cus" name="c_haisou_cus"></div>
+                                <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>郵便番号：</div>
                                 <div><input  class="form-control" type="text" id="c_haisou_yubin" name="c_haisou_yubin" style="width: 100px;"></div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">住所：</div>
                                 <div><input  class="form-control" type="text" id="c_haisou_adress" name="c_haisou_adress" style="width: 600px;"></div>
+                                <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>電話番号：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_tell" name="c_haisou_tell"></div>
+                                <div><input  class="form-control" type="text" id="c_haisou_tel" name="c_haisou_tel"></div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">メールアドレス（発送連絡）：</div>
                                 <div><input  class="form-control" type="email" id="c_haisou_mail" name="c_haisou_mail"></div>
                             </div>
@@ -140,10 +151,12 @@
                                 <div><input  class="form-control" type="text" id="c_nouhin_com" name="c_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
                                 <div><input  class="form-control" type="text" id="c_nouhin_cus"name="c_nouhin_cus"></div>
+                                <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>納品書日付：</div>
                                 <div><input  class="form-control" style="text-align: center;" type="date" id="c_nouhin_day" name="c_nouhin_day" value="{{today}}"></div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">貸出期限：</div>
                                 <div><input  class="form-control" style="text-align: center;" type="date" id="c_rental_maxday" name="c_rental_maxday" value="{{kigen}}" readonly></div>
                             </div>
@@ -158,12 +171,13 @@
 
                             <div class="flex2 mt-3">
                                 <div><input  class="form-control" type="password" id="c_password" name="c_password" style="width: 120px;"></div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 0.5em; font-size: 0.9em;">（※依頼の変更、削除に使用します）</div>
                             </div>
 
                             <div class="mt-5">
-                                <button type="submit" class="btn btn-outline-danger" style="height: 4em;"><img src="{% static 'tamori.gif' %}"> 
-                                    >> では、上記住所へ直送します！（クリックして送信）
+                                <button type="button" class="btn btn-outline-danger" id="haisou_cus_add" style="height: 4em;">
+                                    <img src="{% static 'tamori.gif' %}"> >> では、上記住所へ直送します！（クリックして送信）
                                 </button>
                             </div>
                         </div>
@@ -172,7 +186,7 @@
 
                 <!-- 店舗 -->
                 <div id="haisou_tempo" style="display: none;">
-                    <form action="">{% csrf_token %}
+                    <form action="{% url 'zaiko:haisou_tempo_success' %}"  method="post" name="haisou_tempo_form">{% csrf_token %}
                         <div>
                             <div class="haisou_title">店舗</div>
                             <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
@@ -187,8 +201,10 @@
                                         {% endfor %}
                                     </select>
                                 </div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">担当者：</div>
                                 <div><input  class="form-control" type="text" id="t_tantou" name="t_tantou"></div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">配送先：</div>
                                 <div>
                                     <select class="form-select" id="t_haisou_tempo" name="t_haisou_tempo">
@@ -198,6 +214,7 @@
                                         {% endfor %}
                                     </select>
                                 </div>
+                                <div class="hissu">*</div>
                             </div>
                             <div class="mt-3" style="width: 40%;">
                                 <div>依頼書備考：（出荷担当宛ての連絡事項）</div>
@@ -211,10 +228,12 @@
                                 <div><input  class="form-control" type="text" id="t_nouhin_com" name="t_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
                                 <div><input  class="form-control" type="text" id="t_nouhin_cus" name="t_nouhin_cus"></div>
+                                <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>納品書日付：</div>
                                 <div><input  class="form-control" style="text-align: center;" type="date" id="t_nouhin_day" name="t_nouhin_day" value="{{today}}"></div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">貸出期限：</div>
                                 <div><input  class="form-control" style="text-align: center;" type="date" id="t_rental_maxday" name="t_rental_maxday" value="{{kigen}}" readonly></div>
                             </div>
@@ -229,12 +248,13 @@
 
                             <div class="flex2 mt-3">
                                 <div><input  class="form-control" type="password" id="t_password" name="t_password" style="width: 120px;"></div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 0.5em; font-size: 0.9em;">（※依頼の変更、削除に使用します）</div>
                             </div>
 
                             <div class="mt-5">
-                                <button type="submit" class="btn btn-outline-danger" style="height: 4em;"><img src="{% static 'tamori.gif' %}"> 
-                                    >> では、店舗へ直送します！（クリックして送信）
+                                <button type="submit" class="btn btn-outline-danger" style="height: 4em;" id="haisou_tempo_add">
+                                    <img src="{% static 'tamori.gif' %}"> >> では、店舗へ直送します！（クリックして送信）
                                 </button>
                             </div>
                         </div>
@@ -243,7 +263,7 @@
 
                 <!-- キープ -->
                 <div id="haisou_keep" style="display: none;">
-                    <form action="">{% csrf_token %}
+                    <form action="{% url 'zaiko:haisou_keep_success' %}" method="post" name="haisou_keep_form">{% csrf_token %}
                         <div>
                             <div class="haisou_title">キープ</div>
                             <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
@@ -258,25 +278,28 @@
                                         {% endfor %}
                                     </select>
                                 </div>
+                                <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">担当者：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div><input  class="form-control" type="text" id="k_tantou" name="k_tantou"></div>
+                                <div class="hissu">*</div>
                             </div>
                             
                             <div class="haisou_kokyaku mt-5" style="width: 120px;">顧客情報</div>
 
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div><input  class="form-control" type="text" id="k_nouhin_com" name="k_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" name=""></div>
+                                <div><input  class="form-control" type="text" id="k_nouhin_cus" name="k_nouhin_cus"></div>
+                                <div class="hissu">*</div>
                             </div>
                             <div class="mt-3">
                                 <div>備考：</div>
-                                <div><textarea class="form-control" style="width: 40%;" name="" rows="3"></textarea></div>
+                                <div><textarea class="form-control" style="width: 40%;" id="k_bikou2" name="k_bikou2" rows="3"></textarea></div>
                             </div>
                             <div class="mt-5">
-                                <button type="submit" class="btn btn-outline-danger" style="height: 4em;"><img src="{% static 'tamori.gif' %}"> 
-                                    >> では、キープを確定します！（クリックして送信）
+                                <button type="submit" class="btn btn-outline-danger" style="height: 4em;" id="haisou_keep_add">
+                                    <img src="{% static 'tamori.gif' %}"> >> では、キープを確定します！（クリックして送信）
                                 </button>
                             </div>
                         </div>
@@ -746,7 +769,154 @@
             date_string = date_string.replace(/MM/g, dateobj.getMonth() + 1);
             date_string = date_string.replace(/DD/g, dateobj.getDate());
             return date_string;
-    }
+        }
+
+
+        // 依頼（顧客）
+        $('#haisou_cus_add').on('click', function(e) {
+            e.preventDefault();
+            var vali=[];
+            if (document.getElementById("c_shozoku").selectedIndex == 0) {
+                vali.push("【担当者】：所属を選択してください！");
+            };
+            if (document.getElementById("c_tantou").value == "") {
+                vali.push("【担当者】：担当者を入力してください！");
+            };
+            if (document.getElementById("c_haisou_cus").value == "") {
+                vali.push("【配送先】：氏名を入力してください！");
+            };
+            if (document.getElementById("c_haisou_yubin").value == "") {
+                vali.push("【配送先】：郵便番号を入力してください！");
+            };
+            if (document.getElementById("c_haisou_adress").value == "") {
+                vali.push("【配送先】：住所を入力してください！");
+            };
+            if (document.getElementById("c_haisou_tel").value == "") {
+                vali.push("【配送先】：電話番号を入力してください！");
+            };
+            if (document.getElementById("c_nouhin_cus").value == "") {
+                vali.push("【納品書】：氏名を入力してください！");
+            };
+            if (document.getElementById("c_nouhin_day").value == "") {
+                vali.push("【納品書】：納品書日付を入力してください！");
+            };
+            if (document.getElementById("c_password").value == "") {
+                vali.push("【案件パスワード】：入力してください！");
+            };
+            if (vali.length > 0){
+                var str="";
+                for (var i of vali){
+                    str = str + i + "\n"
+                }
+                window.alert(str);
+                return
+            };
+            $.ajax({
+                'url': '{% url "zaiko:last_kakunin" %}',
+                'type': 'POST',
+            })
+            .done(function(response){
+                if (response.kekka == "ok"){
+                    document.haisou_cus_form.submit();
+                } else {
+                    getfail(response.data);
+                }
+            });            
+        });
+
+
+        // 依頼（店舗）
+        $('#haisou_tempo_add').on('click', function(e) {
+            e.preventDefault();
+            var vali=[];
+            if (document.getElementById("t_shozoku").selectedIndex == 0) {
+                vali.push("【担当者】：所属を選択してください！");
+            };
+            if (document.getElementById("t_tantou").value == "") {
+                vali.push("【担当者】：担当者を入力してください！");
+            };
+            if (document.getElementById("t_haisou_tempo").selectedIndex == 0) {
+                vali.push("【担当者】：配送先を選択してください！");
+            };
+            if (document.getElementById("t_nouhin_cus").value == "") {
+                vali.push("【納品書】：氏名を入力してください！");
+            };
+            if (document.getElementById("t_nouhin_day").value == "") {
+                vali.push("【納品書】：納品書日付を入力してください！");
+            };
+            if (document.getElementById("t_password").value == "") {
+                vali.push("【案件パスワード】：入力してください！");
+            };
+            if (vali.length > 0){
+                var str="";
+                for (var i of vali){
+                    str = str + i + "\n"
+                }
+                window.alert(str);
+                return
+            };
+            $.ajax({
+                'url': '{% url "zaiko:last_kakunin" %}',
+                'type': 'POST',
+            })
+            .done(function(response){
+                if (response.kekka == "ok"){
+                    document.haisou_tempo_form.submit();
+                } else {
+                    getfail(response.data);
+                }
+            });            
+        });
+
+
+        // 依頼（キープ）
+        $('#haisou_keep_add').on('click', function(e) {
+            e.preventDefault();
+            var vali=[];
+            if (document.getElementById("k_shozoku").selectedIndex == 0) {
+                vali.push("【担当者】：所属を選択してください！");
+            };
+            if (document.getElementById("k_tantou").value == "") {
+                vali.push("【担当者】：担当者を入力してください！");
+            };
+            if (document.getElementById("k_nouhin_cus").value == "") {
+                vali.push("【顧客】：氏名を入力してください！");
+            };
+            if (vali.length > 0){
+                var str="";
+                for (var i of vali){
+                    str = str + i + "\n"
+                }
+                window.alert(str);
+                return
+            };
+            $.ajax({
+                'url': '{% url "zaiko:last_kakunin" %}',
+                'type': 'POST',
+            })
+            .done(function(response){
+                if (response.kekka == "ok"){
+                    document.haisou_keep_form.submit();
+                } else {
+                    getfail(response.data);
+                }
+            });            
+        });
+
+
+        function getfail(data){
+            console.log(data);
+            var hontai=document.querySelectorAll('#irai_del');
+            console.log(hontai.length);
+            for (i=0; i<hontai.length; i++){
+                    console.log(typeof(hontai[i].name))
+                if (data.includes(hontai[i].name)){
+                    hontai[i].parentNode.parentNode.style.backgroundColor="#fb9595";
+                }
+            }
+            document.getElementById("kekka_fail").style.display="block";
+            window.scrollTo(0,0);
+        }
 
 
     </script>

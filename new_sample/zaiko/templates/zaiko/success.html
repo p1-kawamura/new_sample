@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <title>依頼成功</title>
+</head>
+<body>
+    <div class="container mt-5">
+
+        <!-- タイトル -->
+        <div class="title03">
+            <h2><span class="number">03</span>サンプルの依頼が完了しました</h2>
+        </div>
+
+
+        <!-- 選択商品一覧 -->
+        <div class="flex mt-4">
+            <table class="table table-bordered" style="width: 1100px;">
+                <thead>
+                    <tr class="table-secondary">
+                        <th>サンプルNo</th>
+                        <th>商品番号</th>
+                        <th>ブランド</th>
+                        <th>商品名</th>
+                        <th>カラー</th>
+                        <th>サイズ</th>
+                        <th>区分</th>
+                        <th>結果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in irai_shouhin_list %}
+                    <tr>
+                        <td style="vertical-align: middle;">{{i.sample_num}}</td>
+                        <td style="vertical-align: middle;">{{i.shouhin_num}}</td>
+                        <td style="vertical-align: middle;">{{i.brand}}</td>
+                        <td style="vertical-align: middle;">{{i.shouhin_name}}</td>
+                        <td style="vertical-align: middle;">{{i.color}}</td>
+                        <td style="vertical-align: middle;">{{i.size}}</td>
+                        <td style="vertical-align: middle;">{{i.kubun}}</td>
+                        <td style="text-align: center;">
+                            <i class="bi bi-check-circle-fill" style="font-size: 1.5em; color: #349102"></i>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</body>
+</html>
