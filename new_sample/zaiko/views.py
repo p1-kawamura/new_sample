@@ -322,7 +322,7 @@ def haisou_cus_success(request):
         item.joutai=1
         item.irai_num=irai_num
         item.save()
-        # 履歴商品DB
+        # 商品履歴DB
         Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i)
 
     #貸出DB
@@ -353,6 +353,7 @@ def haisou_cus_success(request):
         bikou2 = bikou2,
         password = password,
     )
+    irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
     irai_shouhin_list=list(request.session["sample"])
     data=[]
     for i in irai_shouhin_list:
@@ -370,10 +371,9 @@ def haisou_cus_success(request):
         else:
             data2["kubun"]="在庫"
         data.append(data2)
-
-
     params={
         "irai_shouhin_list":data,
+        "irai_detail":irai_detail,
     }
     request.session.clear()
     return render(request,"zaiko/success.html",params)

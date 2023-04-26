@@ -12,48 +12,100 @@
 </head>
 <body>
     <div class="container mt-5">
+        <div style="margin: 0 auto; justify-content: center; width: 1100px;">
+            <!-- タイトル -->
+            <div class="title03">
+                <h2><span class="number">03</span>サンプル依頼が完了しました</h2>
+            </div>
 
-        <!-- タイトル -->
-        <div class="title03">
-            <h2><span class="number">03</span>サンプルの依頼が完了しました</h2>
-        </div>
 
+            <!-- 選択商品一覧 -->
+            <div class="mt-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th>サンプルNo</th>
+                            <th>商品番号</th>
+                            <th>ブランド</th>
+                            <th>商品名</th>
+                            <th>カラー</th>
+                            <th>サイズ</th>
+                            <th>区分</th>
+                            <th>結果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in irai_shouhin_list %}
+                        <tr>
+                            <td style="vertical-align: middle;">{{i.sample_num}}</td>
+                            <td style="vertical-align: middle;">{{i.shouhin_num}}</td>
+                            <td style="vertical-align: middle;">{{i.brand}}</td>
+                            <td style="vertical-align: middle;">{{i.shouhin_name}}</td>
+                            <td style="vertical-align: middle;">{{i.color}}</td>
+                            <td style="vertical-align: middle;">{{i.size}}</td>
+                            <td style="vertical-align: middle;">{{i.kubun}}</td>
+                            <td style="text-align: center;">
+                                <i class="bi bi-check-circle-fill" style="font-size: 1.5em; color: #349102"></i>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- 選択商品一覧 -->
-        <div class="flex mt-4">
-            <table class="table table-bordered" style="width: 1100px;">
-                <thead>
-                    <tr class="table-secondary">
-                        <th>サンプルNo</th>
-                        <th>商品番号</th>
-                        <th>ブランド</th>
-                        <th>商品名</th>
-                        <th>カラー</th>
-                        <th>サイズ</th>
-                        <th>区分</th>
-                        <th>結果</th>
+            <!-- 依頼詳細 -->
+            <div>貸出日：</div>
+            <div>
+                <table class="table table-bordered" style="font-size: 0.9em; width: 900px;">
+                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">サンプル依頼</td></tr>
+                        <td style="width: 15%;">依頼No.</td>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 15%;">依頼内容</td>
+                        <td style="width: 35%;"></td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for i in irai_shouhin_list %}
                     <tr>
-                        <td style="vertical-align: middle;">{{i.sample_num}}</td>
-                        <td style="vertical-align: middle;">{{i.shouhin_num}}</td>
-                        <td style="vertical-align: middle;">{{i.brand}}</td>
-                        <td style="vertical-align: middle;">{{i.shouhin_name}}</td>
-                        <td style="vertical-align: middle;">{{i.color}}</td>
-                        <td style="vertical-align: middle;">{{i.size}}</td>
-                        <td style="vertical-align: middle;">{{i.kubun}}</td>
-                        <td style="text-align: center;">
-                            <i class="bi bi-check-circle-fill" style="font-size: 1.5em; color: #349102"></i>
-                        </td>
+                        <td>所属</td><td></td>
+                        <td>担当者</td><td></td>
                     </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">配送先</td></tr>
+                    <tr>
+                        <td>店舗</td><td></td>
+                        <td></td><td></td>    
+                    </tr>
+                    <tr>
+                        <td>会社</td><td></td>
+                        <td>氏名</td><td></td>
+                    </tr>
+                    <tr>
+                        <td>住所</td><td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td>電話番号</td><td></td>
+                        <td>メールアドレス</td><td></td>
+                    </tr>
+                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">納品書</td></tr>
+                    <tr>
+                        <td>会社</td><td></td>
+                        <td>氏名</td><td></td>
+                    </tr>
+                    <tr>
+                        <td>日付</td><td></td>
+                        <td>貸出期限</td><td></td>
+                    </tr>
+                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">備考</td></tr>
+                    <tr>
+                        <td>依頼メモ</td><td></td>
+                        <td>納品書</td><td></td>
+                    </tr>
+                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">その他</td></tr>
+                    <tr>
+                        <td>案件パスワード</td><td></td>
+                        <td></td><td></td>    
+                    </tr>
+                </table>
+            </div>
         </div>
-
-
     </div>
+
 </body>
 </html>
