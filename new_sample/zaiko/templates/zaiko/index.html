@@ -168,15 +168,6 @@
                                     <div><textarea class="form-control" id="c_bikou1" name="c_bikou1" rows="3"></textarea></div>
                                 </div>
                             </div>
-
-                            <div class="haisou_kokyaku_pass mt-5" style="width: 120px;">案件パスワード</div>
-
-                            <div class="flex2 mt-3">
-                                <div><input  class="form-control" type="password" id="c_password" name="c_password" style="width: 120px;"></div>
-                                <div class="hissu">*</div>
-                                <div style="margin-left: 0.5em; font-size: 0.9em;">（※依頼の変更、削除に使用します）</div>
-                            </div>
-
                             <div class="mt-5">
                                 <button type="button" class="btn btn-outline-danger" id="haisou_cus_add" style="height: 4em;">
                                     <img src="{% static 'tamori.gif' %}"> >> では、上記住所へ直送します！（クリックして送信）
@@ -245,15 +236,6 @@
                                     <div><textarea class="form-control" id="t_bikou1" name="t_bikou1" rows="3"></textarea></div>
                                 </div>
                             </div>
-
-                            <div class="haisou_kokyaku_pass mt-5" style="width: 120px;">案件パスワード</div>
-
-                            <div class="flex2 mt-3">
-                                <div><input  class="form-control" type="password" id="t_password" name="t_password" style="width: 120px;"></div>
-                                <div class="hissu">*</div>
-                                <div style="margin-left: 0.5em; font-size: 0.9em;">（※依頼の変更、削除に使用します）</div>
-                            </div>
-
                             <div class="mt-5">
                                 <button type="submit" class="btn btn-outline-danger" style="height: 4em;" id="haisou_tempo_add">
                                     <img src="{% static 'tamori.gif' %}"> >> では、店舗へ直送します！（クリックして送信）
@@ -802,9 +784,6 @@
             if (document.getElementById("c_nouhin_day").value == "") {
                 vali.push("【納品書】：納品書日付を入力してください！");
             };
-            if (document.getElementById("c_password").value == "") {
-                vali.push("【案件パスワード】：入力してください！");
-            };
             if (vali.length > 0){
                 var str="";
                 for (var i of vali){
@@ -845,9 +824,6 @@
             };
             if (document.getElementById("t_nouhin_day").value == "") {
                 vali.push("【納品書】：納品書日付を入力してください！");
-            };
-            if (document.getElementById("t_password").value == "") {
-                vali.push("【案件パスワード】：入力してください！");
             };
             if (vali.length > 0){
                 var str="";

@@ -18,6 +18,12 @@
                 <div class="title03">
                     <h2><span class="number">03</span>サンプル依頼が完了しました</h2>
                 </div>
+            {% elif kubun == "kakunin_ok" %}
+                <div class="title03">
+                    <h2><span class="number">未</span>サンプル依頼内容の確認
+                        <span>（この案件はまだ未発送のため、キャンセルが可能です）</span>
+                    </h2>
+                </div>
             {% else %}
                 <div class="title00">
                     <h2><span class="number">済</span>サンプル依頼内容の確認<span>（この案件は既に手配済みです）</span></h2>
@@ -111,10 +117,6 @@
                         <td>納品書</td><td>{{irai_detail.bikou1 | linebreaksbr}}</td>
                     </tr>
                     <tr class="table-secondary"><td colspan="4">その他</td></tr>
-                    <tr>
-                        <td>案件パスワード</td><td>{{irai_detail.password}}</td>
-                        <td></td><td></td>
-                    </tr>
                     <tr>
                         <td>運送会社</td><td>{{irai_detail.unsou_com}}</td>
                         <td>問い合わせ番号</td><td>{{irai_detail.unsou_num}}</td>

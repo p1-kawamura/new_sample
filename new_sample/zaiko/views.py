@@ -43,9 +43,6 @@ def index(request):
         request.session["size"]=[]
     if "brand" not in request.session:
         request.session["brand"]=[]
-    if "irai_num" not in request.session:
-        request.session["irai_num"]=[]
-
     irai_shouhin_list=list(request.session["sample"])
     data=[]
     for i in irai_shouhin_list:
@@ -316,7 +313,6 @@ def haisou_cus_success(request):
     nouhin_day=request.POST["c_nouhin_day"]
     rental_maxday=request.POST["c_rental_maxday"]
     bikou1=request.POST["c_bikou1"]
-    password=request.POST["c_password"]
     ses=list(request.session["sample"])
     irai_num=Rireki_rental.objects.all().aggregate(Max("irai_num"))
     irai_num=irai_num['irai_num__max'] + 1
@@ -355,7 +351,6 @@ def haisou_cus_success(request):
         rental_maxday = rental_maxday,
         bikou1 = bikou1,
         bikou2 = bikou2,
-        password = password,
     )
     irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
     irai_shouhin_list=list(request.session["sample"])
@@ -395,7 +390,6 @@ def haisou_tempo_success(request):
     nouhin_day=request.POST["t_nouhin_day"]
     rental_maxday=request.POST["t_rental_maxday"]
     bikou1=request.POST["t_bikou1"]
-    password=request.POST["t_password"]
     ses=list(request.session["sample"])
     irai_num=Rireki_rental.objects.all().aggregate(Max("irai_num"))
     irai_num=irai_num['irai_num__max'] + 1
@@ -429,7 +423,6 @@ def haisou_tempo_success(request):
         rental_maxday = rental_maxday,
         bikou1 = bikou1,
         bikou2 = bikou2,
-        password = password,
     )
     irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
     irai_shouhin_list=list(request.session["sample"])
@@ -522,26 +515,16 @@ def haisou_keep_success(request):
     return render(request,"zaiko/success.html",params)
 
 
-# 履歴ボタン調査
-def rireki_btn(request):
-    irai_num=request.POST.get("irai_num")
-    request.session["irai_num"]=irai_num
-    item=Rireki_rental.objects.get(irai_num=irai_num)
-    pw=item.password
-    if item.irai_type!=2 and item.status==0:
-        kubun="henshu"
-    elif item.irai_type==2:
-        kubun="kakunin_keep"
-    else:
-        kubun="kakunin_send"
-    d={"kubun":kubun,"pw":pw}
-    return JsonResponse(d)
-
-
 # 履歴確認ボタン
-def rireki_kakunin(request):
-    irai_num=request.session["irai_num"]
-    irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
+def rireki_kakunin(request,pk):
+    irai_detail=Rireki_rental.objects.get(pk=pk)
+    irai_type=irai_detail.irai_type
+    status=irai_detail.status
+    if irai_type!=2 and status==0:
+        kubun="kakunin_ok"
+    else:
+        kubun="kakunin_no"
+    irai_num=irai_detail.irai_num
     items=Rireki_shouhin.objects.filter(irai_num=irai_num).values_list("irai_hontai_num",flat=True)
     irai_shouhin_list=list(items)
     data=[]
@@ -563,7 +546,7 @@ def rireki_kakunin(request):
     params={
             "irai_shouhin_list":data,
             "irai_detail":irai_detail,
-            "kubun":"kakunin",
+            "kubun":kubun,
         }
     return render(request,"zaiko/success.html",params)
 

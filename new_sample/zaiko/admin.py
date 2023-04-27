@@ -20,7 +20,7 @@ class A_shozoku(ModelAdmin):
 
 class A_rireki_rental(ModelAdmin):
     model=Rireki_rental
-    list_display=["irai_num","irai_type","rental_day","tantou","haisou_cus","haisou_tempo"]
+    list_display=["irai_num","irai_type","rental_day","tantou","haisou_cus","haisou_tempo","status"]
 
 class A_Rireki_shouhin(ModelAdmin):
     model=Rireki_shouhin

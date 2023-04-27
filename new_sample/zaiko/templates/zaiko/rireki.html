@@ -16,7 +16,9 @@
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
 
             <div class="title00">
-                <h2><span class="number">00</span>サンプル依頼履歴<span>（発送前の依頼案件は編集が可能です）</span></h2>
+                <h2><span class="number">00</span>サンプル依頼履歴
+                    <span>（ <button class="btn btn-success  btn-sm">確認</button>
+                        は未発送のため、キャンセルが可能な案件です）</span></h2>
             </div>
 
             <div class="mt-5">
@@ -54,13 +56,15 @@
                             <td style="vertical-align: middle;">{{i.nouhin_com}}</td>
                             <td style="vertical-align: middle;">{{i.nouhin_cus}}</td>
                             <td style="text-align: center;">
-                                {% if i.status == 0 and i.irai_type != 2 %}
-                                    <button type="submit" class="btn btn-success  btn-sm" id="btn_kakunin" name="{{i.irai_num}}">編集</button>
-                                {% elif i.status == 1 %}
-                                    <span style="color: red;">準備中</span>
-                                {% else %}
-                                    <button type="submit" class="btn btn-secondary  btn-sm" id="btn_kakunin" name="{{i.irai_num}}">確認</button>
-                                {% endif %}
+                                <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
+                                    {% if i.status == 0 and i.irai_type != 2 %}
+                                        <button type="submit" class="btn btn-success btn-sm">確認</button>
+                                    {% elif i.status == 1 %}
+                                        <span style="color: red;">準備中</span>
+                                    {% else %}
+                                        <button type="submit" class="btn btn-outline-dark btn-sm">確認</button>
+                                    {% endif %}
+                                </form>
                             </td>
                         </tr>
                         {% endfor %}
@@ -69,73 +73,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i <cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-  
-        var csrftoken = getCookie('csrftoken');
-  
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-  
-        $.ajaxSetup({
-            beforeSend: function (xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
-  
-  
-  
-        // ボタンクリック
-        btn_kakunin()
-        function btn_kakunin(){
-            var kakunin=document.querySelectorAll("#btn_kakunin");
-            for (var i=0; i<kakunin.length; i++){
-                kakunin[i].addEventListener("click",function(){
-                    var irai_num=this.name;
-                    $.ajax({
-                        'url': '{% url "zaiko:rireki_btn" %}',
-                        'type': 'POST',
-                        'data': {"irai_num":this.name},
-                        'dataType': 'json'
-                    })
-                    .done(function(response){
-                        if (response.kubun == "kakunin_keep"){
-                            window.location.href="/rireki_kakunin";
-                        } else if (response.kubun == "kakunin_send") {
-                            var ans=window.prompt("案件パスワードを入力してください");
-                            if (ans == response.pw){
-                                window.location.href="/rireki_kakunin";
-                            } else {
-                                window.alert("パスワードが違います！");
-                            };
-                        } else {
-
-                        };
-                    })
-                },false)
-            }
-        }    
-
-    </script>
 </body>
 </html>
