@@ -47,7 +47,7 @@
                 <table class="table table-bordered" style="width: 1100px;">
                     <thead>
                         <tr class="table-secondary">
-                            <th>サンプルNo</th>
+                            <th>サンプルNo.</th>
                             <th>商品番号</th>
                             <th>ブランド</th>
                             <th>商品名</th>
@@ -68,7 +68,9 @@
                             <td style="vertical-align: middle;">{{i.size}}</td>
                             <td style="vertical-align: middle;">{{i.kubun}}</td>
                             <td style="text-align: center;">
-                                <button type="button" class="btn btn-outline-dark btn-sm" id="irai_del" name={{i.hontai_num}}>取消</button>
+                                <button type="button" class="btn btn-outline-dark btn-sm" id="irai_del" name={{i.hontai_num}}>
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
                             </td>
                         </tr>
                         {% endfor %}
@@ -141,7 +143,7 @@
                                 <div><input  class="form-control" type="text" id="c_haisou_tel" name="c_haisou_tel"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">メールアドレス（発送連絡）：</div>
-                                <div><input  class="form-control" type="email" id="c_haisou_mail" name="c_haisou_mail"></div>
+                                <div><input  class="form-control" type="email" id="c_haisou_mail" name="c_haisou_mail" style="width: 350px;"></div>
                             </div>
 
                             <div class="haisou_kokyaku mt-5" style="width: 120px;">納品書情報</div>
@@ -816,7 +818,7 @@
                 'type': 'POST',
             })
             .done(function(response){
-                if (response.kekka == "ok"){
+                if (response.data.length == 0){
                     document.haisou_cus_form.submit();
                 } else {
                     getfail(response.data);
@@ -860,7 +862,7 @@
                 'type': 'POST',
             })
             .done(function(response){
-                if (response.kekka == "ok"){
+                if (response.data.length == 0){
                     document.haisou_tempo_form.submit();
                 } else {
                     getfail(response.data);
@@ -895,7 +897,7 @@
                 'type': 'POST',
             })
             .done(function(response){
-                if (response.kekka == "ok"){
+                if (response.data.length == 0){
                     document.haisou_keep_form.submit();
                 } else {
                     getfail(response.data);

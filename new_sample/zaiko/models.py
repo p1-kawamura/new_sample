@@ -20,6 +20,8 @@ class Shouhin(models.Model):
     def __str__(self):
         return self.sample_num
     
+    # joutai（状態）　0:在庫有り　1:貸出中　2:キープ中
+    
 
 class Rental(models.Model):
     irai_num_rental=models.IntegerField("依頼No",null=False)
@@ -31,6 +33,8 @@ class Rental(models.Model):
 
     def __str__(self):
         return self.tantou
+    
+    # com_name、cus_nameは納品書の会社、氏名（Rireki_rentalのnouhin_com、nouhin_cus）
     
 
 class Size(models.Model):
@@ -69,11 +73,14 @@ class Rireki_rental(models.Model):
     bikou2=models.TextField("備考（依頼）",blank=True)
     status=models.IntegerField("状態",default=0)
     password=models.CharField("パスワード",max_length=20,default="")
-    unsou_com=models.CharField("運送会社",max_length=20,default="")
-    unsou_num=models.CharField("問い合わせ番号",max_length=20,default="")
+    unsou_com=models.CharField("運送会社",max_length=20,null=True,blank=True,default="")
+    unsou_num=models.CharField("問い合わせ番号",max_length=20,null=True,blank=True,default="")
 
     def __str__(self):
         return str(self.irai_num)
+    
+    # irai_type（内容）　0:顧客　1:店舗　2:キープ
+    # status（状態）　0:変更可　1:準備中　2:完了
     
 
 class Rireki_shouhin(models.Model):

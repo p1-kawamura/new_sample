@@ -8,23 +8,28 @@
     <link rel="stylesheet" href="{% static 'main.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <title>依頼成功</title>
+    <title>サンプル依頼結果</title>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
             <!-- タイトル -->
-            <div class="title03">
-                <h2><span class="number">03</span>サンプル依頼が完了しました</h2>
-            </div>
-
+            {% if kubun == "new" %}
+                <div class="title03">
+                    <h2><span class="number">03</span>サンプル依頼が完了しました</h2>
+                </div>
+            {% else %}
+                <div class="title00">
+                    <h2><span class="number">済</span>サンプル依頼内容の確認<span>（この案件は既に手配済みです）</span></h2>
+                </div>
+            {% endif %}
 
             <!-- 選択商品一覧 -->
             <div class="mt-4">
                 <table class="table table-bordered">
                     <thead>
                         <tr class="table-secondary">
-                            <th>サンプルNo</th>
+                            <th>サンプルNo.</th>
                             <th>商品番号</th>
                             <th>ブランド</th>
                             <th>商品名</th>
@@ -54,55 +59,70 @@
             </div>
 
             <!-- 依頼詳細 -->
-            <div>貸出日：</div>
-            <div>
-                <table class="table table-bordered" style="font-size: 0.9em; width: 900px;">
-                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">サンプル依頼</td></tr>
+            <div class="mt-5">
+                <div>貸出日：{{irai_detail.rental_day}}</div>
+                <table class="table table-bordered" style="margin-top: 5px; font-size: 0.9em; width: 900px;">
+                    <tr class="table-secondary"><td colspan="4">サンプル依頼</td></tr>
                         <td style="width: 15%;">依頼No.</td>
-                        <td style="width: 35%;"></td>
+                        <td style="width: 35%;">{{irai_detail.irai_num}}</td>
                         <td style="width: 15%;">依頼内容</td>
-                        <td style="width: 35%;"></td>
+                        <td style="width: 35%;">
+                            {% if irai_detail.irai_type == 0 %}
+                                顧客あて
+                            {% elif irai_detail.irai_type == 1 %}
+                                店舗あて
+                            {% else %}
+                                キープ
+                            {% endif %}
+                        </td>
                     </tr>
                     <tr>
-                        <td>所属</td><td></td>
-                        <td>担当者</td><td></td>
+                        <td>所属</td><td>{{irai_detail.shozoku}}</td>
+                        <td>担当者</td><td>{{irai_detail.tantou}}</td>
                     </tr>
-                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">配送先</td></tr>
+                    <tr class="table-secondary"><td colspan="4">配送先</td></tr>
                     <tr>
-                        <td>店舗</td><td></td>
+                        <td>店舗</td><td>{{irai_detail.haisou_tempo}}</td>
                         <td></td><td></td>    
                     </tr>
                     <tr>
-                        <td>会社</td><td></td>
-                        <td>氏名</td><td></td>
+                        <td>会社</td><td>{{irai_detail.haisou_com}}</td>
+                        <td>氏名</td><td>{{irai_detail.haisou_cus}}</td>
                     </tr>
                     <tr>
-                        <td>住所</td><td colspan="3"></td>
+                        <td>住所</td><td colspan="3">{{irai_detail.haisou_yubin}}　{{irai_detail.haisou_adress}}</td>
                     </tr>
                     <tr>
-                        <td>電話番号</td><td></td>
-                        <td>メールアドレス</td><td></td>
+                        <td>電話番号</td><td>{{irai_detail.haisou_tel}}</td>
+                        <td>メールアドレス</td><td>{{irai_detail.haisou_mail}}</td>
                     </tr>
-                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">納品書</td></tr>
+                    <tr class="table-secondary"><td colspan="4">納品書</td></tr>
                     <tr>
-                        <td>会社</td><td></td>
-                        <td>氏名</td><td></td>
+                        <td>会社</td><td>{{irai_detail.nouhin_com}}</td>
+                        <td>氏名</td><td>{{irai_detail.nouhin_cus}}</td>
                     </tr>
                     <tr>
-                        <td>日付</td><td></td>
-                        <td>貸出期限</td><td></td>
+                        <td>日付</td><td>{{irai_detail.nouhin_day}}</td>
+                        <td>貸出期限</td><td>{{irai_detail.rental_maxday}}</td>
                     </tr>
-                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">備考</td></tr>
+                    <tr class="table-secondary"><td colspan="4">備考</td></tr>
                     <tr>
-                        <td>依頼メモ</td><td></td>
-                        <td>納品書</td><td></td>
+                        <td>依頼メモ</td><td>{{irai_detail.bikou2 | linebreaksbr}}</td>
+                        <td>納品書</td><td>{{irai_detail.bikou1 | linebreaksbr}}</td>
                     </tr>
-                    <tr class="table-secondary"><td colspan="4" style="text-align: center;">その他</td></tr>
+                    <tr class="table-secondary"><td colspan="4">その他</td></tr>
                     <tr>
-                        <td>案件パスワード</td><td></td>
-                        <td></td><td></td>    
+                        <td>案件パスワード</td><td>{{irai_detail.password}}</td>
+                        <td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td>運送会社</td><td>{{irai_detail.unsou_com}}</td>
+                        <td>問い合わせ番号</td><td>{{irai_detail.unsou_num}}</td>
                     </tr>
                 </table>
+                <div class="mt-5">
+                    <a href="{% url 'zaiko:index' %}"><button type="button" class="btn btn-primary">続けてサンプルを依頼する</button></a>
+                </div>
             </div>
         </div>
     </div>

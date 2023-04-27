@@ -43,6 +43,8 @@ def index(request):
         request.session["size"]=[]
     if "brand" not in request.session:
         request.session["brand"]=[]
+    if "irai_num" not in request.session:
+        request.session["irai_num"]=[]
 
     irai_shouhin_list=list(request.session["sample"])
     data=[]
@@ -83,6 +85,12 @@ def shouhin_all(request):
 
 def irai_success(request):
     return render(request,"zaiko/success.html")
+
+
+def irai_rireki(request):
+    items=Rireki_rental.objects.all().order_by("irai_num").reverse()
+    return render(request,"zaiko/rireki.html",{"items":items})
+
 
 def csv_imp_page(request):
     return render(request,"zaiko/csv_imp.html")
@@ -287,11 +295,7 @@ def last_kakunin(request):
         joutai=Shouhin.objects.get(hontai_num=i).joutai
         if joutai !=0:
             data.append(i)
-    if len(data)>0:
-        kekka="no"
-    else:
-        kekka="ok"
-    d={"kekka":kekka,"data":data}
+    d={"data":data}
     return JsonResponse(d)
     
 
@@ -374,34 +378,194 @@ def haisou_cus_success(request):
     params={
         "irai_shouhin_list":data,
         "irai_detail":irai_detail,
+        "kubun":"new",
     }
     request.session.clear()
     return render(request,"zaiko/success.html",params)
 
 
-# 依頼確定（店舗）
+# 依頼確定（店舗　貸出：1　履歴内容：1）
 def haisou_tempo_success(request):
     shozoku=request.POST["t_shozoku"]
     tantou=request.POST["t_tantou"]
-    print(shozoku,tantou)
-    return redirect("zaiko:index")
+    haisou_tempo=request.POST["t_haisou_tempo"]
+    bikou2=request.POST["t_bikou2"]
+    nouhin_com=request.POST["t_nouhin_com"]
+    nouhin_cus=request.POST["t_nouhin_cus"]
+    nouhin_day=request.POST["t_nouhin_day"]
+    rental_maxday=request.POST["t_rental_maxday"]
+    bikou1=request.POST["t_bikou1"]
+    password=request.POST["t_password"]
+    ses=list(request.session["sample"])
+    irai_num=Rireki_rental.objects.all().aggregate(Max("irai_num"))
+    irai_num=irai_num['irai_num__max'] + 1
+    for i in ses:
+        # 商品DB
+        item=Shouhin.objects.get(hontai_num=i)
+        item.joutai=1
+        item.irai_num=irai_num
+        item.save()
+        # 商品履歴DB
+        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i)
+
+    #貸出DB
+    Rental.objects.create(
+        irai_num_rental = irai_num,
+        busho = shozoku,
+        tantou = tantou,
+        com_name = nouhin_com,
+        cus_name = nouhin_cus,
+    )
+    #貸出履歴DB
+    Rireki_rental.objects.create(
+        irai_num = irai_num,
+        irai_type = 1,
+        shozoku = shozoku,
+        tantou = tantou,
+        haisou_tempo = haisou_tempo,
+        nouhin_com = nouhin_com,
+        nouhin_cus = nouhin_cus,
+        nouhin_day = nouhin_day,
+        rental_maxday = rental_maxday,
+        bikou1 = bikou1,
+        bikou2 = bikou2,
+        password = password,
+    )
+    irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
+    irai_shouhin_list=list(request.session["sample"])
+    data=[]
+    for i in irai_shouhin_list:
+        data2={}
+        shouhin=Shouhin.objects.get(hontai_num=i)
+        data2["hontai_num"]=shouhin.hontai_num
+        data2["sample_num"]=shouhin.sample_num
+        data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
+        data2["color"]=shouhin.color
+        data2["size"]=shouhin.size
+        if shouhin.sample_num=="":
+            data2["kubun"]="取り寄せ"
+        else:
+            data2["kubun"]="在庫"
+        data.append(data2)
+    params={
+        "irai_shouhin_list":data,
+        "irai_detail":irai_detail,
+        "kubun":"new",
+    }
+    request.session.clear()
+    return render(request,"zaiko/success.html",params)
 
 
-# 依頼確定（キープ）
+# 依頼確定（キープ　貸出：1　履歴内容：2）
 def haisou_keep_success(request):
     shozoku=request.POST["k_shozoku"]
     tantou=request.POST["k_tantou"]
-    print(shozoku,tantou)
-    return redirect("zaiko:index")
+    bikou2=request.POST["k_bikou2"]
+    nouhin_com=request.POST["k_nouhin_com"]
+    nouhin_cus=request.POST["k_nouhin_cus"]
+    ses=list(request.session["sample"])
+    irai_num=Rireki_rental.objects.all().aggregate(Max("irai_num"))
+    irai_num=irai_num['irai_num__max'] + 1
+    for i in ses:
+        # 商品DB
+        item=Shouhin.objects.get(hontai_num=i)
+        item.joutai=2
+        item.irai_num=irai_num
+        item.save()
+        # 商品履歴DB
+        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i)
+
+    #貸出DB
+    Rental.objects.create(
+        irai_num_rental = irai_num,
+        busho = shozoku,
+        tantou = tantou,
+        com_name = nouhin_com,
+        cus_name = nouhin_cus,
+    )
+    #貸出履歴DB
+    Rireki_rental.objects.create(
+        irai_num = irai_num,
+        irai_type = 2,
+        shozoku = shozoku,
+        tantou = tantou,
+        nouhin_com = nouhin_com,
+        nouhin_cus = nouhin_cus,
+        bikou2 = bikou2,
+    )
+    irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
+    irai_shouhin_list=list(request.session["sample"])
+    data=[]
+    for i in irai_shouhin_list:
+        data2={}
+        shouhin=Shouhin.objects.get(hontai_num=i)
+        data2["hontai_num"]=shouhin.hontai_num
+        data2["sample_num"]=shouhin.sample_num
+        data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
+        data2["color"]=shouhin.color
+        data2["size"]=shouhin.size
+        if shouhin.sample_num=="":
+            data2["kubun"]="取り寄せ"
+        else:
+            data2["kubun"]="在庫"
+        data.append(data2)
+    params={
+        "irai_shouhin_list":data,
+        "irai_detail":irai_detail,
+        "kubun":"new",
+    }
+    request.session.clear()
+    return render(request,"zaiko/success.html",params)
 
 
+# 履歴ボタン調査
+def rireki_btn(request):
+    irai_num=request.POST.get("irai_num")
+    request.session["irai_num"]=irai_num
+    item=Rireki_rental.objects.get(irai_num=irai_num)
+    pw=item.password
+    if item.irai_type!=2 and item.status==0:
+        kubun="henshu"
+    elif item.irai_type==2:
+        kubun="kakunin_keep"
+    else:
+        kubun="kakunin_send"
+    d={"kubun":kubun,"pw":pw}
+    return JsonResponse(d)
 
 
-
-
-
-
-
+# 履歴確認ボタン
+def rireki_kakunin(request):
+    irai_num=request.session["irai_num"]
+    irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
+    items=Rireki_shouhin.objects.filter(irai_num=irai_num).values_list("irai_hontai_num",flat=True)
+    irai_shouhin_list=list(items)
+    data=[]
+    for i in irai_shouhin_list:
+        data2={}
+        shouhin=Shouhin.objects.get(hontai_num=i)
+        data2["hontai_num"]=shouhin.hontai_num
+        data2["sample_num"]=shouhin.sample_num
+        data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
+        data2["color"]=shouhin.color
+        data2["size"]=shouhin.size
+        if shouhin.sample_num=="":
+            data2["kubun"]="取り寄せ"
+        else:
+            data2["kubun"]="在庫"
+        data.append(data2)
+    params={
+            "irai_shouhin_list":data,
+            "irai_detail":irai_detail,
+            "kubun":"kakunin",
+        }
+    return render(request,"zaiko/success.html",params)
 
 
 

@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>サンプル依頼履歴</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div style="margin: 0 auto; justify-content: center; width: 1100px;">
+
+            <div class="title00">
+                <h2><span class="number">00</span>サンプル依頼履歴<span>（発送前の依頼案件は編集が可能です）</span></h2>
+            </div>
+
+            <div class="mt-5">
+                <table class="table table-bordered" style="font-size: 0.9em;">
+                    <thead>
+                        <tr>
+                            <th>依頼NO.</th>
+                            <th>依頼日</th>
+                            <th>内容</th>
+                            <th>所属</th>
+                            <th>担当者</th>
+                            <th>貸出期限</th>
+                            <th>顧客会社</th>
+                            <th>顧客氏名</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in items %}
+                        <tr>
+                            <td style="vertical-align: middle; text-align: center;">{{i.irai_num}}</td>
+                            <td style="vertical-align: middle;">{{i.rental_day}}</td>
+                            <td style="vertical-align: middle;">
+                                {% if i.irai_type == 0 %}
+                                    顧客あて
+                                {% elif i.irai_type == 1 %}
+                                    店舗あて
+                                {% else %}
+                                    キープ
+                                {% endif %}
+                            </td>
+                            <td style="vertical-align: middle;">{{i.shozoku}}</td>
+                            <td style="vertical-align: middle;">{{i.tantou}}</td>
+                            <td style="vertical-align: middle;">{{i.rental_maxday}}</td>
+                            <td style="vertical-align: middle;">{{i.nouhin_com}}</td>
+                            <td style="vertical-align: middle;">{{i.nouhin_cus}}</td>
+                            <td style="text-align: center;">
+                                {% if i.status == 0 and i.irai_type != 2 %}
+                                    <button type="submit" class="btn btn-success  btn-sm" id="btn_kakunin" name="{{i.irai_num}}">編集</button>
+                                {% elif i.status == 1 %}
+                                    <span style="color: red;">準備中</span>
+                                {% else %}
+                                    <button type="submit" class="btn btn-secondary  btn-sm" id="btn_kakunin" name="{{i.irai_num}}">確認</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i <cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+  
+        var csrftoken = getCookie('csrftoken');
+  
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+  
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+  
+  
+  
+        // ボタンクリック
+        btn_kakunin()
+        function btn_kakunin(){
+            var kakunin=document.querySelectorAll("#btn_kakunin");
+            for (var i=0; i<kakunin.length; i++){
+                kakunin[i].addEventListener("click",function(){
+                    var irai_num=this.name;
+                    $.ajax({
+                        'url': '{% url "zaiko:rireki_btn" %}',
+                        'type': 'POST',
+                        'data': {"irai_num":this.name},
+                        'dataType': 'json'
+                    })
+                    .done(function(response){
+                        if (response.kubun == "kakunin_keep"){
+                            window.location.href="/rireki_kakunin";
+                        } else if (response.kubun == "kakunin_send") {
+                            var ans=window.prompt("案件パスワードを入力してください");
+                            if (ans == response.pw){
+                                window.location.href="/rireki_kakunin";
+                            } else {
+                                window.alert("パスワードが違います！");
+                            };
+                        } else {
+
+                        };
+                    })
+                },false)
+            }
+        }    
+
+    </script>
+</body>
+</html>
