@@ -12,19 +12,65 @@
     <title>サンプル依頼履歴</title>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
 
+            <!-- タイトル -->
             <div class="title00">
                 <h2><span class="number">00</span>サンプル依頼履歴
                     <span>（ <button class="btn btn-success  btn-sm">確認</button>
                         は未発送のため、キャンセルが可能な案件です）</span></h2>
             </div>
 
+            <!-- 検索フォーム -->
+            <div class="mt-5">
+                <form action="{% url 'zaiko:rireki_kensaku' %}" method="post">{% csrf_token %}
+                    <div class="flex2">
+                        <div>依頼No.：</div>
+                        <div><input class="form-control" type="text" name="irai_num" style="width: 100px;"></div>
+                        <div style="margin-left: 30px;">依頼日：</div>
+                        <div><input class="form-control" type="date" name="rental_day_st"></div>
+                        <div style="margin-left: 10px;">～</div>
+                        <div><input class="form-control" type="date" name="rental_day_ed" style="margin-left: 10px;"></div>
+                        <div style="margin-left: 30px;">内容：</div>
+                        <div>
+                            <select class="form-select" name="irai_type">
+                                <option></option>
+                                <option value="0">顧客あて</option>
+                                <option value="1">店舗あて</option>
+                                <option value="2">キープ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex2 mt-4">
+                        <div>所属：</div>
+                        <div>
+                            <select class="form-select" name="shozoku">
+                                <option></option>
+                                {% for i in shozoku_list %}
+                                <option>{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div style="margin-left: 30px;">担当者：</div>
+                        <div><input class="form-control" type="text" name="tantou" style="width: 150px;"></div>
+                        <div style="margin-left: 30px;">顧客会社：</div>
+                        <div><input class="form-control" type="text" name="nouhin_com" style="width: 150px;"></div>
+                        <div style="margin-left: 30px;">顧客氏名：</div>
+                        <div><input class="form-control" type="text" name="nouhin_cus" style="width: 150px;"></div>
+                        <div style="margin-left: 30px;">
+                            <button type="submit" class="btn btn-primary">検索</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- 履歴一覧 -->
             <div class="mt-5">
                 <table class="table table-bordered" style="font-size: 0.9em;">
                     <thead>
-                        <tr>
+                        <tr class="table-secondary">
                             <th>依頼NO.</th>
                             <th>依頼日</th>
                             <th>内容</th>
@@ -71,6 +117,20 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- ページネーション -->
+            <div style="margin: 0 auto;">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination mt-4">
+                    <li class="page-item"><a class="page-link" href="{% url 'zaiko:page_first' %}">最初へ</a></li>
+                    <li class="page-item"><a class="page-link" href="{% url 'zaiko:page_prev' %}">前へ</a></li>
+                    <li class="page-item"><a class="page-link" pointer-events: none;>{{num}}/{{all_num}}</a></li>               
+                    <li class="page-item"><a class="page-link" href="{% url 'zaiko:page_next' %}">次へ</a></li>
+                    <li class="page-item"><a class="page-link" href="{% url 'zaiko:page_last' %}">最後へ</a></li> 
+                    </ul>
+                </nav>
+            </div>
+
         </div>
     </div>
 </body>

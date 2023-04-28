@@ -40,9 +40,32 @@ def index(request):
     if "size" not in request.session:
         request.session["size"]=[]
     if "shouhin_name" not in request.session:
-        request.session["size"]=[]
+        request.session["shouhin_name"]=[]
     if "brand" not in request.session:
         request.session["brand"]=[]
+    if "page_num" not in request.session:
+        request.session["page_num"]=1
+    if "all_page_num" not in request.session:
+        request.session["all_page_num"]=""
+    if "kensaku" not in request.session:
+        request.session["kensaku"]={}
+    if "irai_num" not in request.session["kensaku"]:
+        request.session["kensaku"]["irai_num"]=""
+    if "rental_day_st" not in request.session["kensaku"]:
+        request.session["kensaku"]["rental_day_st"]=""
+    if "rental_day_ed" not in request.session["kensaku"]:
+        request.session["kensaku"]["rental_day_ed"]=""
+    if "irai_type" not in request.session["kensaku"]:
+        request.session["kensaku"]["irai_type"]=""
+    if "shozoku" not in request.session["kensaku"]:
+        request.session["kensaku"]["shozoku"]=""
+    if "tantou" not in request.session["kensaku"]:
+        request.session["kensaku"]["tantou"]=""
+    if "nouhin_com" not in request.session["kensaku"]:
+        request.session["kensaku"]["nouhin_com"]=""
+    if "nouhin_cus" not in request.session["kensaku"]:
+        request.session["kensaku"]["nouhin_cus"]=""
+
     irai_shouhin_list=list(request.session["sample"])
     data=[]
     for i in irai_shouhin_list:
@@ -85,8 +108,102 @@ def irai_success(request):
 
 
 def irai_rireki(request):
-    items=Rireki_rental.objects.all().order_by("irai_num").reverse()
-    return render(request,"zaiko/rireki.html",{"items":items})
+    irai_num=request.session["kensaku"]["irai_num"]
+    rental_day_st=request.session["kensaku"]["rental_day_st"]
+    rental_day_ed=request.session["kensaku"]["rental_day_ed"]
+    irai_type=request.session["kensaku"]["irai_type"]
+    shozoku=request.session["kensaku"]["shozoku"]
+    tantou=request.session["kensaku"]["tantou"]
+    nouhin_com=request.session["kensaku"]["nouhin_com"]
+    nouhin_cus=request.session["kensaku"]["nouhin_cus"]
+    #検索条件
+    str={}
+    if irai_num != "":
+        str["irai_num"]=irai_num
+    if rental_day_st != "":
+        str["rental_day__gte"]=rental_day_st
+    if rental_day_ed != "":
+        str["rental_day__lte"]=rental_day_ed
+    if irai_type != "":
+        str["irai_type"]=irai_type
+    if shozoku != "":
+        str["shozoku"]=shozoku
+    if tantou != "":
+        str["tantou__contains"]=tantou
+    if nouhin_com != "":
+        str["nouhin_com__contains"]=nouhin_com
+    if nouhin_cus != "":
+        str["nouhin_cus__contains"]=nouhin_cus
+
+    items=Rireki_rental.objects.filter(**str).order_by("irai_num").reverse()
+    shozoku_list=Shozoku.objects.all()
+    #全ページ数
+    if items.count()==0:
+        all_num=1
+    elif items.count() % 30== 0:
+        all_num=items.count() / 30
+    else:
+        all_num=items.count() // 30 + 1
+    all_num=int(all_num)
+    request.session["all_page_num"]=all_num
+    num=request.session["page_num"]
+    items=items[(num-1)*30 : num*30]
+    params={
+        "items":items,
+        "shozoku_list":shozoku_list,
+        "num":num,
+        "all_num":all_num,
+    }
+    return render(request,"zaiko/rireki.html",params)
+
+
+def rireki_kensaku(request):
+    irai_num=request.POST["irai_num"]
+    rental_day_st=request.POST["rental_day_st"]
+    rental_day_ed=request.POST["rental_day_ed"]
+    irai_type=request.POST["irai_type"]
+    shozoku=request.POST["shozoku"]
+    tantou=request.POST["tantou"]
+    nouhin_com=request.POST["nouhin_com"]
+    nouhin_cus=request.POST["nouhin_cus"]
+
+    request.session["kensaku"]["irai_num"]=irai_num
+    request.session["kensaku"]["rental_day_st"]=rental_day_st
+    request.session["kensaku"]["rental_day_ed"]=rental_day_ed
+    request.session["kensaku"]["irai_type"]=irai_type
+    request.session["kensaku"]["shozoku"]=shozoku
+    request.session["kensaku"]["tantou"]=tantou
+    request.session["kensaku"]["nouhin_com"]=nouhin_com
+    request.session["kensaku"]["nouhin_cus"]=nouhin_cus
+    request.session["page_num"]=1
+
+    return redirect("zaiko:irai_rireki")
+
+
+def page_prev(request):
+    num=request.session["page_num"]
+    if num-1 > 0:
+        request.session["page_num"] = num - 1
+    return redirect("zaiko:irai_rireki")
+
+
+def page_first(request):
+    request.session["page_num"] = 1
+    return redirect("zaiko:irai_rireki")
+
+
+def page_next(request):
+    num=request.session["page_num"]
+    all_num=request.session["all_page_num"]
+    if num+1 <= all_num:
+        request.session["page_num"] = num + 1
+    return redirect("zaiko:irai_rireki")
+
+
+def page_last(request):
+    all_num=request.session["all_page_num"]
+    request.session["page_num"]=all_num
+    return redirect("zaiko:irai_rireki")
 
 
 def csv_imp_page(request):
