@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from .views import index,shouhin_all,csv_imp,csv_imp_page,dele,hinban_enter_ajax,hinban_click_ajax,color_size_click_ajax,\
                     kakou_click_ajax,swatch_click_ajax,keep_kaijo_ajax,check_addlist_ajax,irai_del_ajax,\
                     kokyaku_index,kokyaku_api,hinban_click_ajax2,color_size_click_ajax2,toriyose_add_ajax,\
@@ -9,6 +10,8 @@ from .views import index,shouhin_all,csv_imp,csv_imp_page,dele,hinban_enter_ajax
 app_name="zaiko"
 urlpatterns = [
     path('', index, name="index"),
+    path('login/', auth_views.LoginView.as_view(template_name='zaiko/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('shouhin_all/', shouhin_all, name="shouhin_all"), 
     path('irai_success/', irai_success, name="irai_success"), 
     path('irai_rireki/', irai_rireki, name="irai_rireki"), 

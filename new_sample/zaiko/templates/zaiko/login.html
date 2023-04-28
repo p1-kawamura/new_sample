@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サンプル在庫表（ログイン）</title>
+</head>
+<body>
+    <form class="form-signin" method="POST">{% csrf_token %}
+        {% if form.errors %}
+        <p>ユーザー名かパスワードが間違っています。</p>
+        {% endif %}
+        <h2>ログイン</h2>
+        <label>ユーザー名</label>
+        {{form.username}}
+        <br>
+        <label>パスワード</label>
+        {{form.password}}
+        <br>
+        <input type="submit" value="ログイン">
+        </form>
+</body>
+</html>
