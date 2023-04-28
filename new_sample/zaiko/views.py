@@ -492,7 +492,7 @@ def haisou_cus_success(request):
         "irai_detail":irai_detail,
         "kubun":"new",
     }
-    request.session.clear()
+    request.session["sample"].clear()
     return render(request,"zaiko/success.html",params)
 
 
@@ -564,7 +564,7 @@ def haisou_tempo_success(request):
         "irai_detail":irai_detail,
         "kubun":"new",
     }
-    request.session.clear()
+    request.session["sample"].clear()
     return render(request,"zaiko/success.html",params)
 
 
@@ -628,7 +628,7 @@ def haisou_keep_success(request):
         "irai_detail":irai_detail,
         "kubun":"new",
     }
-    request.session.clear()
+    request.session["sample"].clear()
     return render(request,"zaiko/success.html",params)
 
 
