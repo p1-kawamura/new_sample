@@ -12,14 +12,29 @@
     <title>サンプル依頼履歴</title>
 </head>
 <body>
-    <div class="container mt-5 mb-5">
+    <div class="container mt-3 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
 
+            <!-- メニュー -->
+            <div class="flex2">
+                <div>
+                    <a href="https://www.p1-intl.com/" target="_blank"><img src="{% static 'logo.webp' %}"></a>
+                </div>
+                <div style="margin-left: 30px;">
+                    <a href="{% url 'zaiko:index' %}"><button type="button" class="btn btn-outline-success">サンプル在庫表</button></a>
+                </div>
+                <div style="margin-left: 30px;">
+                    <a href="{% url 'zaiko:irai_rireki' %}"><button type="button" class="btn btn-outline-success">履歴一覧</button></a>
+                </div>
+            </div>
+
             <!-- タイトル -->
-            <div class="title00">
-                <h2><span class="number">00</span>サンプル依頼履歴
-                    <span>（ <button class="btn btn-success  btn-sm">確認</button>
-                        は未発送のため、キャンセルが可能な案件です）</span></h2>
+            <div style="margin-top: 30px;">
+                <div class="title00">
+                    <h2><span class="number">00</span>サンプル依頼履歴
+                        <span>（ <button class="btn btn-success  btn-sm">確認</button>
+                            は未発送のため、キャンセルが可能な案件です）</span></h2>
+                </div>
             </div>
 
             <!-- 検索フォーム -->

@@ -11,24 +11,40 @@
     <title>サンプル依頼結果</title>
 </head>
 <body>
-    <div class="container mt-5 mb-5">
+    <div class="container mt-3 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
+
+            <!-- メニュー -->
+            <div class="flex2">
+                <div>
+                    <a href="https://www.p1-intl.com/" target="_blank"><img src="{% static 'logo.webp' %}"></a>
+                </div>
+                <div style="margin-left: 30px;">
+                    <a href="{% url 'zaiko:index' %}"><button type="button" class="btn btn-outline-success">サンプル在庫表</button></a>
+                </div>
+                <div style="margin-left: 30px;">
+                    <a href="{% url 'zaiko:irai_rireki' %}"><button type="button" class="btn btn-outline-success">履歴一覧</button></a>
+                </div>
+            </div>
+
             <!-- タイトル -->
-            {% if kubun == "new" %}
-                <div class="title03">
-                    <h2><span class="number">03</span>サンプル依頼が完了しました</h2>
-                </div>
-            {% elif kubun == "kakunin_ok" %}
-                <div class="title03">
-                    <h2><span class="number">未</span>サンプル依頼内容の確認
-                        <span>（この案件はまだ未発送のため、キャンセルが可能です）</span>
-                    </h2>
-                </div>
-            {% else %}
-                <div class="title00">
-                    <h2><span class="number">済</span>サンプル依頼内容の確認<span>（この案件は既に手配済みです）</span></h2>
-                </div>
-            {% endif %}
+            <div style="margin-top: 30px;">
+                {% if kubun == "new" %}
+                    <div class="title03">
+                        <h2><span class="number">03</span>サンプル依頼が完了しました</h2>
+                    </div>
+                {% elif kubun == "kakunin_ok" %}
+                    <div class="title03">
+                        <h2><span class="number">未</span>サンプル依頼内容の確認
+                            <span>（この案件はまだ未発送のため、キャンセルが可能です）</span>
+                        </h2>
+                    </div>
+                {% else %}
+                    <div class="title00">
+                        <h2><span class="number">済</span>サンプル依頼内容の確認<span>（この案件は既に手配済みです）</span></h2>
+                    </div>
+                {% endif %}
+            </div>
 
             <!-- 選択商品一覧 -->
             <div class="mt-4">
@@ -122,9 +138,6 @@
                         <td>問い合わせ番号</td><td>{{irai_detail.unsou_num}}</td>
                     </tr>
                 </table>
-                <div class="mt-5">
-                    <a href="{% url 'zaiko:index' %}"><button type="button" class="btn btn-primary">続けてサンプルを依頼する</button></a>
-                </div>
             </div>
         </div>
     </div>
