@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="icon" href="{% static 'tamori.gif' %}">
 
     <title>サンプル在庫表</title>
 
@@ -357,7 +358,11 @@
             </div>
 
             <!-- 商品リスト -->
-            <iframe src="{% url 'zaiko:shouhin_all' %}" name="shouhin_all" width="100%" height="400px"></iframe>
+            <div style="margin: 0 auto; width: 1150px;">
+                <div style="margin-left: 15px;">
+                    <iframe src="{% url 'zaiko:shouhin_all' %}" name="shouhin_all" width="100%" height="400px"></iframe>
+                </div>
+            </div>
             
             <!-- モーダル -->
             <div class="modal fade" id="toriyose_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
