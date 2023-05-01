@@ -28,6 +28,7 @@
                     <div class="title03">
                         <h2><span class="number">未</span>サンプル依頼内容の確認
                             <span>（この案件はまだ未発送のため、キャンセルが可能です）</span>
+                            <span><button type="button" class="btn btn-outline-danger btn-sm" id="cancel">キャンセル</button></span>
                         </h2>
                     </div>
                 {% else %}
@@ -132,6 +133,13 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var c_btn=document.getElementById("cancel")
+        c_btn.addEventListener("click",function(){
+            window.alert("現在開発中のため動作しません");
+        })
+    </script>
 
 </body>
 </html>

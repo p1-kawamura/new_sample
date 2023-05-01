@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import Shouhin,Rental,Size,Shozoku,Rireki_rental,Rireki_shouhin
+from django.contrib.auth.decorators import login_required
 import io
 import csv
 from django.http import JsonResponse
@@ -29,7 +30,7 @@ def kokyaku_api(request):
     return render(request,"zaiko/kokyaku.html",{"res":res,"res2":res2})
 
 # -----------ここまで----------
-
+@login_required
 def index(request):
     if "sample" not in request.session:
         request.session["sample"]=[]
@@ -103,10 +104,12 @@ def shouhin_all(request):
     return render(request,"zaiko/shouhin_all.html",{"shouhin_hyouji":"no"})
 
 
+@login_required
 def irai_success(request):
     return render(request,"zaiko/success.html")
 
 
+@login_required
 def irai_rireki(request):
     irai_num=request.session["kensaku"]["irai_num"]
     rental_day_st=request.session["kensaku"]["rental_day_st"]

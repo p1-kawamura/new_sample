@@ -139,11 +139,9 @@
                             },
                             'dataType': 'json'
                         })
-                        var oya=this.parentNode.parentNode;
-                        oya.className="main0 flex hover1";
-                        oya.children[1].innerHTML="";
-                        oya.children[6].innerHTML="<input type='checkbox' class='form-check-input' style='border-color: #646565' name='" + arr[0] + "'>";
-                        window.location.reload();
+                        .done(function(response){         
+                            window.location.reload();
+                        })
                     }
                 },false)
             }
