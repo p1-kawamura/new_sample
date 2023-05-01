@@ -257,3 +257,17 @@ padding-left: 18px;
     border-bottom: solid 3px #198754;
     background-color: #e7fdf3;
 }
+.memobox{
+    margin: 1em 0;
+    background-color: #fff9c4;
+    padding: 1em;
+}
+.memobox-title{
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffc107;
+}
+.memobox p{
+    margin: 0;
+    padding: 0;
+}
