@@ -1,0 +1,13 @@
+{% load static %}
+<!-- メニュー -->
+<div class="menu">
+    <div>
+        <a href="https://www.p1-intl.com/" target="_blank"><img src="{% static 'logo.webp' %}"></a>
+    </div>
+    <div style="margin-left: 30px;">
+        <a href="{% url 'zaiko:index' %}"><button type="button" class="btn btn-outline-success">サンプル在庫表</button></a>
+    </div>
+    <div style="margin-left: 30px;">
+        <a href="{% url 'zaiko:irai_rireki' %}"><button type="button" class="btn btn-outline-success">履歴一覧</button></a>
+    </div>
+</div>
