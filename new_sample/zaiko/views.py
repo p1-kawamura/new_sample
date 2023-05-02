@@ -8,6 +8,7 @@ import requests
 import json
 from django.db.models import Max
 import datetime
+from django.db.models import Q
 
 
 
@@ -224,7 +225,7 @@ def hinban_enter_ajax(request):
     if len(hinban)==0:
         shouhin_list=[]
     else:
-        items=Shouhin.objects.filter(shouhin_num__contains = hinban)
+        items=Shouhin.objects.filter(~Q(sample_num=""),shouhin_num__contains = hinban)
         shouhin_list=[]
         for item in items:
             if item.shouhin_num not in shouhin_list:
@@ -257,10 +258,10 @@ def hinban_click_ajax(request):
 #品番リストをクリック（商品一覧）
 def hinban_click_ajax2(request):
     hinban=request.session["hinban"]
-    items=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
+    items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban).order_by("color","size_num").values())
     items2=list(Rental.objects.all().values())
     shouhin_name=hinban + "　" + items[0]["shouhin_name"]
-    brand=items[0]["brand"]  
+    brand=items[0]["brand"]
     request.session["shouhin_name"]=shouhin_name
     request.session["brand"]=brand
     data={
@@ -300,13 +301,13 @@ def color_size_click_ajax2(request):
 
     #商品一覧
     if color[0]=="" and size[0]=="":
-        items=list(Shouhin.objects.filter(shouhin_num = hinban).order_by("color","size_num").values())
+        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban).order_by("color","size_num").values())
     elif color[0]!="" and size[0]=="" :
-        items=list(Shouhin.objects.filter(shouhin_num = hinban , color__in=color).order_by("color","size_num").values())
+        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , color__in=color).order_by("color","size_num").values())
     elif color[0]=="" and size[0]!="" :
-        items=list(Shouhin.objects.filter(shouhin_num = hinban , size__in=size).order_by("color","size_num").values())
+        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , size__in=size).order_by("color","size_num").values())
     else:
-        items=list(Shouhin.objects.filter(shouhin_num = hinban , color__in=color , size__in=size).order_by("color","size_num").values())
+        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , color__in=color , size__in=size).order_by("color","size_num").values())
     items2=list(Rental.objects.all().values())
     data={
         "items": items,
@@ -425,7 +426,10 @@ def haisou_cus_success(request):
     haisou_com=request.POST["c_haisou_com"]
     haisou_cus=request.POST["c_haisou_cus"]
     haisou_yubin=request.POST["c_haisou_yubin"]
-    haisou_adress=request.POST["c_haisou_adress"]
+    haisou_pref=request.POST["c_haisou_pref"]
+    haisou_city=request.POST["c_haisou_city"]
+    haisou_banchi=request.POST["c_haisou_banchi"]
+    haisou_build=request.POST["c_haisou_build"]
     haisou_tel=request.POST["c_haisou_tel"]
     haisou_mail=request.POST["c_haisou_mail"]
     nouhin_com=request.POST["c_nouhin_com"]
@@ -443,7 +447,11 @@ def haisou_cus_success(request):
         item.irai_num=irai_num
         item.save()
         # 商品履歴DB
-        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i)
+        if item.sample_num=="":
+            kubun="取り寄せ"
+        else:
+            kubun="在庫"
+        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i,irai_hontai_kubun=kubun)
 
     #貸出DB
     Rental.objects.create(
@@ -462,7 +470,10 @@ def haisou_cus_success(request):
         haisou_com = haisou_com,
         haisou_cus = haisou_cus,
         haisou_yubin = haisou_yubin,
-        haisou_adress = haisou_adress,
+        haisou_pref = haisou_pref,
+        haisou_city = haisou_city,
+        haisou_banchi = haisou_banchi,
+        haisou_build = haisou_build,
         haisou_tel = haisou_tel,
         haisou_mail = haisou_mail,
         nouhin_com = nouhin_com,
@@ -520,7 +531,11 @@ def haisou_tempo_success(request):
         item.irai_num=irai_num
         item.save()
         # 商品履歴DB
-        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i)
+        if item.sample_num=="":
+            kubun="取り寄せ"
+        else:
+            kubun="在庫"
+        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i,irai_hontai_kubun=kubun)
 
     #貸出DB
     Rental.objects.create(
@@ -588,7 +603,11 @@ def haisou_keep_success(request):
         item.irai_num=irai_num
         item.save()
         # 商品履歴DB
-        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i)
+        if item.sample_num=="":
+            kubun="取り寄せ"
+        else:
+            kubun="在庫"
+        Rireki_shouhin.objects.create(irai_num=irai_num,irai_hontai_num=i,irai_hontai_kubun=kubun)
 
     #貸出DB
     Rental.objects.create(
@@ -658,10 +677,7 @@ def rireki_kakunin(request,pk):
         data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
-        if shouhin.sample_num=="":
-            data2["kubun"]="取り寄せ"
-        else:
-            data2["kubun"]="在庫"
+        data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun
         data.append(data2)
     params={
             "irai_shouhin_list":data,

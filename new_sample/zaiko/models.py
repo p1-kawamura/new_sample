@@ -62,7 +62,10 @@ class Rireki_rental(models.Model):
     haisou_com=models.CharField("会社名",max_length=30,blank=True)
     haisou_cus=models.CharField("名前",max_length=30,blank=True)
     haisou_yubin=models.CharField("郵便番号",max_length=30,blank=True)
-    haisou_adress=models.CharField("住所",max_length=100,blank=True)
+    haisou_pref=models.CharField("都道府県",max_length=10,blank=True)
+    haisou_city=models.CharField("市区町村",max_length=30,blank=True)
+    haisou_banchi=models.CharField("番地",max_length=30,blank=True)
+    haisou_build=models.CharField("建物名",max_length=30,blank=True)
     haisou_tel=models.CharField("電話番号",max_length=30,blank=True)
     haisou_mail=models.CharField("メールアドレス",max_length=100,blank=True)
     nouhin_com=models.CharField("納品書会社名",max_length=30,blank=True)
@@ -85,6 +88,7 @@ class Rireki_rental(models.Model):
 class Rireki_shouhin(models.Model):
     irai_num=models.IntegerField("依頼No")
     irai_hontai_num=models.IntegerField("本体No")
+    irai_hontai_kubun=models.CharField("区分",max_length=5,null=True,blank=True,default="")
 
     def __str__(self):
         return str(self.irai_num)

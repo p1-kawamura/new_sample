@@ -146,9 +146,19 @@
                                 <div>郵便番号：</div>
                                 <div><input  class="form-control" type="text" id="c_haisou_yubin" name="c_haisou_yubin" style="width: 100px;"></div>
                                 <div class="hissu">*</div>
-                                <div style="margin-left: 50px;">住所：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_adress" name="c_haisou_adress" style="width: 600px;"></div>
+                                <div style="margin-left: 50px;">都道府県：</div>
+                                <div><input  class="form-control" type="text" id="c_haisou_pref" name="c_haisou_pref" style="width: 150px;"></div>
                                 <div class="hissu">*</div>
+                                <div style="margin-left: 50px;">市区町村：</div>
+                                <div><input  class="form-control" type="text" id="c_haisou_city" name="c_haisou_city" style="width: 150px;"></div>
+                                <div class="hissu">*</div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>番地：</div>
+                                <div><input  class="form-control" type="text" id="c_haisou_banchi" name="c_haisou_banchi" style="width: 300px;"></div>
+                                <div class="hissu">*</div>
+                                <div style="margin-left: 50px;">建物名（部屋番号）：</div>
+                                <div><input  class="form-control" type="text" id="c_haisou_build" name="c_haisou_build" style="width: 300px;"></div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>電話番号：</div>
@@ -790,8 +800,14 @@
             if (document.getElementById("c_haisou_yubin").value == "") {
                 vali.push("【配送先】：郵便番号を入力してください！");
             };
-            if (document.getElementById("c_haisou_adress").value == "") {
-                vali.push("【配送先】：住所を入力してください！");
+            if (document.getElementById("c_haisou_pref").value == "") {
+                vali.push("【配送先】：都道府県を入力してください！");
+            };
+            if (document.getElementById("c_haisou_city").value == "") {
+                vali.push("【配送先】：市区町村を入力してください！");
+            };
+            if (document.getElementById("c_haisou_banchi").value == "") {
+                vali.push("【配送先】：番地を入力してください！");
             };
             if (document.getElementById("c_haisou_tel").value == "") {
                 vali.push("【配送先】：電話番号を入力してください！");
@@ -899,7 +915,6 @@
             });            
         });
 
-
         function getfail(data){
             console.log(data);
             var hontai=document.querySelectorAll('#irai_del');
@@ -913,6 +928,24 @@
             document.getElementById("kekka_fail").style.display="block";
             window.scrollTo(0,0);
         }
+
+
+        // 住所入力
+        var yubin =document.getElementById("c_haisou_yubin");
+        yubin.addEventListener("change",function(){
+            var zipcode=yubin.value.replace("-","");
+            var url="https://zip-cloud.appspot.com/api/search?zipcode=" + zipcode.toString()
+            fetch(url)
+            .then(function (data) {
+                return data.json(); // 読み込むデータをJSONに設定
+            })
+            .then(function (json) {
+                var adress=json["results"];
+                document.getElementById("c_haisou_pref").value=adress[0]["address1"]
+                document.getElementById("c_haisou_city").value=adress[0]["address2"]
+                document.getElementById("c_haisou_banchi").value=adress[0]["address3"]
+            });
+        })
 
 
     </script>
