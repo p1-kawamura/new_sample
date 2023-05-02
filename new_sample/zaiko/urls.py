@@ -4,7 +4,7 @@ from .views import index,shouhin_all,csv_imp,csv_imp_page,dele,hinban_enter_ajax
                     kakou_click_ajax,swatch_click_ajax,keep_kaijo_ajax,check_addlist_ajax,irai_del_ajax,\
                     kokyaku_index,kokyaku_api,hinban_click_ajax2,color_size_click_ajax2,toriyose_add_ajax,\
                     last_kakunin,haisou_cus_success,haisou_tempo_success,haisou_keep_success,irai_success,irai_rireki,\
-                    rireki_kakunin,page_prev,page_first,page_next,page_last,rireki_kensaku,cancel_ajax,mail_test
+                    rireki_kakunin,page_prev,page_first,page_next,page_last,rireki_kensaku,rireki_kensaku_all,cancel_ajax,mail_test
 
 
 app_name="zaiko"
@@ -15,9 +15,10 @@ urlpatterns = [
     path('shouhin_all/', shouhin_all, name="shouhin_all"), 
     path('irai_success/', irai_success, name="irai_success"), 
     path('irai_rireki/', irai_rireki, name="irai_rireki"), 
-    path('rireki_kensaku/', rireki_kensaku, name="rireki_kensaku"), 
+    path('rireki_kensaku/', rireki_kensaku, name="rireki_kensaku"),
+    path('rireki_kensaku_all/', rireki_kensaku_all, name="rireki_kensaku_all"), 
     path('page_prev/', page_prev, name="page_prev"), 
-    path('page_first/', page_first, name="page_first"), 
+    path('page_first/', page_first, name="page_first"),
     path('page_next/', page_next, name="page_next"), 
     path('page_last/', page_last, name="page_last"), 
     path('csv_imp_page/', csv_imp_page, name="csv_imp_page"), 

@@ -71,57 +71,64 @@
                 </form>
             </div>
 
-
+            <hr>
             <!-- 履歴一覧 -->
-            <div class="mt-5">
-                <table class="table table-bordered" style="font-size: 0.9em;">
-                    <thead>
-                        <tr class="table-secondary">
-                            <th>依頼NO.</th>
-                            <th>依頼日</th>
-                            <th>内容</th>
-                            <th>所属</th>
-                            <th>担当者</th>
-                            <th>貸出期限</th>
-                            <th>顧客会社</th>
-                            <th>顧客氏名</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for i in items %}
-                        <tr>
-                            <td style="vertical-align: middle; text-align: center;">{{i.irai_num}}</td>
-                            <td style="vertical-align: middle;">{{i.rental_day}}</td>
-                            <td style="vertical-align: middle;">
-                                {% if i.irai_type == 0 %}
-                                    顧客あて
-                                {% elif i.irai_type == 1 %}
-                                    店舗あて
-                                {% else %}
-                                    キープ
-                                {% endif %}
-                            </td>
-                            <td style="vertical-align: middle;">{{i.shozoku}}</td>
-                            <td style="vertical-align: middle;">{{i.tantou}}</td>
-                            <td style="vertical-align: middle;">{{i.rental_maxday}}</td>
-                            <td style="vertical-align: middle;">{{i.nouhin_com}}</td>
-                            <td style="vertical-align: middle;">{{i.nouhin_cus}}</td>
-                            <td style="text-align: center;">
-                                <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
-                                    {% if i.status == 0 and i.irai_type != 2 %}
-                                        <button type="submit" class="btn btn-success btn-sm">確認</button>
-                                    {% elif i.status == 1 %}
-                                        <span style="color: red;">準備中</span>
+            <div class="mt-3">
+                <div>
+                    <form action="{% url 'zaiko:rireki_kensaku_all' %}" method="post">{% csrf_token %}
+                        <button class="btn btn-outline-secondary btn-sm" type="submit">全て表示</button>
+                    </form>
+                </div>
+                <div class="mt-2">
+                    <table class="table table-bordered" style="font-size: 0.9em;">
+                        <thead>
+                            <tr class="table-secondary">
+                                <th>依頼NO.</th>
+                                <th>依頼日</th>
+                                <th>内容</th>
+                                <th>所属</th>
+                                <th>担当者</th>
+                                <th>貸出期限</th>
+                                <th>顧客会社</th>
+                                <th>顧客氏名</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in items %}
+                            <tr>
+                                <td style="vertical-align: middle; text-align: center;">{{i.irai_num}}</td>
+                                <td style="vertical-align: middle;">{{i.rental_day}}</td>
+                                <td style="vertical-align: middle;">
+                                    {% if i.irai_type == 0 %}
+                                        顧客あて
+                                    {% elif i.irai_type == 1 %}
+                                        店舗あて
                                     {% else %}
-                                        <button type="submit" class="btn btn-outline-dark btn-sm">確認</button>
+                                        キープ
                                     {% endif %}
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                </td>
+                                <td style="vertical-align: middle;">{{i.shozoku}}</td>
+                                <td style="vertical-align: middle;">{{i.tantou}}</td>
+                                <td style="vertical-align: middle;">{{i.rental_maxday}}</td>
+                                <td style="vertical-align: middle;">{{i.nouhin_com}}</td>
+                                <td style="vertical-align: middle;">{{i.nouhin_cus}}</td>
+                                <td style="text-align: center;">
+                                    <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
+                                        {% if i.status == 0 and i.irai_type != 2 %}
+                                            <button type="submit" class="btn btn-success btn-sm">確認</button>
+                                        {% elif i.status == 1 %}
+                                            <span style="color: red;">準備中</span>
+                                        {% else %}
+                                            <button type="submit" class="btn btn-outline-dark btn-sm">確認</button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- ページネーション -->

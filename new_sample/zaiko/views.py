@@ -185,6 +185,19 @@ def rireki_kensaku(request):
     return redirect("zaiko:irai_rireki")
 
 
+def rireki_kensaku_all(request):
+    request.session["kensaku"]["irai_num"]=""
+    request.session["kensaku"]["rental_day_st"]=""
+    request.session["kensaku"]["rental_day_ed"]=""
+    request.session["kensaku"]["irai_type"]=""
+    request.session["kensaku"]["shozoku"]=""
+    request.session["kensaku"]["tantou"]=""
+    request.session["kensaku"]["nouhin_com"]=""
+    request.session["kensaku"]["nouhin_cus"]=""
+    request.session["page_num"]=1
+    return redirect("zaiko:irai_rireki")
+
+
 def page_prev(request):
     num=request.session["page_num"]
     if num-1 > 0:
