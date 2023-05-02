@@ -42,10 +42,6 @@ def index(request):
         request.session["color"]=[]
     if "size" not in request.session:
         request.session["size"]=[]
-    if "shouhin_name" not in request.session:
-        request.session["shouhin_name"]=[]
-    if "brand" not in request.session:
-        request.session["brand"]=[]
     if "page_num" not in request.session:
         request.session["page_num"]=1
     if "all_page_num" not in request.session:
@@ -77,8 +73,6 @@ def index(request):
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
         data2["shouhin_num"]=shouhin.shouhin_num
-        data2["brand"]=shouhin.brand
-        data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         if shouhin.sample_num=="":
@@ -103,7 +97,7 @@ def index(request):
 
 
 def shouhin_all(request):
-    return render(request,"zaiko/shouhin_all.html",{"shouhin_hyouji":"no"})
+    return render(request,"zaiko/shouhin_all.html")
 
 
 @login_required
@@ -257,14 +251,19 @@ def hinban_click_ajax(request):
     color_list=[]
     size_list=[]
     for item in items:
+        shouhin_name=item.shouhin_name
+        brand=item.brand
         if item.color not in color_list:
             color_list.append(item.color)
         if item.size not in size_list:
             size_list.append(item.size)
     color_list.sort()
+    print(shouhin_name,brand)
     d={
         "color":color_list,
         "size":size_list,
+        "shouhin_name":shouhin_name,
+        "brand":brand,
      }
     return JsonResponse(d)
 
@@ -274,15 +273,9 @@ def hinban_click_ajax2(request):
     hinban=request.session["hinban"]
     items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban).order_by("color","size_num").values())
     items2=list(Rental.objects.all().values())
-    shouhin_name=hinban + "　" + items[0]["shouhin_name"]
-    brand=items[0]["brand"]
-    request.session["shouhin_name"]=shouhin_name
-    request.session["brand"]=brand
     data={
         "items":items,
         "items2":items2,
-        "shouhin_name":shouhin_name,
-        "brand":brand
      }
     return render(request,"zaiko/shouhin_all.html",data)
 
@@ -302,8 +295,6 @@ def color_size_click_ajax2(request):
     hinban=request.session["hinban"]
     color=request.session["color"]
     size=request.session["size"]
-    shouhin_name=request.session["shouhin_name"]
-    brand=request.session["brand"]
     try:
         color=color.split(",")
     except:
@@ -326,8 +317,6 @@ def color_size_click_ajax2(request):
     data={
         "items": items,
         "items2": items2,
-        "shouhin_name":shouhin_name,
-        "brand":brand
         }
     return render(request,"zaiko/shouhin_all.html",data)
 
@@ -370,18 +359,18 @@ def keep_kaijo_ajax(request):
     return JsonResponse(d)
 
 
-#依頼商品追加ボタン
+# 依頼商品チェック動作
 def check_addlist_ajax(request):
-    check_addlist=request.POST.get("check_addlist")
-    try:
-        check_addlist=check_addlist.split(",")
-    except:
-        check_addlist=list(check_addlist)
+    ans=request.POST.get("ans")
+    hontai_num=request.POST.get("hontai_num")
     ses=list(request.session["sample"])
-    for i in check_addlist:
-        if i not in ses:
-            ses.append(i)
+    if ans == "yes":
+        if hontai_num not in ses:
+            ses.append(hontai_num)
+    else:
+        ses.remove(hontai_num)
     request.session["sample"]=ses
+    print(ses)
     d={"":""}
     return JsonResponse(d)
 
@@ -506,8 +495,6 @@ def haisou_cus_success(request):
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
         data2["shouhin_num"]=shouhin.shouhin_num
-        data2["brand"]=shouhin.brand
-        data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         if shouhin.sample_num=="":
@@ -582,8 +569,6 @@ def haisou_tempo_success(request):
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
         data2["shouhin_num"]=shouhin.shouhin_num
-        data2["brand"]=shouhin.brand
-        data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         if shouhin.sample_num=="":
@@ -650,8 +635,6 @@ def haisou_keep_success(request):
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
         data2["shouhin_num"]=shouhin.shouhin_num
-        data2["brand"]=shouhin.brand
-        data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         if shouhin.sample_num=="":
@@ -687,8 +670,6 @@ def rireki_kakunin(request,pk):
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
         data2["shouhin_num"]=shouhin.shouhin_num
-        data2["brand"]=shouhin.brand
-        data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun

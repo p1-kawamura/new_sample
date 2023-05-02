@@ -12,23 +12,9 @@
 </head>
 <body>
     <div id="shouhin_all">
-        <!-- 商品名 -->
-        {% if shouhin_hyouji != "no" %}
-        <div>
-            <div class="flex">
-                <div class='mt-4 shouhin_name' style='width: 600px;'>
-                    <div style='font-size:1.2em'>{{shouhin_name}}</div>
-                    <div>{{brand}}</div>
-                </div>
-                <div class="place_addlist">
-                    <button type="button" class="btn btn-primary" id="btn_addlist">依頼リストに追加</button>
-                </div>
-            </div>      
-        </div>
-        {% endif %}
 
         <!-- 商品リスト -->
-        <div class="mt-4">
+        <div class="mt-1">
         {% for item in items %}
 
             {% if item.joutai == 0 %}
@@ -151,28 +137,25 @@
         check_add()
         function check_add(){
             var check_add=document.querySelectorAll("#check_add");
-            var btn_addlist=document.getElementById("btn_addlist");
-            var check_addlist=[];
-            btn_addlist.addEventListener("click",function(){
+            var ans;
+            if (check_add.length > 0) {
                 for (var i=0; i<check_add.length; i++){
-                    if (check_add[i].checked){
-                        check_addlist.push(check_add[i].name);
-                    }
-                }
-                if (check_addlist.length>0){
-                    check_addlist=check_addlist.toString()
-
-                    $.ajax({
-                        'url': '{% url "zaiko:check_addlist_ajax" %}',
-                        'type': 'POST',
-                        'data': {"check_addlist":check_addlist},
-                        'dataType': 'json'
-                    })
-                    .done(function(response){         
-                        window.top.location.reload();
-                    })
-                }
-            },false)
+                    check_add[i].addEventListener("click",function(){
+                        if (this.checked){
+                            ans="yes";
+                        } else {
+                            ans="no";
+                        };
+                        var hontai_num=this.name;
+                        $.ajax({
+                            'url': '{% url "zaiko:check_addlist_ajax" %}',
+                            'type': 'POST',
+                            'data': {"ans":ans,"hontai_num":hontai_num},
+                            'dataType': 'json'
+                        })
+                    },false)
+                };
+            }
         }
 
     </script>
