@@ -9,6 +9,7 @@ import json
 from django.db.models import Max
 import datetime
 from django.db.models import Q
+from django.core.mail import send_mail
 
 
 
@@ -239,7 +240,7 @@ def hinban_enter_ajax(request):
 def hinban_click_ajax(request):
     hinban=request.POST.get("hinban")
     request.session["hinban"]=hinban
-    items=Shouhin.objects.filter(shouhin_num = hinban).order_by("size_num")
+    items=Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban).order_by("size_num")
     color_list=[]
     size_list=[]
     for item in items:
@@ -685,6 +686,33 @@ def rireki_kakunin(request,pk):
             "kubun":kubun,
         }
     return render(request,"zaiko/success.html",params)
+
+
+# キャンセル依頼
+def cancel_ajax(request):
+    irai_num=request.POST.get("irai_num")
+    name=request.POST.get("name")
+    url = 'https://api.chatwork.com/v2'
+    roomid   = '118477147'
+    message  = "【サンプル在庫表】\n" + name + "さんからキャンセル依頼が来ました！\n依頼No." + irai_num
+    apikey   = '397df928d063bb65b534ec42bbdf2dce'
+    post_message_url = '{}/rooms/{}/messages'.format(url, roomid)
+    headers = { 'X-ChatWorkToken': apikey}
+    params = { 'body': message }
+    r = requests.post(post_message_url,headers=headers,params=params)         
+    d={"":""}
+    return JsonResponse(d)
+
+
+# メール送信テスト
+def mail_test(request):
+    subject = "メールテスト5"
+    message = "川村送信\nジミーのアドレス"
+    from_email = "oonishi@p1-intl.com"
+    recipient_list =["yagi@p1-intl.com"]
+
+    send_mail(subject, message, from_email, recipient_list)
+    return redirect("zaiko:kokyaku_index")
 
 
 

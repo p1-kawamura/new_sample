@@ -468,7 +468,6 @@
         //品番入力
         $('#hinban_enter').on('input', function(e) {
             e.preventDefault();
-  
             $.ajax({
                 'url': '{% url "zaiko:hinban_enter_ajax" %}',
                 'type': 'POST',
@@ -497,28 +496,30 @@
         //品番選択（カラー、サイズ検索）
         $('#hinban').on('click', function(e) {
             e.preventDefault();
-  
-            $.ajax({
-                'url': '{% url "zaiko:hinban_click_ajax" %}',
-                'type': 'POST',
-                'data': {
-                    'hinban': $('#hinban').val(),
-                },
-                'dataType': 'json'
-            })
-            .done(function(response){
-                var color_list
-                var size_list
-                for (var i of response.color){
-                    color_list = color_list + '<option>' + i + '</option>';
-                };
-                for (var i of response.size){
-                    size_list = size_list + '<option>' + i + '</option>';
-                }
-                document.getElementById("color").innerHTML=color_list; 
-                document.getElementById("size").innerHTML=size_list;
-                window.shouhin_all.location.href = "hinban_click_ajax2";   
-            });
+            
+            if ($('#hinban').val() != null){
+                $.ajax({
+                    'url': '{% url "zaiko:hinban_click_ajax" %}',
+                    'type': 'POST',
+                    'data': {
+                        'hinban': $('#hinban').val(),
+                    },
+                    'dataType': 'json'
+                })
+                .done(function(response){
+                    var color_list
+                    var size_list
+                    for (var i of response.color){
+                        color_list = color_list + '<option>' + i + '</option>';
+                    };
+                    for (var i of response.size){
+                        size_list = size_list + '<option>' + i + '</option>';
+                    }
+                    document.getElementById("color").innerHTML=color_list; 
+                    document.getElementById("size").innerHTML=size_list;
+                    window.shouhin_all.location.href = "hinban_click_ajax2";   
+                });
+            }
         });
 
 
@@ -526,36 +527,38 @@
         $('#color').on('click', function(e) {
             e.preventDefault();
 
-            var color=[];
-            var elm=document.getElementById("color").options;
-            for (i=0 ; i<elm.length ; i++){
-                if (elm[i].selected){
-                    color.push(elm[i].value);
+            if ($('#hinban').val() != null){
+                var color=[];
+                var elm=document.getElementById("color").options;
+                for (i=0 ; i<elm.length ; i++){
+                    if (elm[i].selected){
+                        color.push(elm[i].value);
+                    }
                 }
-            }
-            var size=[];
-            elm=document.getElementById("size").options;
-            for (i=0 ; i<elm.length ; i++){
-                if (elm[i].selected){
-                    size.push(elm[i].value);
+                var size=[];
+                elm=document.getElementById("size").options;
+                for (i=0 ; i<elm.length ; i++){
+                    if (elm[i].selected){
+                        size.push(elm[i].value);
+                    }
                 }
-            }
-            color=color.toString();
-            size=size.toString();
-        
-            $.ajax({
-                'url': '{% url "zaiko:color_size_click_ajax" %}',
-                'type': 'POST',
-                'data': {
-                    'hinban': $('#hinban').val(),
-                    'color':color,
-                    'size':size,
-                },
-                'dataType': 'json'
-            })
-            .done(function(response){       
-                window.shouhin_all.location.href = "color_size_click_ajax2";
-            });
+                color=color.toString();
+                size=size.toString();
+            
+                $.ajax({
+                    'url': '{% url "zaiko:color_size_click_ajax" %}',
+                    'type': 'POST',
+                    'data': {
+                        'hinban': $('#hinban').val(),
+                        'color':color,
+                        'size':size,
+                    },
+                    'dataType': 'json'
+                })
+                .done(function(response){       
+                    window.shouhin_all.location.href = "color_size_click_ajax2";
+                });
+            };
         });
 
 
@@ -563,36 +566,38 @@
         $('#size').on('click', function(e) {
             e.preventDefault();
 
-            var color=[];
-            var elm=document.getElementById("color").options;
-            for (i=0 ; i<elm.length ; i++){
-                if (elm[i].selected){
-                    color.push(elm[i].value);
+            if ($('#hinban').val() != null){
+                var color=[];
+                var elm=document.getElementById("color").options;
+                for (i=0 ; i<elm.length ; i++){
+                    if (elm[i].selected){
+                        color.push(elm[i].value);
+                    }
                 }
-            }
-            var size=[];
-            elm=document.getElementById("size").options;
-            for (i=0 ; i<elm.length ; i++){
-                if (elm[i].selected){
-                    size.push(elm[i].value);
+                var size=[];
+                elm=document.getElementById("size").options;
+                for (i=0 ; i<elm.length ; i++){
+                    if (elm[i].selected){
+                        size.push(elm[i].value);
+                    }
                 }
-            }
-            color=color.toString();
-            size=size.toString();
-        
-            $.ajax({
-                'url': '{% url "zaiko:color_size_click_ajax" %}',
-                'type': 'POST',
-                'data': {
-                    'hinban': $('#hinban').val(),
-                    'color':color,
-                    'size':size,
-                },
-                'dataType': 'json'
-            })
-            .done(function(response){          
-                window.shouhin_all.location.href = "color_size_click_ajax2";
-            });
+                color=color.toString();
+                size=size.toString();
+            
+                $.ajax({
+                    'url': '{% url "zaiko:color_size_click_ajax" %}',
+                    'type': 'POST',
+                    'data': {
+                        'hinban': $('#hinban').val(),
+                        'color':color,
+                        'size':size,
+                    },
+                    'dataType': 'json'
+                })
+                .done(function(response){          
+                    window.shouhin_all.location.href = "color_size_click_ajax2";
+                });
+            ;}
         });
 
 

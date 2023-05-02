@@ -7,6 +7,10 @@
     <title>顧客APIテスト</title>
 </head>
 <body>
+    <div style="margin-bottom: 200px;">
+        <a href="{% url 'zaiko:mail_test' %}"><button>メールテスト</button></a>
+
+    </div>
     <h2>顧客テスト</h2>
     <div>
         <form action="{% url 'zaiko:kokyaku_api' %}" method="POST">{% csrf_token %}
