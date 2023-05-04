@@ -372,13 +372,20 @@
                 <div id="hinban_hyouji" style="display: none;">
                     <table style="width: 1100px;">
                         <tr>
-                            <td style="width: 80%;">
-                                <div class='shouhin_name' style="margin-left: 10px; width: 600px;">
+                            <td style="width: 55%;">
+                                <div class='shouhin_name' style="margin-left: 10px; width: 500px;">
                                     <div id="shouhin_name" style='font-size:1.2em'></div>
                                     <div id="brand"></div>
                                 </div>
                             </td>
-                            <td style="width: 20%; text-align: right; vertical-align: bottom;">
+                            <td style="width: 30%; font-size: 0.9em; vertical-align: bottom;">
+                                <div class="flex2">
+                                        <div class="joutai1">貸出中</div>
+                                        <div class="joutai2" style="margin-left: 5px;">キープ中</div>
+                                </div>
+                                <div style="margin-top: 3px;">マウスを乗せると担当者が確認できます</div>  
+                            </td>
+                            <td style="width: 15%; text-align: right; vertical-align: bottom;">
                                 <form action="{% url 'zaiko:index' %}">{% csrf_token %}
                                     <button type="submit" class="btn btn-primary">依頼リストに追加</button>
                                 </form>
