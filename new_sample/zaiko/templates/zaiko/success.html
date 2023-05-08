@@ -75,7 +75,12 @@
 
             <!-- 依頼詳細 -->
             <div class="mt-5">
-                <div>貸出日：{{irai_detail.rental_day}}</div>
+                <div class="flex2" style="width: 1100px;">
+                    <div>貸出日：{{irai_detail.rental_day}}</div>
+                    {% if irai_detail.status == 3 %}
+                    <div style="color: red; margin-right: 0px; margin-left: auto;">キャンセル：{{irai_detail.cancel_name}} （{{irai_detail.cancel_day}}）</div>
+                    {% endif %}
+                </div>
                 <table class="table table-bordered" style="margin-top: 5px; font-size: 0.9em; width: 1100px;">
                     <tr class="table-secondary"><td colspan="4">サンプル依頼</td></tr>
                         <td style="width: 15%;">依頼No.</td>
@@ -188,7 +193,8 @@
                     'dataType': 'json'
                 })
                 .done(function(response){
-                    window.alert("キャンセルを依頼しました！\n\nDX/ITから連絡があるまでお待ちください。");
+                    window.location.reload();
+                    window.alert("キャンセルが完了しました！");
                 });
             };
         });

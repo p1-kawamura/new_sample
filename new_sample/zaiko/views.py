@@ -258,7 +258,6 @@ def hinban_click_ajax(request):
         if item.size not in size_list:
             size_list.append(item.size)
     color_list.sort()
-    print(shouhin_name,brand)
     d={
         "color":color_list,
         "size":size_list,
@@ -370,7 +369,6 @@ def check_addlist_ajax(request):
     else:
         ses.remove(hontai_num)
     request.session["sample"]=ses
-    print(ses)
     d={"":""}
     return JsonResponse(d)
 
@@ -686,14 +684,13 @@ def rireki_kakunin(request,pk):
 def cancel_ajax(request):
     irai_num=request.POST.get("irai_num")
     name=request.POST.get("name")
-    url = 'https://api.chatwork.com/v2'
-    roomid   = '118477147'
-    message  = "【サンプル在庫表】\n" + name + "さんからキャンセル依頼が来ました！\n依頼No." + irai_num
-    apikey   = '397df928d063bb65b534ec42bbdf2dce'
-    post_message_url = '{}/rooms/{}/messages'.format(url, roomid)
-    headers = { 'X-ChatWorkToken': apikey}
-    params = { 'body': message }
-    r = requests.post(post_message_url,headers=headers,params=params)         
+    today=datetime.date.today().strftime("%Y-%m-%d")
+    can=Rireki_rental.objects.get(irai_num=irai_num)
+    can.status=3
+    can.cancel_day=today
+    can.cancel_name=name
+    can.save()
+    Rireki_shouhin.objects.filter(irai_num=irai_num).delete()
     d={"":""}
     return JsonResponse(d)
 

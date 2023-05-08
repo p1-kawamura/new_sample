@@ -43,6 +43,14 @@ class Size(models.Model):
 
     def __str__(self):
         return self.size
+    
+
+class Size_test(models.Model):
+    size_num=models.IntegerField("順番",null=False)
+    size=models.CharField("サイズ",max_length=30,blank=True)
+
+    def __str__(self):
+        return self.size
 
 
 class Shozoku(models.Model):
@@ -77,12 +85,14 @@ class Rireki_rental(models.Model):
     status=models.IntegerField("状態",default=0)
     unsou_com=models.CharField("運送会社",max_length=20,null=True,blank=True,default="")
     unsou_num=models.CharField("問い合わせ番号",max_length=20,null=True,blank=True,default="")
+    cancel_day=models.CharField("キャンセル日",max_length=30,null=True,blank=True,default="")
+    cancel_name=models.CharField("キャンセル担当",max_length=30,null=True,blank=True,default="")
 
     def __str__(self):
         return str(self.irai_num)
     
     # irai_type（内容）　0:顧客　1:店舗　2:キープ
-    # status（状態）　0:変更可　1:準備中　2:完了
+    # status（状態）　0:変更可　1:準備中　2:完了　3.キャンセル
     
 
 class Rireki_shouhin(models.Model):
