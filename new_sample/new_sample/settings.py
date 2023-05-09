@@ -133,8 +133,3 @@ LOGOUT_REDIRECT_URL = 'zaiko:login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# メール
-EMAIL_HOST = 'smtp.p1-intl.com'
-EMAIL_HOST_USER = 'kawamura@p1-intl.com'
-EMAIL_HOST_PASSWORD = 'G2Y3&Ugz'
-EMAIL_PORT = '587' #メールサーバーで指定されているポート
