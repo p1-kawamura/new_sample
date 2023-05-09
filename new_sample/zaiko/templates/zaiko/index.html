@@ -719,7 +719,7 @@
             $.ajax({
                 'url': '{% url "zaiko:toriyose_add_ajax" %}',
                 'type': 'POST',
-                'data': {'rows':rows, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                'data': {'rows':rows},
                 'dataType': 'json'
             })
             .done(function(response){
@@ -738,7 +738,7 @@
                     $.ajax({
                         'url': '{% url "zaiko:irai_del_ajax" %}',
                         'type': 'POST',
-                        'data': {"irai_del":this.name ,csrfmiddlewaretoken: '{{ csrf_token }}'},
+                        'data': {"irai_del":this.name},
                         'dataType': 'json'
                     })
                     .done(function(response){                

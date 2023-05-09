@@ -685,12 +685,20 @@ def cancel_ajax(request):
     irai_num=request.POST.get("irai_num")
     name=request.POST.get("name")
     today=datetime.date.today().strftime("%Y-%m-%d")
+    # 貸出一覧
+    Rental.objects.get(irai_num_rental=irai_num).delete()
+    # 商品一覧
+    can=Shouhin.objects.filter(irai_num=irai_num)
+    for i in can:
+        i.joutai=0
+        i.irai_num=0
+        i.save()
+    # 履歴　貸出一覧
     can=Rireki_rental.objects.get(irai_num=irai_num)
     can.status=3
     can.cancel_day=today
     can.cancel_name=name
     can.save()
-    Rireki_shouhin.objects.filter(irai_num=irai_num).delete()
     d={"":""}
     return JsonResponse(d)
 
