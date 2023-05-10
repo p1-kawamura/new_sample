@@ -19,7 +19,7 @@
             <div class="flex4">
                 <!-- サイズ -->
                 <div style="width: 200px;">
-                    <div style="background-color: red;">サイズ</div>
+                    <div class="title_sc">サイズ</div>
                     <div class="inlineframe mt-3">
                         <ol class="drag-list">
                             {% for i in sizes %}
@@ -36,6 +36,8 @@
                         <div class="mt-3" style="text-align: right;">
                             <button type="button" class="btn btn-secondary" id="btn_size_num">順番決定</button>
                         </div>
+                        <hr>
+                        <div>■サイズ名変更</div>
                         <div class="mt-3">
                             <div class="flex2">
                                 <div>現在：</div>
@@ -46,16 +48,18 @@
                                 <div style="width: 150px;"><input class="form-control" type="text" id="size_name2"></div>
                             </div>
                             <div class="mt-3" style="text-align: right;">
-                                <button type="button" class="btn btn-secondary" id="btn_size_name">サイズ名変更</button>
+                                <button type="button" class="btn btn-secondary" id="btn_size_name">変更</button>
                             </div>
                         </div>
+                        <hr>
+                        <div>■新サイズ登録</div>
                         <div class="mt-3">
                             <div class="flex2">
                                 <div>新規：</div>
                                 <div style="width: 150px;"><input class="form-control" type="text" id="size_new"></div>
                             </div>
                             <div class="mt-3" style="text-align: right;">
-                                <button type="button" class="btn btn-secondary" id="btn_size_new">新規作成</button>
+                                <button type="button" class="btn btn-secondary" id="btn_size_new">登録</button>
                             </div>
                         </div>
                     </div>
@@ -63,7 +67,7 @@
 
                 <!-- カテゴリ -->
                 <div style="width: 800px;">
-                    <div style="background-color: blue;">カテゴリ</div>
+                    <div class="title_sc">カテゴリ</div>
                     <div class="inlineframe2 mt-3">
                         <ol class="drag-list">
                             {% for i in category %}
@@ -86,6 +90,8 @@
                         <div class="mt-3" style="text-align: right;">
                             <button type="button" class="btn btn-secondary" id="btn_category_num">順番決定</button>
                         </div>
+                        <hr>
+                        <div>■カテゴリ名変更</div>
                         <div class="mt-3">
                             <div class="flex2">
                                 <div>現在：</div>
@@ -98,9 +104,11 @@
                                 <div style="width: 520px;"><input class="form-control" type="text" id="category_name3"></div>
                             </div>
                             <div class="mt-3" style="text-align: right;">
-                                <button type="button" class="btn btn-secondary" id="btn_category_name">サイズ名変更</button>
+                                <button type="button" class="btn btn-secondary" id="btn_category_name">変更</button>
                             </div>
                         </div>
+                        <hr>
+                        <div>■新カテゴリ登録</div>
                         <div class="mt-3">
                             <div class="flex2">
                                 <div>新規：</div>
@@ -109,7 +117,7 @@
                                 <div style="width: 520px;"><input class="form-control" type="text" id="category_new2"></div>
                             </div>
                             <div class="mt-3" style="text-align: right;">
-                                <button type="button" class="btn btn-secondary" id="btn_category_new">新規作成</button>
+                                <button type="button" class="btn btn-secondary" id="btn_category_new">登録</button>
                             </div>
                         </div>
                     </div>

@@ -303,3 +303,9 @@ padding-left: 18px;
     overflow-y:scroll;
     overflow-x:hidden;
 }
+.title_sc {
+    background-color: #333333;
+    color: #fff;
+    text-align: center;
+    padding: 7px 0px;
+}
