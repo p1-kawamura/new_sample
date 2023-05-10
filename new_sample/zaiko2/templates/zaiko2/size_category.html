@@ -16,47 +16,106 @@
     <div class="container mt-5 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
 
-            <div class="inlineframe">
-                <ol class="drag-list">
-                    {% for i in sizes %}
-                        {% if i.size_num == 0 %}
-                        <li id="{{i.size}}" name="size_list" draggable="true" style="background-color: aqua;">{{i.size}}</li>
-                        {% else %}
-                        <li id="{{i.size}}" name="size_list" draggable="true">{{i.size}}</li>
-                        {% endif %}
-                    {% endfor %}
-                    <li style="border:0;list-style-type:none;">&nbsp;</li>
-                </ol>
+            <div class="flex4">
+                <!-- サイズ -->
+                <div style="width: 200px;">
+                    <div style="background-color: red;">サイズ</div>
+                    <div class="inlineframe mt-3">
+                        <ol class="drag-list">
+                            {% for i in sizes %}
+                                {% if i.size_num == 0 %}
+                                <li id="{{i.size}}" name="size_list" draggable="true" style="background-color: aqua;">{{i.size}}</li>
+                                {% else %}
+                                <li id="{{i.size}}" name="size_list" draggable="true">{{i.size}}</li>
+                                {% endif %}
+                            {% endfor %}
+                            <li style="border:0;list-style-type:none;">&nbsp;</li>
+                        </ol>
+                    </div>
+                    <div style="width: 200px;">
+                        <div class="mt-3" style="text-align: right;">
+                            <button type="button" class="btn btn-secondary" id="btn_size_num">順番決定</button>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex2">
+                                <div>現在：</div>
+                                <div style="width: 150px;"><input class="form-control" type="text" id="size_name1" disabled></div>
+                            </div>
+                            <div class="flex2 mt-1">
+                                <div>変更：</div>
+                                <div style="width: 150px;"><input class="form-control" type="text" id="size_name2"></div>
+                            </div>
+                            <div class="mt-3" style="text-align: right;">
+                                <button type="button" class="btn btn-secondary" id="btn_size_name">サイズ名変更</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex2">
+                                <div>新規：</div>
+                                <div style="width: 150px;"><input class="form-control" type="text" id="size_new"></div>
+                            </div>
+                            <div class="mt-3" style="text-align: right;">
+                                <button type="button" class="btn btn-secondary" id="btn_size_new">新規作成</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- カテゴリ -->
+                <div style="width: 800px;">
+                    <div style="background-color: blue;">カテゴリ</div>
+                    <div class="inlineframe2 mt-3">
+                        <ol class="drag-list">
+                            {% for i in category %}
+                                {% if i.category_num == 0 %}
+                                <li id="{{i.category}}" name="category_list" draggable="true" style="background-color: aqua;">
+                                    <span style="color: brown;">{{i.category}}</span>
+                                    <span style="margin-left: 30px;">{{i.category_ex}}</span>
+                                </li>
+                                {% else %}
+                                <li id="{{i.category}}" name="category_list" draggable="true">
+                                    <span style="color: brown; font-weight: bold;">{{i.category}}</span>
+                                    <span style="margin-left: 30px;">{{i.category_ex}}</span>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            <li style="border:0;list-style-type:none;">&nbsp;</li>
+                        </ol>
+                    </div>
+                    <div style="width: 800px;">
+                        <div class="mt-3" style="text-align: right;">
+                            <button type="button" class="btn btn-secondary" id="btn_category_num">順番決定</button>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex2">
+                                <div>現在：</div>
+                                <div style="width: 150px;"><input class="form-control" type="text" id="category_name1" disabled></div>
+                            </div>
+                            <div class="flex2 mt-1">
+                                <div>変更：</div>
+                                <div style="width: 150px;"><input class="form-control" type="text" id="category_name2"></div>
+                                <div style="margin-left: 30px;">説明：</div>
+                                <div style="width: 520px;"><input class="form-control" type="text" id="category_name3"></div>
+                            </div>
+                            <div class="mt-3" style="text-align: right;">
+                                <button type="button" class="btn btn-secondary" id="btn_category_name">サイズ名変更</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex2">
+                                <div>新規：</div>
+                                <div style="width: 150px;"><input class="form-control" type="text" id="category_new1"></div>
+                                <div style="margin-left: 30px;">説明：</div>
+                                <div style="width: 520px;"><input class="form-control" type="text" id="category_new2"></div>
+                            </div>
+                            <div class="mt-3" style="text-align: right;">
+                                <button type="button" class="btn btn-secondary" id="btn_category_new">新規作成</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            <div style="width: 200px;">
-                <div class="mt-3" style="text-align: right;">
-                    <button type="button" class="btn btn-secondary" id="btn_size_num">順番決定</button>
-                </div>
-                <div class="mt-3">
-                    <div class="flex2">
-                        <div>現在：</div>
-                        <div style="width: 150px;"><input class="form-control" type="text" id="size_name1" disabled></div>
-                    </div>
-                    <div class="flex2">
-                        <div>変更：</div>
-                        <div style="width: 150px;"><input class="form-control" type="text" id="size_name2"></div>
-                    </div>
-                    <div class="mt-3" style="text-align: right;">
-                        <button type="button" class="btn btn-secondary" id="btn_size_name">サイズ名変更</button>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <div class="flex2">
-                        <div>新規：</div>
-                        <div style="width: 150px;"><input class="form-control" type="text" id="size_new"></div>
-                    </div>
-                    <div class="mt-3" style="text-align: right;">
-                        <button type="button" class="btn btn-secondary" id="btn_size_new">新規作成</button>
-                    </div>
-                </div>
-        </div>
-
         </div>
     </div>
 
@@ -172,9 +231,86 @@
         });
 
 
+        // カテゴリ番号決定（順位変更）
+        $('#btn_category_num').on('click', function(e) {
+            var category=document.getElementsByName("category_list");
+            var category_list={};
+            for (var i=0; i<category.length; i++){
+                category_list[i]=category[i].id
+            };
+            category_list=JSON.stringify(category_list);
+            $.ajax({
+                'url': '{% url "zaiko2:category_num" %}',
+                'type': 'POST',
+                'data': {'category_list':category_list},
+                'dataType': 'json'
+            })
+            .done(function(response){
+                window.location.reload();
+                window.alert("カテゴリ順を変更しました！");
+            });            
+        });
 
 
-        // サイズリストの並び替え
+        // カテゴリ名称取得
+        var category=document.getElementsByName("category_list");
+        for (var i=0; i<category.length; i++){
+            category[i].addEventListener("click",function(){
+                document.getElementById("category_name1").value=this.firstElementChild.innerText;
+                document.getElementById("category_name2").value=this.firstElementChild.innerText;
+                document.getElementById("category_name3").value=this.lastElementChild.innerText;
+            },false)
+        };
+
+
+        // カテゴリ名称変更
+        $('#btn_category_name').on('click', function(e) {
+            e.preventDefault();
+            var category_name1=document.getElementById("category_name1").value;
+            var category_name2=document.getElementById("category_name2").value;
+            var category_name3=document.getElementById("category_name3").value;
+            if (category_name2 == ""){
+                window.alert("変更後のカテゴリ名を入力してください！");
+                return
+            } else {
+                $.ajax({
+                    'url': '{% url "zaiko2:category_name" %}',
+                    'type': 'POST',
+                    'data': {'category_name1':category_name1,'category_name2':category_name2,'category_name3':category_name3},
+                    'dataType': 'json'
+                })
+                .done(function(response){
+                    window.location.reload();
+                    window.alert("カテゴリ名称と説明を変更しました！");
+                });
+            }     
+        });
+
+
+        // 新規カテゴリ
+        $('#btn_category_new').on('click', function(e) {
+            e.preventDefault();
+            var category_new1=document.getElementById("category_new1").value;
+            var category_new2=document.getElementById("category_new2").value;
+            if (category_new1 == ""){
+                window.alert("新規カテゴリ名を入力してください！");
+                return
+            } else {
+                $.ajax({
+                    'url': '{% url "zaiko2:category_new" %}',
+                    'type': 'POST',
+                    'data': {'category_new1':category_new1,'category_new2':category_new2},
+                    'dataType': 'json'
+                })
+                .done(function(response){
+                    window.location.reload();
+                    window.alert("新規カテゴリを追加しました！\n\n続けて、順番を決定してください。");
+                });
+            }     
+        });
+
+
+        // リストの並び替え
         document.querySelectorAll('.drag-list li').forEach (elm => {
             elm.ondragstart = function () {
                 event.dataTransfer.setData('text/plain', event.target.id);

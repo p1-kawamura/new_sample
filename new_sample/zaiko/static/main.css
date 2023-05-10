@@ -285,10 +285,19 @@ padding-left: 18px;
     line-height:3em;
     border:1px solid #cccccc;
     cursor:pointer;
+    padding-left: 10px;
 }
 .inlineframe {
     background-color:#FFFFFF;
     width: 200px;
+    height:500px;
+    overflow:auto;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+.inlineframe2 {
+    background-color:#FFFFFF;
+    width: 800px;
     height:500px;
     overflow:auto;
     overflow-y:scroll;

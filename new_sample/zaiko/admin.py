@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Shouhin,Rental,Size,Shozoku,Rireki_rental,Rireki_shouhin,Size_test
+from .models import Shouhin,Rental,Size,Shozoku,Rireki_rental,Rireki_shouhin,Category
 from django.contrib.admin import ModelAdmin
 
 class A_shouhin(ModelAdmin):
@@ -14,9 +14,9 @@ class A_size(ModelAdmin):
     model=Size
     list_display=["size_num","size"]
 
-class A_size_test(ModelAdmin):
-    model=Size_test
-    list_display=["size_num","size"]
+class A_category(ModelAdmin):
+    model=Category
+    list_display=["category_num","category","category_ex"]
 
 class A_shozoku(ModelAdmin):
     model=Shozoku
@@ -34,7 +34,7 @@ class A_Rireki_shouhin(ModelAdmin):
 admin.site.register(Shouhin,A_shouhin)
 admin.site.register(Rental,A_rental)
 admin.site.register(Size,A_size)
-admin.site.register(Size_test,A_size_test)
+admin.site.register(Category,A_category)
 admin.site.register(Shozoku,A_shozoku)
 admin.site.register(Rireki_rental,A_rireki_rental)
 admin.site.register(Rireki_shouhin,A_Rireki_shouhin)

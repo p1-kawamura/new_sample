@@ -3,7 +3,7 @@ from django.db import models
 class Shouhin(models.Model):
     hontai_num=models.AutoField("本体No",primary_key=True)
     sample_num=models.CharField("サンプルNo",max_length=20,blank=True)
-    category=models.CharField("カテゴリ",max_length=10,blank=True)
+    category=models.CharField("カテゴリ",max_length=50,blank=True)
     shouhin_num=models.CharField("商品番号",max_length=20,blank=True)
     brand=models.CharField("ブランド",max_length=20,blank=True)
     shouhin_name=models.CharField("商品名",max_length=255,blank=True)
@@ -45,13 +45,14 @@ class Size(models.Model):
         return self.size
     
 
-class Size_test(models.Model):
-    size_num=models.IntegerField("順番",null=False)
-    size=models.CharField("サイズ",max_length=30,blank=True)
+class Category(models.Model):
+    category_num=models.IntegerField("順番",null=False)
+    category=models.CharField("カテゴリ",max_length=50,blank=True)
+    category_ex=models.CharField("説明",max_length=100,blank=True)
 
     def __str__(self):
-        return self.size
-
+        return self.category
+    
 
 class Shozoku(models.Model):
     shozoku=models.CharField("所属",max_length=30)
