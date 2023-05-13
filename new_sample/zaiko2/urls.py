@@ -1,9 +1,12 @@
 from django.urls import path
-from .views import index2,size_category,size_num,size_name,size_new,category_num,category_name,category_new
+from .views import index2,category_click_ajax,hinban_click_ajax, \
+                    size_category,size_num,size_name,size_new,category_num,category_name,category_new
 
 app_name="zaiko2"
 urlpatterns = [
     path('index2/', index2, name="index2"),
+    path('category_click_ajax/', category_click_ajax, name="category_click_ajax"),
+    path('hinban_click_ajax/', hinban_click_ajax, name="hinban_click_ajax"),
     path('size_category/', size_category, name="size_category"),
     path('size_num/', size_num, name="size_num"),
     path('size_name/', size_name, name="size_name"),

@@ -289,16 +289,6 @@ padding-left: 18px;
 }
 .inlineframe {
     background-color:#FFFFFF;
-    width: 200px;
-    height:500px;
-    overflow:auto;
-    overflow-y:scroll;
-    overflow-x:hidden;
-}
-.inlineframe2 {
-    background-color:#FFFFFF;
-    width: 800px;
-    height:500px;
     overflow:auto;
     overflow-y:scroll;
     overflow-x:hidden;
@@ -308,4 +298,10 @@ padding-left: 18px;
     color: #fff;
     text-align: center;
     padding: 7px 0px;
+}
+.main10 {
+    border-bottom: solid 0.5px #333333;
+    padding: 10px 10px;
+    font-size: 0.9em;
+    width: 1100px;
 }

@@ -13,10 +13,42 @@
     <title>サンプル在庫_管理（登録・修正）</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container mt-5 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
 
-            
+            <!-- カテゴリ選択 -->
+            <div class="flex2">
+                <div style="width: 800px; height: 200px;">
+                    <select class="form-select" id="category" size="7">
+                        {% for i in ins %}
+                        <option value="{{i.category}}">【 {{i.category}} 】　{{i.category_ex}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="width: 200px; height: 200px; margin-left: 50px;">
+                    <select class="form-control" id="hinban" size="7"></select>
+                </div>
+            </div>
+            <!-- 一括編集 -->
+            <div>
+                <div>
+                    <div>■一括編集</div>
+                    <div class="flex2 mt-2">
+                        <div><input type="text" class="form-control" id="hinban_all" style="width: 150px;" disabled></div>
+                        <div style="margin-left: 30px;">品名：</div>
+                        <div><input type="text" class="form-control" id="hinban_all_name" style="width: 600px;"></div>
+                        <div style="margin-left: 30px;"><button class="btn btn-primary">更新</button></div>
+                        <div style="margin-left: 30px;"><button class="btn btn-outline-danger">登録削除</button></div>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <div>■個別編集</div>
+                    <div class="inlineframe mt-2" style="height: 250px;">
+                        <div id="shouhin_all"></div>
+                    </div>
+                    
+                </div>
+            </div>
 
 
 
@@ -27,6 +59,98 @@
 
         </div>
     </div>
-    sss
+
+
+    <!-- JavaScript -->
+    <script>
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i <cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+  
+        var csrftoken = getCookie('csrftoken');
+  
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+  
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+  
+  
+  
+        //カテゴリ選択
+        $('#category').on('click', function(e) {
+            $.ajax({
+                'url': '{% url "zaiko2:category_click_ajax" %}',
+                'type': 'POST',
+                'data': {'category': $('#category').val()},
+                'dataType': 'json'
+            })
+            .done(function(response){
+                var list
+                for (var i of response.hinban_list){
+                    list = list + '<option>' + i + '</option>';
+                }
+                document.getElementById("hinban").innerHTML=list;
+                document.getElementById("hinban_all").value=""
+                document.getElementById("hinban_all_name").value="";
+                document.getElementById("shouhin_all").innerHTML="";
+            });
+        });
+
+
+        //品番選択
+        $('#hinban').on('click', function(e) {
+            if ($('#hinban').val() != null){
+                $.ajax({
+                    'url': '{% url "zaiko2:hinban_click_ajax" %}',
+                    'type': 'POST',
+                    'data': {'hinban': $('#hinban').val()},
+                    'dataType': 'json'
+                })
+                .done(function(response){
+                    console.log(response.items);
+                    document.getElementById("hinban_all").value=response.hinban;
+                    document.getElementById("hinban_all_name").value=response.shouhin_name;
+                    var itm = response.items;
+                    var str="";
+                    var str2="";
+                    for (var i=0; i<itm.length ;i++){
+                        str2="<div class='flex2 main10' name='" + itm[i].hontai_num + "' id='shouhin_all_click'>" +  
+                                "<div style='width:100px;'>" + itm[i].sample_num + "</div>" +
+                                "<div style='width:100px;'>" + itm[i].brand + "</div>" +
+                                "<div style='width:400px;'>" + itm[i].shouhin_name + "</div>" +
+                                "<div style='width:200px;'>" + itm[i].color + "</div>" +
+                                "<div style='width:140px;'>" + itm[i].size + "</div>" +
+                                "<div style='width:140px;'>" + itm[i].kakou + "</div>" +
+                            "</div>"
+                        str = str + str2
+                    };
+                    var str="<div>" + str + "</div>"
+                    document.getElementById("shouhin_all").innerHTML=str;
+                });
+            }
+        });
+
+    </script>
 </body>
 </html>

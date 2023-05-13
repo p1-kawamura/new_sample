@@ -5,7 +5,29 @@ import json
 
 
 def index2(request):
-    return render(request,"zaiko2/index2.html")
+    ins=Category.objects.all()
+    return render(request,"zaiko2/index2.html",{"ins":ins})
+
+
+# カテゴリクリック
+def category_click_ajax(request):
+    category=request.POST.get("category")
+    hinban=Shouhin.objects.filter(category=category)
+    hinban_list=[]
+    for i in hinban:
+        if i.shouhin_num not in hinban_list:
+            hinban_list.append(i.shouhin_num)
+    d={"hinban_list":hinban_list}
+    return JsonResponse(d)
+
+
+# 品番クリック
+def hinban_click_ajax(request):
+    hinban=request.POST.get("hinban")
+    shouhin_name=Shouhin.objects.filter(shouhin_num__contains=hinban).first().shouhin_name
+    items=list(Shouhin.objects.filter(shouhin_num__contains=hinban).values())
+    d={"hinban":hinban,"shouhin_name":shouhin_name,"items":items}
+    return JsonResponse(d)
 
 
 def size_category(request):
