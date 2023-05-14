@@ -12,20 +12,30 @@ def index2(request):
 # カテゴリクリック
 def category_click_ajax(request):
     category=request.POST.get("category")
-    hinban=Shouhin.objects.filter(category=category)
+    if category == "取寄せ":
+        items=list(Shouhin.objects.filter(sample_num = "").values())
+        hinban=Shouhin.objects.filter(sample_num = "")
+    else:
+        items=list(Shouhin.objects.filter(category=category).values())
+        hinban=Shouhin.objects.filter(category=category)
     hinban_list=[]
     for i in hinban:
         if i.shouhin_num not in hinban_list:
             hinban_list.append(i.shouhin_num)
-    d={"hinban_list":hinban_list}
+    d={"hinban_list":hinban_list,"items":items}
     return JsonResponse(d)
 
 
 # 品番クリック
 def hinban_click_ajax(request):
+    category=request.POST.get("category")
     hinban=request.POST.get("hinban")
-    shouhin_name=Shouhin.objects.filter(shouhin_num__contains=hinban).first().shouhin_name
-    items=list(Shouhin.objects.filter(shouhin_num__contains=hinban).values())
+    if  category == "取寄せ":
+        shouhin_name=Shouhin.objects.filter(shouhin_num__contains=hinban,sample_num="").first().shouhin_name
+        items=list(Shouhin.objects.filter(shouhin_num__contains=hinban,sample_num="").values())
+    else:
+        shouhin_name=Shouhin.objects.filter(shouhin_num__contains=hinban).first().shouhin_name
+        items=list(Shouhin.objects.filter(shouhin_num__contains=hinban).values())
     d={"hinban":hinban,"shouhin_name":shouhin_name,"items":items}
     return JsonResponse(d)
 
