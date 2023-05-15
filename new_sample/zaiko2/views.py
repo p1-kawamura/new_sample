@@ -40,6 +40,12 @@ def hinban_click_ajax(request):
     return JsonResponse(d)
 
 
+# リストクリック
+def list_click_ajax(request):
+    d={"":""}
+    return JsonResponse(d)
+
+
 def size_category(request):
     sizes=Size.objects.all().order_by("size_num")
     category=Category.objects.all().order_by("category_num")

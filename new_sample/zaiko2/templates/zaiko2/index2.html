@@ -117,18 +117,19 @@
                 var str="";
                 var str2="";
                 for (var i=0; i<itm.length ;i++){
-                    str2="<div class='flex2 main10 hover2' name='" + itm[i].hontai_num + "' id='shouhin_all_click'>" +  
+                    str2="<div class='flex2 main10 hover2' id='item_list' name='" + itm[i].hontai_num + "' id='shouhin_all_click'>" +  
                             "<div style='width:100px;'>" + itm[i].sample_num + "</div>" +
                             "<div style='width:140px;'>" + itm[i].shouhin_num + "</div>" +
-                            "<div style='width:100px;'>" + itm[i].brand + "</div>" +
+                            "<div style='width:120px;'>" + itm[i].brand + "</div>" +
                             "<div style='width:400px;'>" + itm[i].shouhin_name + "</div>" +
                             "<div style='width:200px;'>" + itm[i].color + "</div>" +
-                            "<div style='width:140px;'>" + itm[i].size + "</div>" +
+                            "<div style='width:100px;'>" + itm[i].size + "</div>" +
                         "</div>"
                     str = str + str2
                 };
                 var str="<div>" + str + "</div>"
                 document.getElementById("shouhin_all").innerHTML=str;
+                item_list_click();
             });
         });
 
@@ -154,21 +155,43 @@
                     var str="";
                     var str2="";
                     for (var i=0; i<itm.length ;i++){
-                        str2="<div class='flex2 main10 hover2' name='" + itm[i].hontai_num + "' id='shouhin_all_click'>" +  
+                        str2="<div class='flex2 main10 hover2' id='item_list' name='" + itm[i].hontai_num + "' id='shouhin_all_click'>" +  
                                 "<div style='width:100px;'>" + itm[i].sample_num + "</div>" +
                                 "<div style='width:140px;'>" + itm[i].shouhin_num + "</div>" +
-                                "<div style='width:100px;'>" + itm[i].brand + "</div>" +
+                                "<div style='width:120px;'>" + itm[i].brand + "</div>" +
                                 "<div style='width:400px;'>" + itm[i].shouhin_name + "</div>" +
                                 "<div style='width:200px;'>" + itm[i].color + "</div>" +
-                                "<div style='width:140px;'>" + itm[i].size + "</div>" +
+                                "<div style='width:100px;'>" + itm[i].size + "</div>" +
                             "</div>"
                         str = str + str2
                     };
                     var str="<div>" + str + "</div>"
                     document.getElementById("shouhin_all").innerHTML=str;
+                    item_list_click();
                 });
             }
         });
+
+
+        // リストクリック
+        function item_list_click(){
+            var item=document.querySelectorAll("#item_list");
+            for (var i=0; i<item.length; i++){
+                item[i].addEventListener("click",function(){
+                    console.log(this.name);
+                    // $.ajax({
+                    //     'url': '{% url "zaiko2:list_click_ajax" %}',
+                    //     'type': 'POST',
+                    //     'data': {"hontai_num":this.name},
+                    //     'dataType': 'json'
+                    // })
+                    // .done(function(response){                
+                    //     window.location.reload();
+                    // })
+                },false)
+            };
+        };
+
 
     </script>
 </body>
