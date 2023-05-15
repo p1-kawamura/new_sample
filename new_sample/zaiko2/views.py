@@ -42,6 +42,8 @@ def hinban_click_ajax(request):
 
 # リストクリック
 def list_click_ajax(request):
+    hontai_num=request.POST.get("hontai_num")
+    print(hontai_num)
     d={"":""}
     return JsonResponse(d)
 

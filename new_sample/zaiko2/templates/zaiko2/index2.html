@@ -43,7 +43,7 @@
                 </div>
                 <div class="mt-5">
                     <div>■個別編集</div>
-                    <div class="inlineframe mt-2" style="height: 250px;">
+                    <div class="inlineframe mt-2" style="width: 1100px; height: 250px;">
                         <div id="shouhin_all"></div>
                     </div>
                     
@@ -117,10 +117,10 @@
                 var str="";
                 var str2="";
                 for (var i=0; i<itm.length ;i++){
-                    str2="<div class='flex2 main10 hover2' id='item_list' name='" + itm[i].hontai_num + "' id='shouhin_all_click'>" +  
+                    str2="<div class='flex2 main10 hover2' id='"+ itm[i].hontai_num + "' name='item_list'>" +  
                             "<div style='width:100px;'>" + itm[i].sample_num + "</div>" +
-                            "<div style='width:140px;'>" + itm[i].shouhin_num + "</div>" +
-                            "<div style='width:120px;'>" + itm[i].brand + "</div>" +
+                            "<div style='width:130px;'>" + itm[i].shouhin_num + "</div>" +
+                            "<div style='width:130px;'>" + itm[i].brand + "</div>" +
                             "<div style='width:400px;'>" + itm[i].shouhin_name + "</div>" +
                             "<div style='width:200px;'>" + itm[i].color + "</div>" +
                             "<div style='width:100px;'>" + itm[i].size + "</div>" +
@@ -155,10 +155,10 @@
                     var str="";
                     var str2="";
                     for (var i=0; i<itm.length ;i++){
-                        str2="<div class='flex2 main10 hover2' id='item_list' name='" + itm[i].hontai_num + "' id='shouhin_all_click'>" +  
+                        str2="<div class='flex2 main10 hover2' id='"+ itm[i].hontai_num + "' name='item_list'>" +  
                                 "<div style='width:100px;'>" + itm[i].sample_num + "</div>" +
-                                "<div style='width:140px;'>" + itm[i].shouhin_num + "</div>" +
-                                "<div style='width:120px;'>" + itm[i].brand + "</div>" +
+                                "<div style='width:130px;'>" + itm[i].shouhin_num + "</div>" +
+                                "<div style='width:130px;'>" + itm[i].brand + "</div>" +
                                 "<div style='width:400px;'>" + itm[i].shouhin_name + "</div>" +
                                 "<div style='width:200px;'>" + itm[i].color + "</div>" +
                                 "<div style='width:100px;'>" + itm[i].size + "</div>" +
@@ -175,19 +175,19 @@
 
         // リストクリック
         function item_list_click(){
-            var item=document.querySelectorAll("#item_list");
+            var item=document.getElementsByName("item_list");
             for (var i=0; i<item.length; i++){
                 item[i].addEventListener("click",function(){
-                    console.log(this.name);
-                    // $.ajax({
-                    //     'url': '{% url "zaiko2:list_click_ajax" %}',
-                    //     'type': 'POST',
-                    //     'data': {"hontai_num":this.name},
-                    //     'dataType': 'json'
-                    // })
-                    // .done(function(response){                
-                    //     window.location.reload();
-                    // })
+                    console.log(this.id);
+                    $.ajax({
+                        'url': '{% url "zaiko2:list_click_ajax" %}',
+                        'type': 'POST',
+                        'data': {"hontai_num":this.id},
+                        'dataType': 'json'
+                    })
+                    .done(function(response){                
+                        // window.location.reload();
+                    })
                 },false)
             };
         };
