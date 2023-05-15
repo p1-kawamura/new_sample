@@ -182,7 +182,6 @@
             var item=document.getElementsByName("item_list");
             for (var i=0; i<item.length; i++){
                 item[i].addEventListener("click",function(){
-                    console.log(this.id);
                     $.ajax({
                         'url': '{% url "zaiko2:list_click_ajax" %}',
                         'type': 'POST',
