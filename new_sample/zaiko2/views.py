@@ -6,7 +6,8 @@ import json
 
 def index2(request):
     ins=Category.objects.all()
-    return render(request,"zaiko2/index2.html",{"ins":ins})
+    sizes=Size.objects.all().order_by("size_num")
+    return render(request,"zaiko2/index2.html",{"ins":ins,"sizes":sizes})
 
 
 # カテゴリクリック
@@ -16,8 +17,8 @@ def category_click_ajax(request):
         items=list(Shouhin.objects.filter(sample_num = "").values())
         hinban=Shouhin.objects.filter(sample_num = "")
     else:
-        items=list(Shouhin.objects.filter(category=category).values())
-        hinban=Shouhin.objects.filter(category=category)
+        items=list(Shouhin.objects.filter(category=category, status=0).values())
+        hinban=Shouhin.objects.filter(category=category, status=0)
     hinban_list=[]
     for i in hinban:
         if i.shouhin_num not in hinban_list:
@@ -35,16 +36,45 @@ def hinban_click_ajax(request):
         items=list(Shouhin.objects.filter(shouhin_num__contains=hinban,sample_num="").values())
     else:
         shouhin_name=Shouhin.objects.filter(shouhin_num__contains=hinban).first().shouhin_name
-        items=list(Shouhin.objects.filter(shouhin_num__contains=hinban).values())
+        items=list(Shouhin.objects.filter(shouhin_num__contains=hinban, status=0).values())
     d={"hinban":hinban,"shouhin_name":shouhin_name,"items":items}
     return JsonResponse(d)
 
 
+# 一括品名更新
+def ikkatsu_hinban(request):
+    hinban=request.POST["hinban_all"]
+    hinmei=request.POST["hinban_all_name"]
+    items=Shouhin.objects.filter(shouhin_num=hinban)
+    for i in items:
+        i.shouhin_name=hinmei
+        i.save()
+    return redirect("zaiko2:index2")
+
+
+# 一括品名削除（無効）
+def ikkatsu_del(request):
+    hinban=request.POST["hinban_all"]
+    items=Shouhin.objects.filter(shouhin_num=hinban)
+    for i in items:
+        i.status=1
+        i.save()
+    return redirect("zaiko2:index2")
+
+
 # リストクリック
 def list_click_ajax(request):
-    hontai_num=request.POST.get("hontai_num")
-    print(hontai_num)
-    d={"":""}
+    hontai_num=request.POST["hontai_num"]
+    item=list(Shouhin.objects.filter(hontai_num=hontai_num).values())
+    d={"item":item}
+    return JsonResponse(d)
+
+
+# サンプル番号取得
+def sample_num_auto(request):
+    category=request.POST.get("category")
+    print(category)
+    d={"item":category}
     return JsonResponse(d)
 
 

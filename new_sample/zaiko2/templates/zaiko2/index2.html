@@ -35,13 +35,19 @@
                     <div style="color: brown;">
                         <span style="font-size: 1.3em;"><i class="bi bi-dice-6-fill"></i></span> 一括編集
                     </div>
-                    <div class="flex2 mt-2">
-                        <div><input type="text" class="form-control" id="hinban_all" style="width: 150px;" disabled></div>
-                        <div style="margin-left: 30px;">品名：</div>
-                        <div><input type="text" class="form-control" id="hinban_all_name" style="width: 600px;"></div>
-                        <div style="margin-left: 30px;"><button class="btn btn-primary">更新</button></div>
-                        <div style="margin-left: 30px;"><button class="btn btn-outline-danger">登録削除</button></div>
-                    </div>
+                    <form method="post">{% csrf_token %}
+                        <div class="flex2 mt-2">
+                            <div><input type="text" class="form-control" id="hinban_all" name="hinban_all" style="width: 150px;" readonly></div>
+                            <div style="margin-left: 30px;">品名：</div>
+                            <div><input type="text" class="form-control" id="hinban_all_name" name="hinban_all_name" style="width: 600px;"></div>
+                            <div style="margin-left: 30px;">
+                                <button class="btn btn-primary" type="submit" formaction="{% url 'zaiko2:ikkatsu_hinban' %}">更新</button>
+                            </div>
+                            <div style="margin-left: 30px;">
+                                <button class="btn btn-outline-danger" type="submit" formaction="{% url 'zaiko2:ikkatsu_del' %}">登録削除</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="mt-5">
                     <div style="color: green;">
@@ -50,7 +56,70 @@
                     <div class="inlineframe mt-2" style="width: 1100px; height: 250px;">
                         <div id="shouhin_all"></div>
                     </div>
-                    
+                </div>
+                <div class="flex2 mt-5">
+                    <div><button type="button" class="btn btn-outline-dark" id="btn_samno">サンプルNo.を自動取得</button></div>
+                    <div><button type="button" class="btn btn-outline-dark" id="btn_copy" style="margin-left: 50px;">表示内容を複写</button></div>
+                    <div><button type="button" class="btn btn-outline-dark" id="btn_print" style="margin-left: 50px;">ラベル印刷</button></div>
+                </div>
+                <div class="mt-4">
+                    <form method="post">{% csrf_token %}
+                        <div class="flex2">
+                            <div>
+                                サンプルNo.
+                                <input class="form-control" type="text" id="h_sample_num" name="h_sample_num" style="width: 100px;">
+                            </div>
+                            <div style="margin-left: 30px;">
+                                カテゴリ
+                                <select class="form-select" id="h_category" name="h_category"  style="width: 100px;">
+                                    <option></option>
+                                    {% for i in ins %}
+                                    <option>{{i.category}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div style="margin-left: 30px;">
+                                商品番号
+                                <input class="form-control" type="text" id="h_shouhin_num" name="h_shouhin_num" style="width: 150px;">
+                            </div>
+                            <div style="margin-left: 30px;">
+                                ブランド
+                                <input class="form-control" type="text" id="h_brand" name="h_brand" style="width: 150px;">
+                            </div>
+                            <div style="margin-left: 30px;">
+                                カラー
+                                <input class="form-control" type="text" id="h_color" name="h_color" style="width: 200px;">
+                            </div>
+                            <div style="margin-left: 30px;">
+                                サイズ
+                                <select class="form-select" id="h_size" name="h_size" style="width: 150px;">
+                                    <option></option>
+                                    {% for i in sizes %}
+                                    <option>{{i.size}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex2 mt-3">
+                            <div>
+                                商品名
+                                <input class="form-control" type="text" id="h_shouhin_name" name="h_shouhin_name" style="width: 590px;">
+                            </div>
+                            <div style="margin-left: 30px;">
+                                加工
+                                <input class="form-control" type="text" id="h_kakou" name="h_kakou" style="width: 200px;">
+                            </div>
+                            <div style="margin-left: 30px;">
+                                備考
+                                <input class="form-control" type="text" id="h_bikou" name="h_bikou" style="width: 200px;">
+                            </div>
+                        </div>
+                        <div>
+                            <div>本体No
+                                <input class="form-control" type="text" id="h_hontai_num" name="h_hontai_num" style="width: 100px;">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -189,11 +258,50 @@
                         'dataType': 'json'
                     })
                     .done(function(response){                
-                        // window.location.reload();
+                        item=response.item[0];
+                        document.getElementById("h_hontai_num").value = item.hontai_num;
+                        document.getElementById("h_sample_num").value = item.sample_num;
+                        document.getElementById("h_category").value = item.category;
+                        document.getElementById("h_shouhin_num").value = item.shouhin_num;
+                        document.getElementById("h_brand").value = item.brand;
+                        document.getElementById("h_color").value = item.color;
+                        document.getElementById("h_size").value = item.size;
+                        document.getElementById("h_shouhin_name").value = item.shouhin_name;
+                        document.getElementById("h_kakou").value = item.kakou;
+                        document.getElementById("h_bikou").value = item.bikou;
                     })
                 },false)
             };
         };
+
+
+        // サンプル番号取得
+        document.getElementById("btn_samno").addEventListener("click",function(){
+            var category = document.getElementById("h_category").value;
+            if (category == ""){
+                window.alert("先にカテゴリを選択してください！");
+                return
+            } else {
+                $.ajax({
+                    'url': '{% url "zaiko2:sample_num_auto" %}',
+                    'type': 'POST',
+                    'data': {"category":category},
+                    'dataType': 'json'
+                })
+                .done(function(response){                
+                    console.log("aaa")
+                })
+            };
+        });
+
+
+
+        // 内容を複写
+        document.getElementById("btn_copy").addEventListener("click",function(){
+            document.getElementById("h_sample_num").value="";
+            document.getElementById("h_hontai_num").value="";
+            window.alert("内容をコピーしました！");
+        });
 
 
     </script>

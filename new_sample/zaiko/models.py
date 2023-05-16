@@ -16,11 +16,13 @@ class Shouhin(models.Model):
     koushin_day=models.DateField("更新日",auto_now=True)
     joutai=models.IntegerField("状態",default=0)
     irai_num=models.IntegerField("依頼No",default=0)
+    status=models.IntegerField("有効",default=0)
 
     def __str__(self):
         return self.sample_num
     
     # joutai（状態）　0:在庫有り　1:貸出中　2:キープ中
+    # status（有効）　0:有効　1:無効
     
 
 class Rental(models.Model):

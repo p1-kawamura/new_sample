@@ -233,7 +233,7 @@ def hinban_enter_ajax(request):
     if len(hinban)==0:
         shouhin_list=[]
     else:
-        items=Shouhin.objects.filter(~Q(sample_num=""),shouhin_num__contains = hinban)
+        items=Shouhin.objects.filter(~Q(sample_num=""),shouhin_num__contains = hinban ,status=0)
         shouhin_list=[]
         for item in items:
             if item.shouhin_num not in shouhin_list:
@@ -247,7 +247,7 @@ def hinban_enter_ajax(request):
 def hinban_click_ajax(request):
     hinban=request.POST.get("hinban")
     request.session["hinban"]=hinban
-    items=Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban).order_by("size_num")
+    items=Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban,status=0).order_by("size_num")
     color_list=[]
     size_list=[]
     for item in items:
@@ -270,7 +270,7 @@ def hinban_click_ajax(request):
 #品番リストをクリック（商品一覧）
 def hinban_click_ajax2(request):
     hinban=request.session["hinban"]
-    items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban).order_by("color","size_num").values())
+    items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban,status=0).order_by("color","size_num").values())
     items2=list(Rental.objects.all().values())
     data={
         "items":items,
@@ -305,13 +305,13 @@ def color_size_click_ajax2(request):
 
     #商品一覧
     if color[0]=="" and size[0]=="":
-        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban).order_by("color","size_num").values())
+        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban, status=0).order_by("color","size_num").values())
     elif color[0]!="" and size[0]=="" :
-        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , color__in=color).order_by("color","size_num").values())
+        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , color__in=color, status=0).order_by("color","size_num").values())
     elif color[0]=="" and size[0]!="" :
-        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , size__in=size).order_by("color","size_num").values())
+        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , size__in=size, status=0).order_by("color","size_num").values())
     else:
-        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , color__in=color , size__in=size).order_by("color","size_num").values())
+        items=list(Shouhin.objects.filter(~Q(sample_num=""),shouhin_num = hinban , color__in=color , size__in=size, status=0).order_by("color","size_num").values())
     items2=list(Rental.objects.all().values())
     data={
         "items": items,
@@ -322,7 +322,7 @@ def color_size_click_ajax2(request):
 
 #加工方法ボタンをクリック
 def kakou_click_ajax(request):
-    items=Shouhin.objects.filter(category = "加工")
+    items=Shouhin.objects.filter(category = "加工" , status=0)
     shouhin_list=[]
     for item in items:
         if item.shouhin_num not in shouhin_list:
@@ -334,7 +334,7 @@ def kakou_click_ajax(request):
 
 #スワッチボタンをクリック
 def swatch_click_ajax(request):
-    items=Shouhin.objects.filter(category = "SW")
+    items=Shouhin.objects.filter(category = "SW" , status=0)
     shouhin_list=[]
     for item in items:
         if item.shouhin_num not in shouhin_list:
