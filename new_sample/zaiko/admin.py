@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Shouhin,Rental,Size,Shozoku,Rireki_rental,Rireki_shouhin,Category
+from .models import Shouhin,Rental,Size,Shozoku,Rireki_rental,Rireki_shouhin,Category,Label
 from django.contrib.admin import ModelAdmin
 
 class A_shouhin(ModelAdmin):
@@ -30,6 +30,10 @@ class A_Rireki_shouhin(ModelAdmin):
     model=Rireki_shouhin
     list_display=["irai_num","irai_hontai_num"]
 
+class A_Label(ModelAdmin):
+    model=Label
+    list_display=["sample_num","shouhin_num"]
+
 
 admin.site.register(Shouhin,A_shouhin)
 admin.site.register(Rental,A_rental)
@@ -38,3 +42,5 @@ admin.site.register(Category,A_category)
 admin.site.register(Shozoku,A_shozoku)
 admin.site.register(Rireki_rental,A_rireki_rental)
 admin.site.register(Rireki_shouhin,A_Rireki_shouhin)
+admin.site.register(Label,A_Label)
+

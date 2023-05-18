@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from zaiko.models import Size,Shouhin,Category
+from zaiko.models import Size,Shouhin,Category,Rental,Label
 from django.http import JsonResponse
 import json
 
@@ -7,7 +7,8 @@ import json
 def index2(request):
     ins=Category.objects.all()
     sizes=Size.objects.all().order_by("size_num")
-    return render(request,"zaiko2/index2.html",{"ins":ins,"sizes":sizes})
+    label=Label.objects.all().count()
+    return render(request,"zaiko2/index2.html",{"ins":ins,"sizes":sizes,"label":label})
 
 
 # カテゴリクリック
@@ -32,11 +33,11 @@ def hinban_click_ajax(request):
     category=request.POST.get("category")
     hinban=request.POST.get("hinban")
     if  category == "取寄せ":
-        shouhin_name=Shouhin.objects.filter(shouhin_num__contains=hinban,sample_num="").first().shouhin_name
-        items=list(Shouhin.objects.filter(shouhin_num__contains=hinban,sample_num="").values())
+        shouhin_name=Shouhin.objects.filter(shouhin_num=hinban,sample_num="").first().shouhin_name
+        items=list(Shouhin.objects.filter(shouhin_num=hinban,sample_num="").values())
     else:
-        shouhin_name=Shouhin.objects.filter(shouhin_num__contains=hinban).first().shouhin_name
-        items=list(Shouhin.objects.filter(shouhin_num__contains=hinban, status=0).values())
+        shouhin_name=Shouhin.objects.filter(shouhin_num=hinban,category=category).first().shouhin_name
+        items=list(Shouhin.objects.filter(shouhin_num=hinban, category=category, status=0).values())
     d={"hinban":hinban,"shouhin_name":shouhin_name,"items":items}
     return JsonResponse(d)
 
@@ -73,8 +74,116 @@ def list_click_ajax(request):
 # サンプル番号取得
 def sample_num_auto(request):
     category=request.POST.get("category")
-    print(category)
-    d={"item":category}
+    if category=="":
+        sample_num="no_cate"
+    else:
+        items=Shouhin.objects.filter(category=category) #model.pyでself.sample_numなのでサンプルNoのみ返ってくる
+        if items.count() == 0:
+            sample_num="no_get"
+        else:
+            front=str(items.first()).split("-")[0]
+            back_list=[]
+            for i in items:
+                back_num=str(i).split("-")[1]
+                back_num=back_num.replace("★","")
+                back_list.append(back_num)
+            back_list=list(map(int,back_list))
+            for i in range(1,max(back_list)+2):
+                if i not in back_list:
+                    back=i
+                    break
+            sample_num=front + "-" + str(back)
+    d={"sample_num":sample_num}
+    return JsonResponse(d)
+
+
+# 個別削除（無効）
+def kobetsu_del(request):
+    hontai_num=request.POST.get("hontai_num")
+    item=Shouhin.objects.get(hontai_num=hontai_num)
+    item.status=1
+    item.save()
+    if item.joutai==1:
+        irai=Shouhin.objects.filter(irai_num=item.irai_num, status=0).count()
+        if irai == 0:
+            Rental.objects.get(irai_num_rental=item.irai_num).delete()
+    d={"":""}
+    return JsonResponse(d)
+
+
+# 個別更新
+def kobetsu_up(request):
+    hontai_num=request.POST["h_hontai_num"]
+    sample_num=request.POST["h_sample_num"]
+    sample_num_moto=request.POST["h_sample_num_moto"]
+    category=request.POST["h_category"]
+    shouhin_num=request.POST["h_shouhin_num"]
+    brand=request.POST["h_brand"]
+    color=request.POST["h_color"]
+    size=request.POST["h_size"]
+    shouhin_name=request.POST["h_shouhin_name"]
+    kakou=request.POST["h_kakou"]
+    bikou=request.POST["h_bikou"]
+    # 新規（コピーから作成）
+    if hontai_num == "":
+        size_num=Size.objects.get(size=size).size_num
+        Shouhin.objects.create(
+            sample_num=sample_num,
+            category=category,
+            shouhin_num=shouhin_num,
+            brand=brand,
+            shouhin_name=shouhin_name,
+            color=color,
+            size=size,
+            size_num=size_num,
+            kakou=kakou,
+            bikou=bikou,
+        )
+        Label.objects.create(
+            sample_num=sample_num,
+            shouhin_num=shouhin_num,
+            shouhin_name=shouhin_name,
+            color=color,
+            size=size
+        )
+    # 更新
+    else:
+        size_num=Size.objects.get(size=size).size_num
+        item=Shouhin.objects.get(hontai_num=hontai_num)
+        item.sample_num=sample_num
+        item.category=category
+        item.shouhin_num=shouhin_num
+        item.brand=brand
+        item.shouhin_name=shouhin_name
+        item.color=color
+        item.size=size
+        item.size_num=size_num
+        item.kakou=kakou
+        item.bikou=bikou
+        item.save()
+        if sample_num_moto == "": # 取り寄せ
+            Label.objects.create(
+                sample_num=sample_num,
+                shouhin_num=shouhin_num,
+                shouhin_name=shouhin_name,
+                color=color,
+                size=size,
+            )
+    return redirect("zaiko2:index2")
+
+
+# ラベル一覧に追加
+def label_add(request):
+    sample_num=request.POST.get("sample_num")
+    item=Shouhin.objects.get(sample_num=sample_num)
+    Label.objects.create(
+                sample_num=sample_num,
+                shouhin_num=item.shouhin_num,
+                shouhin_name=item.shouhin_name,
+                color=item.color,
+                size=item.size,
+            )
+    d={"":""}
     return JsonResponse(d)
 
 

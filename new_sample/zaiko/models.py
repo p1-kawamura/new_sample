@@ -105,3 +105,14 @@ class Rireki_shouhin(models.Model):
 
     def __str__(self):
         return str(self.irai_num)
+    
+
+class Label(models.Model):
+    sample_num=models.CharField("サンプルNo",max_length=20)
+    shouhin_num=models.CharField("商品番号",max_length=20)
+    shouhin_name=models.CharField("商品名",max_length=255)
+    color=models.CharField("カラー",max_length=255)
+    size=models.CharField("サイズ",max_length=20)
+
+    def __str__(self):
+        return str(self.sample_num)
