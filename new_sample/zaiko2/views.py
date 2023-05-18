@@ -183,7 +183,7 @@ def kobetsu_up(request):
                 color=color,
                 size=size,
             )
-            comment="【新規登録】 取り寄せ商品（サンプルNo." + sample_num + "）を登録しました！"
+            comment="【新規登録】 取り寄せ商品（サンプルNo." + sample_num + "）を カテゴリ：" + category + " に登録しました！"
     request.session["comment"]=comment
     return redirect("zaiko2:index2")
 
