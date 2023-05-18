@@ -63,10 +63,10 @@
                     </div>
                 </div>
                 <div class="flex2 mt-5">
-                    <div><button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modal_sample_num">サンプルNo.を自動取得</button></div>
-                    <div><button type="button" class="btn btn-outline-dark" id="btn_copy" style="margin-left: 50px;">表示内容を複写</button></div>
-                    <div><button type="button" class="btn btn-outline-dark" id="btn_label_add" style="margin-left: 50px;">ラベル一覧に追加</button></div>
-                    <div><button type="button" class="btn btn-outline-dark" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button></div>
+                    <div><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_sample_num">サンプルNo.を自動取得</button></div>
+                    <div><button type="button" class="btn btn-secondary" id="btn_copy" style="margin-left: 50px;">表示内容を複写</button></div>
+                    <div><button type="button" class="btn btn-secondary" id="btn_label_add" style="margin-left: 50px;">ラベル一覧に追加</button></div>
+                    <div><button type="button" class="btn btn-secondary" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button></div>
                 </div>
                 <div class="mt-4">
                     <form action="{% url 'zaiko2:kobetsu_up' %}" method="post" id="form2">{% csrf_token %}
