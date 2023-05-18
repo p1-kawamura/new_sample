@@ -16,6 +16,13 @@
     <div class="container mt-5 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
 
+            <!-- コメント -->
+            {% if comment %}
+            <div class="alert alert-success mb-5" role="alert">
+                <i class="bi bi-check-circle-fill"></i> {{comment}}
+            </div>
+            {% endif %}
+
             <!-- カテゴリ選択 -->
             <div class="flex2">
                 <div style="width: 800px; height: 200px;">
@@ -42,10 +49,11 @@
                             <div style="margin-left: 30px;">品名：</div>
                             <div><input type="text" class="form-control" id="hinban_all_name" name="hinban_all_name" style="width: 600px;"></div>
                             <div style="margin-left: 30px;">
-                                <button class="btn btn-primary" type="submit" formaction="{% url 'zaiko2:ikkatsu_hinban' %}">一括更新</button>
+                                <button class="btn btn-primary" type="submit" id="btn_ikkatsu_up" formaction="{% url 'zaiko2:ikkatsu_hinban' %}" disabled>一括更新</button>
                             </div>
                             <div style="margin-left: 30px;">
-                                <button class="btn btn-outline-danger" type="submit" formaction="{% url 'zaiko2:ikkatsu_del' %}">登録削除</button>
+                                <button class="btn btn-outline-danger" type="submit"  id="btn_ikkatsu_del"
+                                     formaction="{% url 'zaiko2:ikkatsu_del' %}" onclick="return confirm('本当に削除しますか？')" disabled>登録削除</button>
                             </div>
                         </div>
                     </form>
@@ -69,15 +77,15 @@
                     <div><button type="button" class="btn btn-secondary" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button></div>
                 </div>
                 <div class="mt-4">
-                    <form action="{% url 'zaiko2:kobetsu_up' %}" method="post" id="form2">{% csrf_token %}
+                    <form method="post" id="form2">{% csrf_token %}
                         <div class="flex2">
                             <div>
                                 サンプルNo.
-                                <input class="form-control" type="text" id="h_sample_num" name="h_sample_num" style="width: 100px;">
+                                <input class="form-control" type="text" id="h_sample_num" name="h_sample_num" style="width: 100px;" required>
                             </div>
                             <div style="margin-left: 30px;">
                                 カテゴリ
-                                <select class="form-select" id="h_category" name="h_category"  style="width: 100px;">
+                                <select class="form-select" id="h_category" name="h_category"  style="width: 100px;" required>
                                     <option></option>
                                     {% for i in ins %}
                                     <option>{{i.category}}</option>
@@ -86,7 +94,7 @@
                             </div>
                             <div style="margin-left: 30px;">
                                 商品番号
-                                <input class="form-control" type="text" id="h_shouhin_num" name="h_shouhin_num" style="width: 150px;">
+                                <input class="form-control" type="text" id="h_shouhin_num" name="h_shouhin_num" style="width: 150px;" required>
                             </div>
                             <div style="margin-left: 30px;">
                                 ブランド
@@ -98,7 +106,7 @@
                             </div>
                             <div style="margin-left: 30px;">
                                 サイズ
-                                <select class="form-select" id="h_size" name="h_size" style="width: 150px;">
+                                <select class="form-select" id="h_size" name="h_size" style="width: 150px;" required>
                                     <option></option>
                                     {% for i in sizes %}
                                     <option>{{i.size}}</option>
@@ -109,7 +117,7 @@
                         <div class="flex2 mt-3">
                             <div>
                                 商品名
-                                <input class="form-control" type="text" id="h_shouhin_name" name="h_shouhin_name" style="width: 590px;">
+                                <input class="form-control" type="text" id="h_shouhin_name" name="h_shouhin_name" style="width: 590px;" required>
                             </div>
                             <div style="margin-left: 30px;">
                                 加工
@@ -122,13 +130,14 @@
                         </div>
                         <div class="flex2 mt-4" style="justify-content: space-between;">
                             <div>
-                                <button class="btn btn-outline-danger" type="button" id="kobetsu_del">登録削除</button>
+                                <button class="btn btn-outline-danger" type="submit" formaction="{% url 'zaiko2:kobetsu_del' %}"
+                                    onclick="return confirm('本当に削除しますか？')" >登録削除</button>
                             </div>
                             <div style="margin-right: 50px;">
-                                <button class="btn btn-primary" type="submit">新規登録 / 更新</button>
+                                <button class="btn btn-primary" type="submit" formaction="{% url 'zaiko2:kobetsu_up' %}">新規登録 / 更新</button>
                             </div>
                         </div>
-                        <div class="flex2 mt-4">
+                        <div class="flex2 mt-4" style="display: none;">
                             <div>本体No
                                 <input class="form-control" type="text" id="h_hontai_num" name="h_hontai_num" style="width: 100px;">
                             </div>
@@ -228,7 +237,9 @@
                         "</div>"
                     str = str + str2
                 };
-                var str="<div>" + str + "</div>"
+                str="<div>" + str + "</div>"
+                document.getElementById("btn_ikkatsu_up").disabled=true;
+                document.getElementById("btn_ikkatsu_del").disabled=true;
                 document.getElementById("shouhin_all").innerHTML=str;
                 document.getElementById("form2").reset();
                 item_list_click();
@@ -267,7 +278,9 @@
                             "</div>"
                         str = str + str2
                     };
-                    var str="<div>" + str + "</div>"
+                    str="<div>" + str + "</div>"
+                    document.getElementById("btn_ikkatsu_up").disabled=false;
+                    document.getElementById("btn_ikkatsu_del").disabled=false;
                     document.getElementById("shouhin_all").innerHTML=str;
                     document.getElementById("form2").reset();
                     item_list_click();
@@ -347,26 +360,6 @@
             document.getElementById("h_sample_num").value="";
             document.getElementById("h_hontai_num").value="";
             window.alert("内容をコピーしました！");
-        });
-
-        
-        //個別削除
-        $('#kobetsu_del').on('click', function(e) {
-            if ($('#h_hontai_num').val() == ""){
-                window.alert("対象サンプルを選択してください！");
-                return
-            } else {
-                $.ajax({
-                    'url': '{% url "zaiko2:kobetsu_del" %}',
-                    'type': 'POST',
-                    'data': {'hontai_num': $('#h_hontai_num').val()},
-                    'dataType': 'json'
-                })
-                .done(function(response){
-                    window.alert("削除しました！");
-                    window.location.reload();
-                });
-            }
         });
 
 

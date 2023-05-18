@@ -5,10 +5,14 @@ import json
 
 
 def index2(request):
-    ins=Category.objects.all()
-    sizes=Size.objects.all().order_by("size_num")
-    label=Label.objects.all().count()
-    return render(request,"zaiko2/index2.html",{"ins":ins,"sizes":sizes,"label":label})
+    comment=request.session["comment"]
+    params={
+        "ins":Category.objects.all(),
+        "sizes":Size.objects.all().order_by("size_num"),
+        "label":Label.objects.all().count(),
+        "comment":comment
+    }
+    return render(request,"zaiko2/index2.html",params)
 
 
 # カテゴリクリック
@@ -50,16 +54,23 @@ def ikkatsu_hinban(request):
     for i in items:
         i.shouhin_name=hinmei
         i.save()
+    request.session["comment"]="【一括更新】 商品番号：" + hinban + " の商品名をすべて変更しました！"
     return redirect("zaiko2:index2")
 
 
-# 一括品名削除（無効）
+# 一括品番削除（無効）
 def ikkatsu_del(request):
     hinban=request.POST["hinban_all"]
     items=Shouhin.objects.filter(shouhin_num=hinban)
     for i in items:
         i.status=1
         i.save()
+    for i in items:
+        if i.joutai==1:
+            irai=Shouhin.objects.filter(irai_num=i.irai_num, status=0).count()
+            if irai == 0:
+                Rental.objects.get(irai_num_rental=i.irai_num).delete()
+    request.session["comment"]="【一括削除】 商品番号：" + hinban + " のサンプルをすべて削除しました！"
     return redirect("zaiko2:index2")
 
 
@@ -99,7 +110,7 @@ def sample_num_auto(request):
 
 # 個別削除（無効）
 def kobetsu_del(request):
-    hontai_num=request.POST.get("hontai_num")
+    hontai_num=request.POST["h_hontai_num"]
     item=Shouhin.objects.get(hontai_num=hontai_num)
     item.status=1
     item.save()
@@ -107,8 +118,8 @@ def kobetsu_del(request):
         irai=Shouhin.objects.filter(irai_num=item.irai_num, status=0).count()
         if irai == 0:
             Rental.objects.get(irai_num_rental=item.irai_num).delete()
-    d={"":""}
-    return JsonResponse(d)
+    request.session["comment"]="【個別削除】 サンプルNo." + item.sample_num + " を削除しました！"
+    return redirect("zaiko2:index2")
 
 
 # 個別更新
@@ -146,6 +157,7 @@ def kobetsu_up(request):
             color=color,
             size=size
         )
+        comment="【新規登録】 サンプルNo." + sample_num + " を登録しました！"
     # 更新
     else:
         size_num=Size.objects.get(size=size).size_num
@@ -161,6 +173,8 @@ def kobetsu_up(request):
         item.kakou=kakou
         item.bikou=bikou
         item.save()
+        comment="【内容更新】 サンプルNo." + sample_num + " の情報を更新しました！"
+
         if sample_num_moto == "": # 取り寄せ
             Label.objects.create(
                 sample_num=sample_num,
@@ -169,6 +183,8 @@ def kobetsu_up(request):
                 color=color,
                 size=size,
             )
+            comment="【新規登録】 取り寄せ商品（サンプルNo." + sample_num + "）を登録しました！"
+    request.session["comment"]=comment
     return redirect("zaiko2:index2")
 
 
@@ -190,6 +206,7 @@ def label_add(request):
 def size_category(request):
     sizes=Size.objects.all().order_by("size_num")
     category=Category.objects.all().order_by("category_num")
+    request.session["comment"]=""
     return render(request,"zaiko2/size_category.html",{"sizes":sizes,"category":category})
 
 

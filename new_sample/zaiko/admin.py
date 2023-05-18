@@ -4,7 +4,7 @@ from django.contrib.admin import ModelAdmin
 
 class A_shouhin(ModelAdmin):
     model=Shouhin
-    list_display=["hontai_num","sample_num","shouhin_name","joutai","irai_num"]
+    list_display=["hontai_num","sample_num","shouhin_name","joutai","irai_num","status"]
 
 class A_rental(ModelAdmin):
     model=Rental

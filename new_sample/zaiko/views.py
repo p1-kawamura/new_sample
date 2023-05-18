@@ -64,6 +64,10 @@ def index(request):
         request.session["kensaku"]["nouhin_com"]=""
     if "nouhin_cus" not in request.session["kensaku"]:
         request.session["kensaku"]["nouhin_cus"]=""
+    if "comment" not in request.session:
+        request.session["comment"]=""
+
+    request.session["comment"]="" # zaiko2:index2 の制御
 
     irai_shouhin_list=list(request.session["sample"])
     data=[]
@@ -100,7 +104,6 @@ def shouhin_all(request):
     return render(request,"zaiko/shouhin_all.html")
 
 
-@login_required
 def irai_success(request):
     return render(request,"zaiko/success.html")
 
@@ -115,6 +118,9 @@ def irai_rireki(request):
     tantou=request.session["kensaku"]["tantou"]
     nouhin_com=request.session["kensaku"]["nouhin_com"]
     nouhin_cus=request.session["kensaku"]["nouhin_cus"]
+    
+    request.session["comment"]="" # zaiko2:index2 の制御
+
     #検索条件
     str={}
     if irai_num != "":
