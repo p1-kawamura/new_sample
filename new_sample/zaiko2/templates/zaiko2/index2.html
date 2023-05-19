@@ -24,7 +24,7 @@
             {% endif %}
 
             <!-- カテゴリ選択 -->
-            <div class="flex2">
+            <div class="flex_print">
                 <div style="width: 800px; height: 200px;">
                     <select class="form-select" id="category" size="7">
                         {% for i in ins %}
@@ -74,7 +74,13 @@
                     <div><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal_sample_num">サンプルNo.を自動取得</button></div>
                     <div><button type="button" class="btn btn-secondary" id="btn_copy" style="margin-left: 50px;">表示内容を複写</button></div>
                     <div><button type="button" class="btn btn-secondary" id="btn_label_add" style="margin-left: 50px;">ラベル一覧に追加</button></div>
-                    <div><button type="button" class="btn btn-secondary" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button></div>
+                    <div>
+                        {% if label > 20 %}
+                        <button type="button" class="btn btn-danger" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button>
+                        {% else %}
+                        <button type="button" class="btn btn-secondary" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="mt-4">
                     <form method="post" id="form2">{% csrf_token %}

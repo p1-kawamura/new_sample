@@ -203,6 +203,27 @@ def label_add(request):
     return JsonResponse(d)
 
 
+# ラベル一覧
+def label_print(request):
+    items=Label.objects.all()
+    if items.count() > 16:
+        items1=items[:8]
+        items2=items[7:16]
+        items3=items[15:]
+        params={"items1":items1,"items2":items2,"items3":items3,"col":3}
+
+    elif items.count() >8:
+        items1=items[:8]
+        items2=items[8:16]
+        params={"items1":items1,"items2":items2,"col":2}
+
+    else:
+        items1=items[:8]
+        params={"items1":items1,"col":1}
+
+    return render(request,"zaiko2/label.html",params)
+
+
 def size_category(request):
     sizes=Size.objects.all().order_by("size_num")
     category=Category.objects.all().order_by("category_num")
@@ -306,3 +327,4 @@ def category_new(request):
     Category.objects.create(category_num=0, category=category_new1,category_ex=category_new2)
     d={"":""}
     return JsonResponse(d)
+
