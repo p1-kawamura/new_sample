@@ -64,6 +64,8 @@ def index(request):
         request.session["kensaku"]["nouhin_com"]=""
     if "nouhin_cus" not in request.session["kensaku"]:
         request.session["kensaku"]["nouhin_cus"]=""
+    if "success_num" not in request.session:
+        request.session["success_num"]=""
     if "comment" not in request.session:
         request.session["comment"]=""
 
@@ -102,10 +104,6 @@ def index(request):
 
 def shouhin_all(request):
     return render(request,"zaiko/shouhin_all.html")
-
-
-def irai_success(request):
-    return render(request,"zaiko/success.html")
 
 
 @login_required
@@ -422,7 +420,6 @@ def last_kakunin(request):
             data.append(i)
     d={"data":data}
     return JsonResponse(d)
-    
 
 
 # 依頼確定（顧客　貸出：1　履歴内容：0）
@@ -490,29 +487,9 @@ def haisou_cus_success(request):
         bikou1 = bikou1,
         bikou2 = bikou2,
     )
-    irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
-    irai_shouhin_list=list(request.session["sample"])
-    data=[]
-    for i in irai_shouhin_list:
-        data2={}
-        shouhin=Shouhin.objects.get(hontai_num=i)
-        data2["hontai_num"]=shouhin.hontai_num
-        data2["sample_num"]=shouhin.sample_num
-        data2["shouhin_num"]=shouhin.shouhin_num
-        data2["color"]=shouhin.color
-        data2["size"]=shouhin.size
-        if shouhin.sample_num=="":
-            data2["kubun"]="取り寄せ"
-        else:
-            data2["kubun"]="在庫"
-        data.append(data2)
-    params={
-        "irai_shouhin_list":data,
-        "irai_detail":irai_detail,
-        "kubun":"new",
-    }
     request.session["sample"].clear()
-    return render(request,"zaiko/success.html",params)
+    request.session["success_num"]=irai_num
+    return redirect("zaiko:irai_success")
 
 
 # 依頼確定（店舗　貸出：1　履歴内容：1）
@@ -564,29 +541,9 @@ def haisou_tempo_success(request):
         bikou1 = bikou1,
         bikou2 = bikou2,
     )
-    irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
-    irai_shouhin_list=list(request.session["sample"])
-    data=[]
-    for i in irai_shouhin_list:
-        data2={}
-        shouhin=Shouhin.objects.get(hontai_num=i)
-        data2["hontai_num"]=shouhin.hontai_num
-        data2["sample_num"]=shouhin.sample_num
-        data2["shouhin_num"]=shouhin.shouhin_num
-        data2["color"]=shouhin.color
-        data2["size"]=shouhin.size
-        if shouhin.sample_num=="":
-            data2["kubun"]="取り寄せ"
-        else:
-            data2["kubun"]="在庫"
-        data.append(data2)
-    params={
-        "irai_shouhin_list":data,
-        "irai_detail":irai_detail,
-        "kubun":"new",
-    }
     request.session["sample"].clear()
-    return render(request,"zaiko/success.html",params)
+    request.session["success_num"]=irai_num
+    return redirect("zaiko:irai_success")
 
 
 # 依頼確定（キープ　貸出：1　履歴内容：2）
@@ -630,8 +587,18 @@ def haisou_keep_success(request):
         nouhin_cus = nouhin_cus,
         bikou2 = bikou2,
     )
-    irai_detail=Rireki_rental.objects.get(irai_num=irai_num)
-    irai_shouhin_list=list(request.session["sample"])
+    request.session["sample"].clear()
+    request.session["success_num"]=irai_num
+    return redirect("zaiko:irai_success")
+
+
+# 依頼確定表示
+def irai_success(request):
+    success_num=request.session["success_num"]
+    irai_detail=Rireki_rental.objects.get(irai_num=success_num)
+    irai_num=success_num
+    items=Rireki_shouhin.objects.filter(irai_num=irai_num).values_list("irai_hontai_num",flat=True)
+    irai_shouhin_list=list(items)
     data=[]
     for i in irai_shouhin_list:
         data2={}
@@ -641,17 +608,13 @@ def haisou_keep_success(request):
         data2["shouhin_num"]=shouhin.shouhin_num
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
-        if shouhin.sample_num=="":
-            data2["kubun"]="取り寄せ"
-        else:
-            data2["kubun"]="在庫"
+        data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun
         data.append(data2)
     params={
-        "irai_shouhin_list":data,
-        "irai_detail":irai_detail,
-        "kubun":"new",
-    }
-    request.session["sample"].clear()
+            "irai_shouhin_list":data,
+            "irai_detail":irai_detail,
+            "kubun":"new",
+        }
     return render(request,"zaiko/success.html",params)
 
 
