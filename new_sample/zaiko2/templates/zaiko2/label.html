@@ -23,21 +23,26 @@
     <div class="container mt-5 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
         
-            <div>
-                <button type="button" class="btn btn-secondary" id="print"><i class="bi bi-printer-fill"></i> 印刷</button>
+            <div class="flex2">
+                <div><button type="button" class="btn btn-secondary" id="print"><i class="bi bi-printer-fill"></i> 印刷</button></div>
+                <div style="margin-left: 50px;">
+                    <a href="{% url 'zaiko2:label_del' %}">
+                        <button type="button" class="btn btn-outline-danger" onclick="return confirm('本当に消去しますか？')" >データを消去する</button>
+                    </a>
+                </div>
             </div>
 
-            <div class="flex_print mt-5">
+            <div class="flex_print mt-4">
                 <!-- １列目 -->
                 <div>
                     <div style="width:310px; display: inline;">
-                    {% for i in items1 %}
-                    <table style="width:300px;margin: 5px;border: #000000 2px solid;">
-                            <tr><td style="width: 20%; font-size:0.75em;height: 35px;">サンプルNo.</td><td style="width: 80%;font-weight: bold;font-size: 1.35em;padding-left: 5px;">{{i.sample_num}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">品番</td><td style="padding-left: 5px;">{{i.shouhin_num}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">品名</td><td style="padding-left: 5px;">{{i.shouhin_name}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">カラー</td><td style="padding-left: 5px;">{{i.color}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">サイズ</td><td style="padding-left: 5px;">{{i.size}}</td></tr>
+                        {% for i in items1 %}
+                        <table style="width:300px;margin: 5px;border: #000000 2px solid;">
+                            <tr><td style="width: 20%; height: 43px; text-align: center;">No.</td><td style="width: 80%;font-weight: bold;font-size: 1.5em;padding-left: 5px;">{{i.sample_num}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">品番</td><td style="padding-left: 5px;">{{i.shouhin_num}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">品名</td><td style="padding-left: 5px;">{{i.shouhin_name}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">カラー</td><td style="padding-left: 5px;">{{i.color}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;;">サイズ</td><td style="padding-left: 5px;">{{i.size}}</td></tr>
                         </table>
                         {% endfor %}
                     </div>
@@ -45,13 +50,13 @@
                 <!-- 2列目 -->
                 <div>
                     <div style="width:310px; display: inline;">
-                    {% for i in items2 %}
-                    <table style="width:300px;margin: 5px;border: #000000 2px solid;">
-                            <tr><td style="width: 20%; font-size:0.75em;height: 35px;">サンプルNo.</td><td style="width: 80%;font-weight: bold;font-size: 1.35em;padding-left: 5px;">{{i.sample_num}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">品番</td><td style="padding-left: 5px;">{{i.shouhin_num}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">品名</td><td style="padding-left: 5px;">{{i.shouhin_name}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">カラー</td><td style="padding-left: 5px;">{{i.color}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">サイズ</td><td style="padding-left: 5px;">{{i.size}}</td></tr>
+                        {% for i in items2 %}
+                        <table style="width:300px;margin: 5px;border: #000000 2px solid;">
+                            <tr><td style="width: 20%; height: 43px; text-align: center;">No.</td><td style="width: 80%;font-weight: bold;font-size: 1.5em;padding-left: 5px;">{{i.sample_num}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">品番</td><td style="padding-left: 5px;">{{i.shouhin_num}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">品名</td><td style="padding-left: 5px;">{{i.shouhin_name}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">カラー</td><td style="padding-left: 5px;">{{i.color}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;;">サイズ</td><td style="padding-left: 5px;">{{i.size}}</td></tr>
                         </table>
                         {% endfor %}
                     </div>
@@ -59,13 +64,13 @@
                 <!-- 3列目 -->
                 <div>
                     <div style="width:310px; display: inline;">
-                    {% for i in items3 %}
-                    <table style="width:300px;margin: 5px;border: #000000 2px solid;">
-                            <tr><td style="width: 20%; font-size:0.75em;height: 35px;">サンプルNo.</td><td style="width: 80%;font-weight: bold;font-size: 1.35em;padding-left: 5px;">{{i.sample_num}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">品番</td><td style="padding-left: 5px;">{{i.shouhin_num}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">品名</td><td style="padding-left: 5px;">{{i.shouhin_name}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">カラー</td><td style="padding-left: 5px;">{{i.color}}</td></tr>
-                            <tr><td style="height: 30px;padding-left: 5px;">サイズ</td><td style="padding-left: 5px;">{{i.size}}</td></tr>
+                        {% for i in items3 %}
+                        <table style="width:300px;margin: 5px;border: #000000 2px solid;">
+                            <tr><td style="width: 20%; height: 43px; text-align: center;">No.</td><td style="width: 80%;font-weight: bold;font-size: 1.5em;padding-left: 5px;">{{i.sample_num}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">品番</td><td style="padding-left: 5px;">{{i.shouhin_num}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">品名</td><td style="padding-left: 5px;">{{i.shouhin_name}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;">カラー</td><td style="padding-left: 5px;">{{i.color}}</td></tr>
+                            <tr><td style="height: 28px;text-align: center;;">サイズ</td><td style="padding-left: 5px;">{{i.size}}</td></tr>
                         </table>
                         {% endfor %}
                     </div>

@@ -625,6 +625,8 @@ def rireki_kakunin(request,pk):
     status=irai_detail.status
     if irai_type!=2 and status==0:
         kubun="kakunin_ok"
+    elif status==1:
+        kubun="junbi"
     else:
         kubun="kakunin_no"
     irai_num=irai_detail.irai_num

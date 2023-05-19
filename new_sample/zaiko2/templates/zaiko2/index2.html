@@ -76,9 +76,13 @@
                     <div><button type="button" class="btn btn-secondary" id="btn_label_add" style="margin-left: 50px;">ラベル一覧に追加</button></div>
                     <div>
                         {% if label > 20 %}
-                        <button type="button" class="btn btn-danger" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button>
+                        <a href="{% url 'zaiko2:label_print' %}">
+                            <button type="button" class="btn btn-danger" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button>
+                        </a>
                         {% else %}
-                        <button type="button" class="btn btn-secondary" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button>
+                        <a href="{% url 'zaiko2:label_print' %}">
+                            <button type="button" class="btn btn-secondary" id="btn_print" style="margin-left: 50px;">ラベル印刷（{{label}}）</button>
+                        </a>
                         {% endif %}
                     </div>
                 </div>

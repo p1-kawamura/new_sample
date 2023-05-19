@@ -22,9 +22,7 @@
             <!-- タイトル -->
             <div style="margin-top: 30px;">
                 <div class="title00">
-                    <h2><span class="number">00</span>サンプル依頼履歴
-                        <span>（ <button class="btn btn-success  btn-sm">確認</button>
-                            は未発送のため、キャンセルが可能な案件です）</span></h2>
+                    <h2><span class="number">00</span>サンプル依頼履歴</h2>    
                 </div>
             </div>
 
@@ -96,8 +94,15 @@
                         </thead>
                         <tbody>
                             {% for i in items %}
-                            <tr>
-                                <td style="vertical-align: middle; text-align: center;">{{i.irai_num}}</td>
+                            <tr style="height: 50px;">
+                                <td style="vertical-align: middle; text-align: center;">
+                                    <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
+                                        <button type="submit" class="btn btn-sm">
+                                            <span style="color: #2ab1e7; font-weight: bold;"><i class="bi bi-box-arrow-up-right"></i> {{i.irai_num}}</span>
+                                        </button>
+                    
+                                    </form>
+                                </td>
                                 <td style="vertical-align: middle;">{{i.rental_day}}</td>
                                 <td style="vertical-align: middle;">
                                     {% if i.irai_type == 0 %}
@@ -113,16 +118,18 @@
                                 <td style="vertical-align: middle;">{{i.rental_maxday}}</td>
                                 <td style="vertical-align: middle;">{{i.nouhin_com}}</td>
                                 <td style="vertical-align: middle;">{{i.nouhin_cus}}</td>
-                                <td style="text-align: center;">
-                                    <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
-                                        {% if i.status == 0 and i.irai_type != 2 %}
-                                            <button type="submit" class="btn btn-success btn-sm">確認</button>
-                                        {% elif i.status == 1 %}
-                                            <span style="color: red;"><span style="font-size: 1.3em;"><i class="bi bi-cone-striped"></i></span> 準備中</span>
-                                        {% else %}
-                                            <button type="submit" class="btn btn-outline-dark btn-sm">確認</button>
-                                        {% endif %}
-                                    </form>
+                                <td style="vertical-align: middle; text-align: center;">
+                                    {% if i.status == 0 and i.irai_type != 2 %}
+                                        <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">キャンセル</button>
+                                        </form>
+                                    {% elif i.status == 1 %}
+                                        <span style="color: red;"><span style="font-size: 1.3em;"><i class="bi bi-cone-striped"></i></span> 準備中</span>
+                                    {% elif i.irai_type == 2 %}
+                                        -
+                                    {% else %}
+                                        発送済
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}

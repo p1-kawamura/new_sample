@@ -224,6 +224,12 @@ def label_print(request):
     return render(request,"zaiko2/label.html",params)
 
 
+# ラベル消去
+def label_del(request):
+    Label.objects.all().delete()
+    return render(request,"zaiko2/label.html")
+
+
 def size_category(request):
     sizes=Size.objects.all().order_by("size_num")
     category=Category.objects.all().order_by("category_num")
