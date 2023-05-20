@@ -278,7 +278,7 @@ def hinban_click_ajax(request):
         "size":size_list,
         "shouhin_name":shouhin_name,
         "brand":brand,
-     }
+    }
     return JsonResponse(d)
 
 
@@ -654,7 +654,7 @@ def rireki_kakunin(request,pk):
     irai_detail=Rireki_rental.objects.get(pk=pk)
     irai_type=irai_detail.irai_type
     status=irai_detail.status
-    if irai_type!=2 and status==0:
+    if status==0: #success.htmlのタイトル用
         kubun="kakunin_ok"
     elif status==1:
         kubun="junbi"
@@ -703,17 +703,6 @@ def cancel_ajax(request):
     can.save()
     d={"":""}
     return JsonResponse(d)
-
-
-# メール送信テスト
-def mail_test(request):
-    subject = "メールテスト5"
-    message = "川村送信\nジミーのアドレス"
-    from_email = "oonishi@p1-intl.com"
-    recipient_list =["yagi@p1-intl.com"]
-
-    send_mail(subject, message, from_email, recipient_list)
-    return redirect("zaiko:kokyaku_index")
 
 
 
