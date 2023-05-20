@@ -89,7 +89,7 @@
                                 <th>貸出期限</th>
                                 <th>顧客会社</th>
                                 <th>顧客氏名</th>
-                                <th></th>
+                                <th style="text-align: center;">状態</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -127,6 +127,8 @@
                                         <span style="color: red;"><span style="font-size: 1.3em;"><i class="bi bi-cone-striped"></i></span> 準備中</span>
                                     {% elif i.irai_type == 2 %}
                                         -
+                                    {% elif i.status == 3 %}
+                                        取消
                                     {% else %}
                                         発送済
                                     {% endif %}

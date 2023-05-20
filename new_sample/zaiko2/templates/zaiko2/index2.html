@@ -140,7 +140,7 @@
                         </div>
                         <div class="flex2 mt-4" style="justify-content: space-between;">
                             <div>
-                                <button class="btn btn-outline-danger" type="submit" formaction="{% url 'zaiko2:kobetsu_del' %}"
+                                <button class="btn btn-outline-danger" id="btn_kobetsu_del" type="submit" formaction="{% url 'zaiko2:kobetsu_del' %}"
                                     onclick="return confirm('本当に削除しますか？')" >登録削除</button>
                             </div>
                             <div style="margin-right: 50px;">
@@ -323,6 +323,7 @@
                         document.getElementById("h_shouhin_name").value = item.shouhin_name;
                         document.getElementById("h_kakou").value = item.kakou;
                         document.getElementById("h_bikou").value = item.bikou;
+                        document.getElementById("btn_kobetsu_del").disabled=false;
                     })
                 },false)
             };
@@ -369,6 +370,7 @@
         document.getElementById("btn_copy").addEventListener("click",function(){
             document.getElementById("h_sample_num").value="";
             document.getElementById("h_hontai_num").value="";
+            document.getElementById("btn_kobetsu_del").disabled=true;
             window.alert("内容をコピーしました！");
         });
 
@@ -378,7 +380,11 @@
             if ($('#h_sample_num').val() == ""){
                 window.alert("対象サンプルを選択してください！");
                 return
-            } else {
+            } else if ($('#h_hontai_num').val() == ""){
+                window.alert("このサンプルはまだ登録されていません！");
+                return
+            }
+            else {
                 $.ajax({
                     'url': '{% url "zaiko2:label_add" %}',
                     'type': 'POST',

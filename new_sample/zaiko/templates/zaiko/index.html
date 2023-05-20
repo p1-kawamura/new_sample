@@ -123,7 +123,7 @@
                                     </select>
                                 </div><div class="hissu">*</div>
                                 <div style="margin-left: 50px;">担当者：</div>
-                                <div><input  class="form-control" type="text" id="c_tantou" name="c_tantou" required></div>
+                                <div><input class="form-control" type="text" id="c_tantou" name="c_tantou" required></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="mt-3" style="width: 40%;">
@@ -137,52 +137,98 @@
 
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_com" name="c_haisou_com"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_com" name="c_haisou_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_cus" name="c_haisou_cus"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_cus" name="c_haisou_cus"></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>郵便番号：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_yubin" name="c_haisou_yubin" style="width: 100px;"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_yubin" name="c_haisou_yubin" style="width: 100px;"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">都道府県：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_pref" name="c_haisou_pref" style="width: 150px;"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_pref" name="c_haisou_pref" style="width: 150px;"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">市区町村：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_city" name="c_haisou_city" style="width: 150px;"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_city" name="c_haisou_city" style="width: 150px;"></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>番地：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_banchi" name="c_haisou_banchi" style="width: 305px;"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_banchi" name="c_haisou_banchi" style="width: 305px;"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">建物名（部屋番号）：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_build" name="c_haisou_build" style="width: 310px;"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_build" name="c_haisou_build" style="width: 310px;"></div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>電話番号：</div>
-                                <div><input  class="form-control" type="text" id="c_haisou_tel" name="c_haisou_tel"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_tel" name="c_haisou_tel"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">メールアドレス（発送連絡）：</div>
-                                <div><input  class="form-control" type="email" id="c_haisou_mail" name="c_haisou_mail" style="width: 350px;"></div>
+                                <div><input class="form-control" type="email" id="c_haisou_mail" name="c_haisou_mail" style="width: 350px;"></div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>配送指定日：</div>
+                                <div><input class="form-control" type="date" id="c_haisou_deliday" name="c_haisou_deliday"></div>
+                            </div>
+
+                            <div class="flex2">
+                                <div class="haisou_kokyaku mt-5" style="width: 120px;">配送元情報</div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="c_haisou_moto1" checked>プラスワン物流センター
+                                </div>
+                                <div class="form-check" style="margin-left: 30px;">
+                                    <input class="form-check-input" type="radio" id="c_haisou_moto2">指定住所                                  
+                                </div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>会社名：</div>
+                                <div><input class="form-control" type="text" id="c_haisou_com_m" name="c_haisou_com_m" value="プラスワンインターナショナル"></div>
+                                <div style="margin-left: 50px;">氏名：</div>
+                                <div><input class="form-control" type="text" id="c_haisou_cus_m" name="c_haisou_cus_m" value="物流センター"></div>
+                                <div class="hissu">*</div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>郵便番号：</div>
+                                <div><input class="form-control" type="text" id="c_haisou_yubin_m" name="c_haisou_yubin_m" style="width: 100px;" value="7600065"></div>
+                                <div class="hissu">*</div>
+                                <div style="margin-left: 50px;">都道府県：</div>
+                                <div><input class="form-control" type="text" id="c_haisou_pref_m" name="c_haisou_pref_m" style="width: 150px;" value="香川県"></div>
+                                <div class="hissu">*</div>
+                                <div style="margin-left: 50px;">市区町村：</div>
+                                <div><input class="form-control" type="text" id="c_haisou_city_m" name="c_haisou_city_m" style="width: 150px;" value="高松市"></div>
+                                <div class="hissu">*</div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>番地：</div>
+                                <div><input class="form-control" type="text" id="c_haisou_banchi_m" name="c_haisou_banchi_m" style="width: 305px;" value="朝日町2丁目"></div>
+                                <div class="hissu">*</div>
+                                <div style="margin-left: 50px;">建物名（部屋番号）：</div>
+                                <div><input class="form-control" type="text" id="c_haisou_build_m" name="c_haisou_build_m" style="width: 310px;"></div>
+                            </div>
+                            <div class="flex2 mt-3">
+                                <div>電話番号：</div>
+                                <div><input class="form-control" type="text" id="c_haisou_tel_m" name="c_haisou_tel_m" value="087-869-8087"></div>
+                                <div class="hissu">*</div>
                             </div>
 
                             <div class="haisou_kokyaku mt-5" style="width: 120px;">納品書情報</div>
 
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" id="c_nouhin_com" name="c_nouhin_com"></div>
+                                <div><input class="form-control" type="text" id="c_nouhin_com" name="c_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" id="c_nouhin_cus"name="c_nouhin_cus"></div>
+                                <div><input class="form-control" type="text" id="c_nouhin_cus"name="c_nouhin_cus"></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>納品書日付：</div>
-                                <div><input  class="form-control" style="text-align: center;" type="date" id="c_nouhin_day" name="c_nouhin_day" value="{{today}}"></div>
+                                <div><input class="form-control" style="text-align: center;" type="date" id="c_nouhin_day" name="c_nouhin_day" value="{{today}}"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">貸出期限：</div>
-                                <div><input  class="form-control" style="text-align: center;" type="date" id="c_rental_maxday" name="c_rental_maxday" value="{{kigen}}" readonly></div>
+                                <div><input class="form-control" style="text-align: center;" type="date" id="c_rental_maxday" name="c_rental_maxday" value="{{kigen}}" readonly></div>
                             </div>
                             <div class="mt-3">
                                 <div style="width: 40%;">
@@ -242,17 +288,17 @@
 
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" id="t_nouhin_com" name="t_nouhin_com"></div>
+                                <div><input class="form-control" type="text" id="t_nouhin_com" name="t_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" id="t_nouhin_cus" name="t_nouhin_cus"></div>
+                                <div><input class="form-control" type="text" id="t_nouhin_cus" name="t_nouhin_cus"></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>納品書日付：</div>
-                                <div><input  class="form-control" style="text-align: center;" type="date" id="t_nouhin_day" name="t_nouhin_day" value="{{today}}"></div>
+                                <div><input class="form-control" style="text-align: center;" type="date" id="t_nouhin_day" name="t_nouhin_day" value="{{today}}"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">貸出期限：</div>
-                                <div><input  class="form-control" style="text-align: center;" type="date" id="t_rental_maxday" name="t_rental_maxday" value="{{kigen}}" readonly></div>
+                                <div><input class="form-control" style="text-align: center;" type="date" id="t_rental_maxday" name="t_rental_maxday" value="{{kigen}}" readonly></div>
                             </div>
                             <div class="mt-3">
                                 <div style="width: 40%;">
@@ -288,7 +334,7 @@
                                 </div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">担当者：</div>
-                                <div><input  class="form-control" type="text" id="k_tantou" name="k_tantou"></div>
+                                <div><input class="form-control" type="text" id="k_tantou" name="k_tantou"></div>
                                 <div class="hissu">*</div>
                             </div>
                             
@@ -296,9 +342,9 @@
 
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input  class="form-control" type="text" id="k_nouhin_com" name="k_nouhin_com"></div>
+                                <div><input class="form-control" type="text" id="k_nouhin_com" name="k_nouhin_com"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input  class="form-control" type="text" id="k_nouhin_cus" name="k_nouhin_cus"></div>
+                                <div><input class="form-control" type="text" id="k_nouhin_cus" name="k_nouhin_cus"></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="mt-3">
@@ -771,6 +817,33 @@
         })
 
 
+        // 配送元指定
+        var butsu = document.getElementById("c_haisou_moto1")
+        var shitei = document.getElementById("c_haisou_moto2")
+        butsu.addEventListener("click",function(){
+            butsu.checked=true;
+            shitei.checked=false;
+            document.getElementById("c_haisou_com_m").value="プラスワンインターナショナル";
+            document.getElementById("c_haisou_cus_m").value="物流センター";
+            document.getElementById("c_haisou_yubin_m").value="7600065";
+            document.getElementById("c_haisou_pref_m").value="香川県";
+            document.getElementById("c_haisou_city_m").value="高松市";
+            document.getElementById("c_haisou_banchi_m").value="朝日町2丁目";
+            document.getElementById("c_haisou_tel_m").value="087-869-8087";
+        });
+        shitei.addEventListener("click",function(){
+            butsu.checked=false;
+            shitei.checked=true;
+            document.getElementById("c_haisou_com_m").value="";
+            document.getElementById("c_haisou_cus_m").value="";
+            document.getElementById("c_haisou_yubin_m").value="";
+            document.getElementById("c_haisou_pref_m").value="";
+            document.getElementById("c_haisou_city_m").value="";
+            document.getElementById("c_haisou_banchi_m").value="";
+            document.getElementById("c_haisou_tel_m").value="";
+        })
+
+
         // 自動転記
         var t_shozoku = document.getElementById("t_shozoku");
         var t_haisou_tempo = document.getElementById("t_haisou_tempo");
@@ -854,6 +927,24 @@
             };
             if (document.getElementById("c_haisou_tel").value == "") {
                 vali.push("【配送先】：電話番号を入力してください！");
+            };
+            if (document.getElementById("c_haisou_cus_m").value == "") {
+                vali.push("【配送元】：氏名を入力してください！");
+            };
+            if (document.getElementById("c_haisou_yubin_m").value == "") {
+                vali.push("【配送元】：郵便番号を入力してください！");
+            };
+            if (document.getElementById("c_haisou_pref_m").value == "") {
+                vali.push("【配送元】：都道府県を入力してください！");
+            };
+            if (document.getElementById("c_haisou_city_m").value == "") {
+                vali.push("【配送元】：市区町村を入力してください！");
+            };
+            if (document.getElementById("c_haisou_banchi_m").value == "") {
+                vali.push("【配送元】：番地を入力してください！");
+            };
+            if (document.getElementById("c_haisou_tel_m").value == "") {
+                vali.push("【配送元】：電話番号を入力してください！");
             };
             if (document.getElementById("c_nouhin_cus").value == "") {
                 vali.push("【納品書】：氏名を入力してください！");
@@ -984,6 +1075,24 @@
                 document.getElementById("c_haisou_pref").value=adress[0]["address1"]
                 document.getElementById("c_haisou_city").value=adress[0]["address2"]
                 document.getElementById("c_haisou_banchi").value=adress[0]["address3"]
+            });
+        })
+
+
+        // 住所入力（配送元）
+        var yubin2 =document.getElementById("c_haisou_yubin_m");
+        yubin2.addEventListener("change",function(){
+            var zipcode=yubin2.value.replace("-","");
+            var url="https://zip-cloud.appspot.com/api/search?zipcode=" + zipcode.toString()
+            fetch(url)
+            .then(function (data) {
+                return data.json(); // 読み込むデータをJSONに設定
+            })
+            .then(function (json) {
+                var adress=json["results"];
+                document.getElementById("c_haisou_pref_m").value=adress[0]["address1"]
+                document.getElementById("c_haisou_city_m").value=adress[0]["address2"]
+                document.getElementById("c_haisou_banchi_m").value=adress[0]["address3"]
             });
         })
 

@@ -79,16 +79,15 @@
 
             <!-- 依頼詳細 -->
             <div class="mt-5">
-                <div class="flex4" style="width: 1100px;">
-                    <div>貸出日：{{irai_detail.rental_day}}</div>
-                    {% if irai_detail.status == 3 %}
-                    <div style="color: red;">キャンセル：{{irai_detail.cancel_name}} （{{irai_detail.cancel_day}}）</div>
-                    {% endif %}
+                
+                <div style="width: 1100px; align-items: end;">
+                    <span style="font-size: 1.5em; font-weight: bold;">依頼No.{{irai_detail.irai_num}}</span>　（貸出日：{{irai_detail.rental_day}}）
                 </div>
+
+                <div id="irai_num" style="display: none;">{{irai_detail.irai_num}}</div>
+
                 <table class="table table-bordered" style="margin-top: 5px; font-size: 0.9em; width: 1100px;">
                     <tr class="table-secondary"><td colspan="4">サンプル依頼</td></tr>
-                        <td style="width: 15%;">依頼No.</td>
-                        <td style="width: 35%;" id="irai_num">{{irai_detail.irai_num}}</td>
                         <td style="width: 15%;">依頼内容</td>
                         <td style="width: 35%;">
                             {% if irai_detail.irai_type == 0 %}
@@ -99,6 +98,18 @@
                                 キープ
                             {% endif %}
                         </td>
+                        <td style="width: 15%;">状態</td>
+                        <td style="width: 35%;">
+                            {% if irai_detail.status == 0 %}
+                                発送待ち（キャンセル可）
+                            {% elif irai_detail.status == 1 %}
+                                発送準備中
+                            {% elif irai_detail.status == 2 %}
+                                発送完了
+                            {% elif irai_detail.status == 3 %}
+                                キャンセル：{{irai_detail.cancel_name}} （{{irai_detail.cancel_day}}）
+                            {% endif %}
+                        </td>
                     </tr>
                     <tr>
                         <td>所属</td><td id="shozoku">{{irai_detail.shozoku}}</td>
@@ -107,7 +118,7 @@
                     <tr class="table-secondary"><td colspan="4">配送先</td></tr>
                     <tr>
                         <td>店舗</td><td>{{irai_detail.haisou_tempo}}</td>
-                        <td></td><td></td>    
+                        <td>配送指定日</td><td>{{irai_detail.haisou_deliday}}</td>    
                     </tr>
                     <tr>
                         <td>会社</td><td>{{irai_detail.haisou_com}}</td>
@@ -122,6 +133,21 @@
                     <tr>
                         <td>電話番号</td><td>{{irai_detail.haisou_tel}}</td>
                         <td>メールアドレス</td><td>{{irai_detail.haisou_mail}}</td>
+                    </tr>
+                    <tr class="table-secondary"><td colspan="4">配送元</td></tr>
+                    <tr>
+                        <td>会社</td><td>{{irai_detail.haisou_com_m}}</td>
+                        <td>氏名</td><td>{{irai_detail.haisou_cus_m}}</td>
+                    </tr>
+                    <tr>
+                        <td>住所</td>
+                        <td colspan="3">
+                            {{irai_detail.haisou_yubin_m}}　{{irai_detail.haisou_pref_m}}{{irai_detail.haisou_city_m}}{{irai_detail.haisou_banchi_m}}{{irai_detail.haisou_build_m}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>電話番号</td><td>{{irai_detail.haisou_tel_m}}</td>
+                        <td></td><td></td>
                     </tr>
                     <tr class="table-secondary"><td colspan="4">納品書</td></tr>
                     <tr>

@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
-from zaiko.models import Size,Shouhin,Category,Rental,Label
+from zaiko.models import Size,Shouhin,Category,Rental,Label,Rireki_rental
 from django.http import JsonResponse
 import json
+from django.db.models import Max
 
 
 def index2(request):
@@ -230,6 +231,80 @@ def label_del(request):
     return render(request,"zaiko2/label.html")
 
 
+def henkyaku(request):
+    if "henkyaku" not in request.session:
+        request.session["henkyaku"]={}
+    if "msg" not in request.session["henkyaku"]:
+        request.session["henkyaku"]["msg"]=""
+    if "items" not in request.session["henkyaku"]:
+        request.session["henkyaku"]["items"]=""
+
+    msg=request.session["henkyaku"]["msg"]
+    item_list=request.session["henkyaku"]["items"]
+    items=Shouhin.objects.filter(sample_num__in=item_list)
+
+    return render(request,"zaiko2/henkyaku.html",{"msg":msg,"items":items})
+
+
+# 返却検索
+def henkyaku_kensaku(request):
+    sample_num=request.POST["sample_num"]
+    irai_num=request.POST["irai_num"]
+    msg=""
+    items=""
+    if sample_num != "":
+        try:
+            irai_num2=Shouhin.objects.get(sample_num=sample_num).irai_num
+            if irai_num2 == 0:
+                msg="サンプルNo." + sample_num +  " は貸出中ではありません。"
+            else:
+                items=list(Shouhin.objects.filter(irai_num=irai_num2).values_list("sample_num",flat=True))
+        except:
+            msg="サンプルNo." + sample_num +  " は存在しません。"
+            items=""
+    if irai_num != "":
+        try:
+            items=list(Shouhin.objects.filter(irai_num=irai_num).values_list("sample_num",flat=True))
+            irai_max=Rireki_rental.objects.all().aggregate(Max("irai_num"))
+            irai_max=irai_max['irai_num__max']
+            if int(irai_num) > irai_max:
+                msg="依頼No." + str(irai_num) +  " は存在しません。"
+            elif len(items) == 0:
+                msg="依頼No." + str(irai_num) +  " はすでに返却されています。"
+        except:
+            msg="依頼No." + str(irai_num) +  " は存在しません。"
+
+    request.session["henkyaku"]["msg"]=msg
+    request.session["henkyaku"]["items"]=items
+    return redirect("zaiko2:henkyaku")
+
+
+# 返却リストから削除
+def henkyaku_del(request):
+    hen_del=request.POST.get("hen_del")
+    items=request.session["henkyaku"]["items"]
+    items.remove(hen_del)
+    request.session["henkyaku"]["items"]=items
+    d={"":""}
+    return JsonResponse(d)
+
+
+# 一括返却処理
+def henkyaku_all(request):
+    item_list=request.session["henkyaku"]["items"]
+    irai_num=Shouhin.objects.get(sample_num=item_list[0]).irai_num
+    items=Shouhin.objects.filter(sample_num__in=item_list)
+    for i in items:
+        i.joutai=0
+        i.irai_num=0
+        i.save()
+    if Shouhin.objects.filter(irai_num=irai_num).count() == 0:
+        Rental.objects.get(irai_num_rental=irai_num).delete()
+    request.session["henkyaku"]["items"].clear()
+    d={"":""}
+    return JsonResponse(d)
+
+
 def size_category(request):
     sizes=Size.objects.all().order_by("size_num")
     category=Category.objects.all().order_by("category_num")
@@ -333,4 +408,5 @@ def category_new(request):
     Category.objects.create(category_num=0, category=category_new1,category_ex=category_new2)
     d={"":""}
     return JsonResponse(d)
+
 

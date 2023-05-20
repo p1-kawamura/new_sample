@@ -427,6 +427,7 @@ def haisou_cus_success(request):
     shozoku=request.POST["c_shozoku"]
     tantou=request.POST["c_tantou"]
     bikou2=request.POST["c_bikou2"]
+    haisou_deliday=request.POST["c_haisou_deliday"]
     haisou_com=request.POST["c_haisou_com"]
     haisou_cus=request.POST["c_haisou_cus"]
     haisou_yubin=request.POST["c_haisou_yubin"]
@@ -436,6 +437,14 @@ def haisou_cus_success(request):
     haisou_build=request.POST["c_haisou_build"]
     haisou_tel=request.POST["c_haisou_tel"]
     haisou_mail=request.POST["c_haisou_mail"]
+    haisou_com_m=request.POST["c_haisou_com_m"]
+    haisou_cus_m=request.POST["c_haisou_cus_m"]
+    haisou_yubin_m=request.POST["c_haisou_yubin_m"]
+    haisou_pref_m=request.POST["c_haisou_pref_m"]
+    haisou_city_m=request.POST["c_haisou_city_m"]
+    haisou_banchi_m=request.POST["c_haisou_banchi_m"]
+    haisou_build_m=request.POST["c_haisou_build_m"]
+    haisou_tel_m=request.POST["c_haisou_tel_m"]
     nouhin_com=request.POST["c_nouhin_com"]
     nouhin_cus=request.POST["c_nouhin_cus"]
     nouhin_day=request.POST["c_nouhin_day"]
@@ -471,6 +480,7 @@ def haisou_cus_success(request):
         irai_type = 0,
         shozoku = shozoku,
         tantou = tantou,
+        haisou_deliday = haisou_deliday,
         haisou_com = haisou_com,
         haisou_cus = haisou_cus,
         haisou_yubin = haisou_yubin,
@@ -480,6 +490,14 @@ def haisou_cus_success(request):
         haisou_build = haisou_build,
         haisou_tel = haisou_tel,
         haisou_mail = haisou_mail,
+        haisou_com_m = haisou_com_m,
+        haisou_cus_m = haisou_cus_m,
+        haisou_yubin_m = haisou_yubin_m,
+        haisou_pref_m = haisou_pref_m,
+        haisou_city_m = haisou_city_m,
+        haisou_banchi_m = haisou_banchi_m,
+        haisou_build_m = haisou_build_m,
+        haisou_tel_m = haisou_tel_m,
         nouhin_com = nouhin_com,
         nouhin_cus = nouhin_cus,
         nouhin_day = nouhin_day,
