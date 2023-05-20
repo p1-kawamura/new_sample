@@ -652,10 +652,17 @@ def irai_success(request):
         data2["size"]=shouhin.size
         data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun
         data.append(data2)
+    
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
+        
     params={
             "irai_shouhin_list":data,
             "irai_detail":irai_detail,
             "kubun":"new",
+            "kanri":kanri,
         }
     return render(request,"zaiko/success.html",params)
 
@@ -685,10 +692,15 @@ def rireki_kakunin(request,pk):
         data2["size"]=shouhin.size
         data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun
         data.append(data2)
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
     params={
             "irai_shouhin_list":data,
             "irai_detail":irai_detail,
             "kubun":kubun,
+            "kanri":kanri,
         }
     return render(request,"zaiko/success.html",params)
 
