@@ -20,7 +20,7 @@
             {% include "zaiko/menu.html" %}
 
             <!-- タイトル -->
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 50px;">
                 <div class="title00">
                     <h2><span class="number">00</span>サンプル依頼履歴</h2>    
                 </div>
@@ -45,23 +45,26 @@
                                 <option value="2">キープ</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="flex2 mt-4">
-                        <div>所属：</div>
+                        <div style="margin-left: 30px;">状態：</div>
                         <div>
-                            <select class="form-select" name="shozoku">
+                            <select class="form-select" name="status">
                                 <option></option>
-                                {% for i in shozoku_list %}
-                                <option>{{i}}</option>
-                                {% endfor %}
+                                <option value="0">発送待ち</option>
+                                <option value="1">準備中</option>
+                                <option value="2">発送完了</option>
+                                <option value="3">取消</option>
                             </select>
                         </div>
-                        <div style="margin-left: 30px;">担当者：</div>
+                    </div>
+                    <div class="flex2 mt-4">
+                        <div>担当者：</div>
                         <div><input class="form-control" type="text" name="tantou" style="width: 150px;"></div>
                         <div style="margin-left: 30px;">顧客会社：</div>
                         <div><input class="form-control" type="text" name="nouhin_com" style="width: 150px;"></div>
                         <div style="margin-left: 30px;">顧客氏名：</div>
                         <div><input class="form-control" type="text" name="nouhin_cus" style="width: 150px;"></div>
+                        <div style="margin-left: 30px;">電話番号：</div>
+                        <div><input class="form-control" type="text" name="tel" style="width: 150px;"></div>
                         <div style="margin-left: 30px;">
                             <button type="submit" class="btn btn-primary">検索</button>
                         </div>
@@ -130,7 +133,7 @@
                                     {% elif i.status == 3 %}
                                         取消
                                     {% else %}
-                                        発送済
+                                        発送完了
                                     {% endif %}
                                 </td>
                             </tr>

@@ -10,7 +10,7 @@ from django.db.models import Max
 import datetime
 from django.db.models import Q
 from django.core.mail import send_mail
-
+from django.contrib.auth.models import User
 
 
 # -----------顧客APIテスト----------
@@ -32,6 +32,7 @@ def kokyaku_api(request):
     return render(request,"zaiko/kokyaku.html",{"res":res,"res2":res2})
 
 # -----------ここまで----------
+
 @login_required
 def index(request):
     if "sample" not in request.session:
@@ -56,8 +57,10 @@ def index(request):
         request.session["kensaku"]["rental_day_ed"]=""
     if "irai_type" not in request.session["kensaku"]:
         request.session["kensaku"]["irai_type"]=""
-    if "shozoku" not in request.session["kensaku"]:
-        request.session["kensaku"]["shozoku"]=""
+    if "status" not in request.session["kensaku"]:
+        request.session["kensaku"]["status"]=""
+    if "tel" not in request.session["kensaku"]:
+        request.session["kensaku"]["tel"]=""
     if "tantou" not in request.session["kensaku"]:
         request.session["kensaku"]["tantou"]=""
     if "nouhin_com" not in request.session["kensaku"]:
@@ -97,7 +100,8 @@ def index(request):
         "size_list":size_list,
         "shozoku_list":shozoku_list,
         "today":today,
-        "kigen":kigen
+        "kigen":kigen,
+        "username1":request.user,
     }
     return render(request,"zaiko/index.html",params)
 
@@ -112,10 +116,11 @@ def irai_rireki(request):
     rental_day_st=request.session["kensaku"]["rental_day_st"]
     rental_day_ed=request.session["kensaku"]["rental_day_ed"]
     irai_type=request.session["kensaku"]["irai_type"]
-    shozoku=request.session["kensaku"]["shozoku"]
     tantou=request.session["kensaku"]["tantou"]
     nouhin_com=request.session["kensaku"]["nouhin_com"]
     nouhin_cus=request.session["kensaku"]["nouhin_cus"]
+    status=request.session["kensaku"]["status"]
+    tel=request.session["kensaku"]["tel"]
     
     request.session["comment"]="" # zaiko2:index2 の制御
 
@@ -129,14 +134,17 @@ def irai_rireki(request):
         str["rental_day__lte"]=rental_day_ed
     if irai_type != "":
         str["irai_type"]=irai_type
-    if shozoku != "":
-        str["shozoku"]=shozoku
     if tantou != "":
         str["tantou__contains"]=tantou
     if nouhin_com != "":
         str["nouhin_com__contains"]=nouhin_com
     if nouhin_cus != "":
         str["nouhin_cus__contains"]=nouhin_cus
+    if status != "":
+        str["status"]=status
+    if tel != "":
+        str["haisou_tel"]=tel
+        
 
     items=Rireki_rental.objects.filter(**str).order_by("irai_num").reverse()
     shozoku_list=Shozoku.objects.all()
@@ -165,19 +173,21 @@ def rireki_kensaku(request):
     rental_day_st=request.POST["rental_day_st"]
     rental_day_ed=request.POST["rental_day_ed"]
     irai_type=request.POST["irai_type"]
-    shozoku=request.POST["shozoku"]
     tantou=request.POST["tantou"]
     nouhin_com=request.POST["nouhin_com"]
     nouhin_cus=request.POST["nouhin_cus"]
+    status=request.POST["status"]
+    tel=request.POST["tel"]
 
     request.session["kensaku"]["irai_num"]=irai_num
     request.session["kensaku"]["rental_day_st"]=rental_day_st
     request.session["kensaku"]["rental_day_ed"]=rental_day_ed
     request.session["kensaku"]["irai_type"]=irai_type
-    request.session["kensaku"]["shozoku"]=shozoku
     request.session["kensaku"]["tantou"]=tantou
     request.session["kensaku"]["nouhin_com"]=nouhin_com
     request.session["kensaku"]["nouhin_cus"]=nouhin_cus
+    request.session["kensaku"]["status"]=status
+    request.session["kensaku"]["tel"]=tel
     request.session["page_num"]=1
 
     return redirect("zaiko:irai_rireki")
@@ -188,10 +198,11 @@ def rireki_kensaku_all(request):
     request.session["kensaku"]["rental_day_st"]=""
     request.session["kensaku"]["rental_day_ed"]=""
     request.session["kensaku"]["irai_type"]=""
-    request.session["kensaku"]["shozoku"]=""
     request.session["kensaku"]["tantou"]=""
     request.session["kensaku"]["nouhin_com"]=""
     request.session["kensaku"]["nouhin_cus"]=""
+    request.session["kensaku"]["status"]=""
+    request.session["kensaku"]["tel"]=""
     request.session["page_num"]=1
     return redirect("zaiko:irai_rireki")
 
