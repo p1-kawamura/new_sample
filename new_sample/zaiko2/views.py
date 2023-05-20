@@ -9,11 +9,16 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def index2(request):
     comment=request.session["comment"]
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
     params={
         "ins":Category.objects.all(),
         "sizes":Size.objects.all().order_by("size_num"),
         "label":Label.objects.all().count(),
-        "comment":comment
+        "comment":comment,
+        "kanri":kanri,
     }
     return render(request,"zaiko2/index2.html",params)
 
@@ -245,8 +250,12 @@ def henkyaku(request):
     msg=request.session["henkyaku"]["msg"]
     item_list=request.session["henkyaku"]["items"]
     items=Shouhin.objects.filter(sample_num__in=item_list)
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
 
-    return render(request,"zaiko2/henkyaku.html",{"msg":msg,"items":items})
+    return render(request,"zaiko2/henkyaku.html",{"msg":msg,"items":items,"kanri":kanri})
 
 
 # 返却検索
@@ -273,7 +282,7 @@ def henkyaku_kensaku(request):
             if int(irai_num) > irai_max:
                 msg="依頼No." + str(irai_num) +  " は存在しません。"
             elif len(items) == 0:
-                msg="依頼No." + str(irai_num) +  " はすでに返却されています。"
+                msg="依頼No." + str(irai_num) +  " はすでに返却されるか、存在しません。"
         except:
             msg="依頼No." + str(irai_num) +  " は存在しません。"
 
@@ -313,7 +322,11 @@ def size_category(request):
     sizes=Size.objects.all().order_by("size_num")
     category=Category.objects.all().order_by("category_num")
     request.session["comment"]=""
-    return render(request,"zaiko2/size_category.html",{"sizes":sizes,"category":category})
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
+    return render(request,"zaiko2/size_category.html",{"sizes":sizes,"category":category,"kanri":kanri})
 
 
 # サイズ番号（順番）

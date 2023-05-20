@@ -9,7 +9,6 @@ import json
 from django.db.models import Max
 import datetime
 from django.db.models import Q
-from django.core.mail import send_mail
 
 
 # -----------顧客APIテスト----------
@@ -96,10 +95,9 @@ def index(request):
     
     #user認証
     kanri=0
-    user=str(request.user)
-    if user == "p1masao":
+    if request.user.username == "p1masao":
         kanri=1
-    print(kanri)
+
     params={
         "irai_shouhin_list":data,
         "kazu":kazu,
@@ -165,11 +163,18 @@ def irai_rireki(request):
     request.session["all_page_num"]=all_num
     num=request.session["page_num"]
     items=items[(num-1)*30 : num*30]
+
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
+
     params={
         "items":items,
         "shozoku_list":shozoku_list,
         "num":num,
         "all_num":all_num,
+        "kanri":kanri,
     }
     return render(request,"zaiko/rireki.html",params)
 
