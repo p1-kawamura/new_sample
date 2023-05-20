@@ -143,7 +143,7 @@ def irai_rireki(request):
     if status != "":
         str["status"]=status
     if tel != "":
-        str["haisou_tel"]=tel
+        str["haisou_tel_kensaku"]=tel.replace("-","")
         
 
     items=Rireki_rental.objects.filter(**str).order_by("irai_num").reverse()
@@ -500,6 +500,7 @@ def haisou_cus_success(request):
         haisou_banchi = haisou_banchi,
         haisou_build = haisou_build,
         haisou_tel = haisou_tel,
+        haisou_tel_kensaku = haisou_tel.replace("-","").strip(),
         haisou_mail = haisou_mail,
         haisou_com_m = haisou_com_m,
         haisou_cus_m = haisou_cus_m,
@@ -605,6 +606,7 @@ def haisou_keep_success(request):
         tantou = tantou,
         com_name = nouhin_com,
         cus_name = nouhin_cus,
+        status = 4,
     )
     #貸出履歴DB
     Rireki_rental.objects.create(

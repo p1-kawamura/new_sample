@@ -79,6 +79,7 @@ class Rireki_rental(models.Model):
     haisou_banchi=models.CharField("番地",max_length=30,blank=True)
     haisou_build=models.CharField("建物名",max_length=30,blank=True)
     haisou_tel=models.CharField("電話番号",max_length=30,blank=True)
+    haisou_tel_kensaku=models.CharField("電話番号_検索",max_length=30,blank=True)
     haisou_mail=models.CharField("メールアドレス",max_length=100,blank=True)
     haisou_com_m=models.CharField("会社名_元",max_length=30,blank=True)
     haisou_cus_m=models.CharField("名前_元",max_length=30,blank=True)
@@ -104,7 +105,7 @@ class Rireki_rental(models.Model):
         return str(self.irai_num)
     
     # irai_type（内容）　0:顧客　1:店舗　2:キープ
-    # status（状態）　0:変更可　1:準備中　2:完了　3.キャンセル
+    # status（状態）　0:発送待ち　1:準備中　2:発送完了　3.キャンセル　4:キープ
     
 
 class Rireki_shouhin(models.Model):
