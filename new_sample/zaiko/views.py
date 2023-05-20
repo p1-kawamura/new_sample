@@ -10,7 +10,6 @@ from django.db.models import Max
 import datetime
 from django.db.models import Q
 from django.core.mail import send_mail
-from django.contrib.auth.models import User
 
 
 # -----------顧客APIテスト----------
@@ -94,6 +93,13 @@ def index(request):
     shozoku_list=Shozoku.objects.all()
     today=datetime.date.today().strftime("%Y-%m-%d")
     kigen=(datetime.date.today() + datetime.timedelta(days=14)).strftime("%Y-%m-%d")
+    
+    #user認証
+    kanri=0
+    user=str(request.user)
+    if user == "p1masao":
+        kanri=1
+    print(kanri)
     params={
         "irai_shouhin_list":data,
         "kazu":kazu,
@@ -101,7 +107,7 @@ def index(request):
         "shozoku_list":shozoku_list,
         "today":today,
         "kigen":kigen,
-        "username1":request.user,
+        "kanri":kanri,
     }
     return render(request,"zaiko/index.html",params)
 

@@ -18,21 +18,28 @@
     <div class="container mt-3 mb-5" style="margin: 0 auto;">
 
         <!-- メニュー -->
-        {% include "zaiko/menu.html" %}
+        <div class="menu">
+            <div>
+                <a href="https://www.p1-intl.com/" target="_blank"><img src="{% static 'logo.webp' %}"></a>
+            </div>
+            <div style="margin-left: 30px;">
+                <a href="{% url 'zaiko:index' %}"><button type="button" class="btn btn-outline-success">サンプル在庫表</button></a>
+            </div>
+            <div style="margin-left: 30px;">
+                <a href="{% url 'zaiko:irai_rireki' %}"><button type="button" class="btn btn-outline-success">履歴一覧（キャンセル依頼）</button></a>
+            </div>
 
-        {% if username == p1masao %}
-        aaaaa
-        {% endif %}
-
-        {% if username == ppp %}
-        bbb
-        {% endif %}
+            {% if kanri == 1 %}
+                {% include "zaiko/menu.html" %}
+            {% endif %}
+        
+        </div>
 
         <!-- 02ブロック （配送先入力）-->
         {% if kazu == 0 %}
         <div style="display: none;">
         {% else %}
-        <div style="margin-top: 50px;">
+        <div style="margin-top: 70px;">
         {% endif %}
 
             <!-- タイトル -->

@@ -3,8 +3,10 @@ from zaiko.models import Size,Shouhin,Category,Rental,Label,Rireki_rental
 from django.http import JsonResponse
 import json
 from django.db.models import Max
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def index2(request):
     comment=request.session["comment"]
     params={
@@ -231,6 +233,7 @@ def label_del(request):
     return render(request,"zaiko2/label.html")
 
 
+@login_required
 def henkyaku(request):
     if "henkyaku" not in request.session:
         request.session["henkyaku"]={}
@@ -305,6 +308,7 @@ def henkyaku_all(request):
     return JsonResponse(d)
 
 
+@login_required
 def size_category(request):
     sizes=Size.objects.all().order_by("size_num")
     category=Category.objects.all().order_by("category_num")
