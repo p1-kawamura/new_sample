@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def index2(request):
     comment=request.session["comment"]
+    size_cnt=Size.objects.filter(size_num=0).count()
     #user認証
     kanri=0
     if request.user.username == "p1masao":
@@ -19,6 +20,7 @@ def index2(request):
         "label":Label.objects.all().count(),
         "comment":comment,
         "kanri":kanri,
+        "size_cnt":size_cnt,
     }
     return render(request,"zaiko2/index2.html",params)
 

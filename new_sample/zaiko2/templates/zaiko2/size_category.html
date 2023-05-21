@@ -17,11 +17,7 @@
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
 
             <!-- メニュー -->
-            {% if kanri == 0 %}
-                {% include "zaiko/menu.html" %}
-            {% elif kanri == 1 %}
-                {% include "zaiko/menu2.html" %}
-            {% endif %}
+            {% include "zaiko/menu.html" with kanri=kanri %}
 
             <div class="flex4" style="margin-top: 50px;">
 

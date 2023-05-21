@@ -18,11 +18,7 @@
     <div class="container mt-3 mb-5" style="margin: 0 auto;">
 
         <!-- メニュー -->
-        {% if kanri == 0 %}
-            {% include "zaiko/menu.html" %}
-        {% elif kanri == 1 %}
-            {% include "zaiko/menu2.html" %}
-        {% endif %}
+        {% include "zaiko/menu.html" with kanri=kanri %}
 
         <!-- 02ブロック （配送先入力）-->
         {% if kazu == 0 %}
