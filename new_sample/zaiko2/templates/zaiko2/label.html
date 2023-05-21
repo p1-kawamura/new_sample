@@ -20,14 +20,13 @@
     </style>
 </head>
 <body>
-    <div class="container mt-5 mb-5">
-        
-        <!-- メニュー -->
-        {% include "zaiko/menu.html" %}
-
+    <div class="container mt-3 mb-5">
         <div style="margin: 0 auto; justify-content: center; width: 1100px;">
-        
-            <div class="flex2">
+
+            <!-- メニュー -->
+            {% include "zaiko/menu.html" with kanri=kanri %}
+
+            <div class="flex2" style="margin-top: 50px;">
                 <div><button type="button" class="btn btn-secondary" id="print"><i class="bi bi-printer-fill"></i> 印刷</button></div>
                 <div style="margin-left: 50px;">
                     <a href="{% url 'zaiko2:label_del' %}">

@@ -58,7 +58,7 @@
                     </div>
                     <div class="flex2 mt-4">
                         <div>担当者：</div>
-                        <div><input class="form-control" type="text" name="tantou" style="width: 150px;"></div>
+                        <div><input class="form-control" type="text" name="tantou" style="width: 110px;"></div>
                         <div style="margin-left: 30px;">顧客会社：</div>
                         <div><input class="form-control" type="text" name="nouhin_com" style="width: 150px;"></div>
                         <div style="margin-left: 30px;">顧客氏名：</div>
@@ -66,7 +66,7 @@
                         <div style="margin-left: 30px;">電話番号：</div>
                         <div><input class="form-control" type="text" name="tel" style="width: 150px;"></div>
                         <div style="margin-left: 30px;">
-                            <button type="submit" class="btn btn-primary">検索</button>
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> 検索</button>
                         </div>
                     </div>
                 </form>
@@ -84,19 +84,19 @@
 
                     {% if kanri == 1 %}
                     <div>
-                        <form method="post">{% csrf_token %}
-                            <button class="btn btn-danger" type="submit" formaction="{% url 'zaiko:rireki_kensaku_all' %}">
-                                <i class="bi bi-download"></i>　ダウンロード
-                            </button>
-                        </form>
+                        <button class="btn btn-danger" id="csv_download">
+                            <i class="bi bi-download"></i> ダウンロード
+                        </button>
                     </div>
                     {% endif %}
-
                 </div>
                 <div class="mt-3">
                     <table class="table table-bordered" style="font-size: 0.9em;">
                         <thead>
                             <tr class="table-secondary">
+                                {% if kanri == 1 %}
+                                <th><input class="form-check-input" type="checkbox" id="check_all"></th>
+                                {% endif %}
                                 <th>依頼NO.</th>
                                 <th>依頼日</th>
                                 <th>内容</th>
@@ -111,6 +111,15 @@
                         <tbody>
                             {% for i in items %}
                             <tr style="height: 50px;">
+                                {% if kanri == 1 %}
+                                    {% if i.status == 0 %}
+                                    <td style="vertical-align: middle;">
+                                        <input class="form-check-input" type="checkbox" id="{{i.irai_num}}" name="check_list">
+                                    </td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                {% endif %}
                                 <td style="vertical-align: middle; text-align: center;">
                                     <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
                                         <button type="submit" class="btn btn-sm">
@@ -171,5 +180,79 @@
 
         </div>
     </div>
+
+
+    <!-- 各種Ajax -->
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i <cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+  
+        var csrftoken = getCookie('csrftoken');
+  
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+  
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+  
+
+        // 全チェック
+        var check_all = document.getElementById("check_all");
+        check_all.addEventListener("click",function(){
+            var che=document.getElementsByName("check_list");
+            for (var i=0; i<che.length; i++){
+                if (check_all.checked){
+                    che[i].checked=true;
+                } else {
+                    che[i].checked=false;
+                };
+            };
+        });
+
+        // CSVダウンロード
+        var csv_download = document.getElementById("csv_download");
+        csv_download.addEventListener("click",function(){
+            var che=document.getElementsByName("check_list");
+            var irai_list=[];
+            for (var i=0; i<che.length; i++){
+                if (che[i].checked){
+                    irai_list.push(che[i].id);
+                };
+            };
+            // irai_list=irai_list.toString();
+            console.log(irai_list);
+            // $.ajax({
+            //     'url': '{% url "zaiko:csv_download" %}',
+            //     'type': 'POST',
+            //     'data': {'irai_list': irai_list},
+            //     'dataType': 'json'
+            // })
+            // .done(function(response){          
+            //     window.shouhin_all.location.href = "color_size_click_ajax2";
+            // });
+        });
+
+    </script>
+
 </body>
 </html>

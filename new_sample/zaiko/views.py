@@ -670,7 +670,6 @@ def irai_success(request):
 # 履歴確認ボタン
 def rireki_kakunin(request,pk):
     irai_detail=Rireki_rental.objects.get(pk=pk)
-    irai_type=irai_detail.irai_type
     status=irai_detail.status
     if status==0: #success.htmlのタイトル用
         kubun="kakunin_ok"
@@ -727,6 +726,10 @@ def cancel_ajax(request):
     d={"":""}
     return JsonResponse(d)
 
+
+# CSVダウンロード
+def csv_download(request):
+    pass
 
 
 # 元DB取込

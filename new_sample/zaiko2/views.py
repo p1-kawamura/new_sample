@@ -231,13 +231,19 @@ def label_print(request):
         items1=items[:8]
         params={"items1":items1,"col":1}
 
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
+    params["kanri"]=kanri
+
     return render(request,"zaiko2/label.html",params)
 
 
 # ラベル消去
 def label_del(request):
     Label.objects.all().delete()
-    return render(request,"zaiko2/label.html")
+    return redirect("zaiko2:label_print")
 
 
 @login_required
