@@ -229,27 +229,31 @@
             };
         });
 
+        
         // CSVダウンロード
         var csv_download = document.getElementById("csv_download");
         csv_download.addEventListener("click",function(){
-            var che=document.getElementsByName("check_list");
+            var che=document.getElementsByName("check_list");    
             var irai_list=[];
             for (var i=0; i<che.length; i++){
                 if (che[i].checked){
                     irai_list.push(che[i].id);
                 };
             };
-            // irai_list=irai_list.toString();
-            console.log(irai_list);
-            // $.ajax({
-            //     'url': '{% url "zaiko:csv_download" %}',
-            //     'type': 'POST',
-            //     'data': {'irai_list': irai_list},
-            //     'dataType': 'json'
-            // })
-            // .done(function(response){          
-            //     window.shouhin_all.location.href = "color_size_click_ajax2";
-            // });
+            if (irai_list.length == 0){
+                window.alert("対象の案件を選択してください！");
+                return
+            }
+            irai_list=irai_list.toString();
+            $.ajax({
+                'url': '{% url "zaiko:csv_make" %}',
+                'type': 'POST',
+                'data': {'irai_list': irai_list},
+                'dataType': 'json'
+            })
+            .done(function(response){          
+                window.location.href='{% url "zaiko:csv_download" %}';
+            });
         });
 
     </script>

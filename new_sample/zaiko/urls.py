@@ -5,7 +5,7 @@ from .views import index,shouhin_all,csv_imp,csv_imp_page,dele,hinban_enter_ajax
                     kokyaku_index,kokyaku_api,hinban_click_ajax2,color_size_click_ajax2,toriyose_add_ajax,\
                     last_kakunin,haisou_cus_success,haisou_tempo_success,haisou_keep_success,irai_success,irai_rireki,\
                     rireki_kakunin,page_prev,page_first,page_next,page_last,rireki_kensaku,rireki_kensaku_all,cancel_ajax,\
-                    csv_download
+                    csv_make,csv_download
 
 
 app_name="zaiko"
@@ -42,6 +42,7 @@ urlpatterns = [
     path('haisou_keep_success/', haisou_keep_success, name="haisou_keep_success"),
     path('rireki_kakunin/<int:pk>', rireki_kakunin, name="rireki_kakunin"),
     path('cancel_ajax/', cancel_ajax, name="cancel_ajax"),
+    path('csv_make/', csv_make, name="csv_make"),
     path('csv_download/', csv_download, name="csv_download"),
     path('kokyaku_index/', kokyaku_index, name="kokyaku_index"), #顧客APIテスト
     path('kokyaku_api/', kokyaku_api, name="kokyaku_api"), #顧客APIテスト

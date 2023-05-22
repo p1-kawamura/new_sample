@@ -3,12 +3,14 @@ from .models import Shouhin,Rental,Size,Shozoku,Rireki_rental,Rireki_shouhin,Cat
 from django.contrib.auth.decorators import login_required
 import io
 import csv
+from django.http import HttpResponse
 from django.http import JsonResponse
 import requests
 import json
 from django.db.models import Max
 import datetime
 from django.db.models import Q
+import urllib.parse
 
 
 # -----------顧客APIテスト----------
@@ -67,6 +69,8 @@ def index(request):
         request.session["kensaku"]["nouhin_cus"]=""
     if "success_num" not in request.session:
         request.session["success_num"]=""
+    if "csv_list" not in request.session:
+        request.session["csv_list"]=""
     if "comment" not in request.session:
         request.session["comment"]=""
 
@@ -450,6 +454,7 @@ def haisou_cus_success(request):
     tantou=request.POST["c_tantou"]
     bikou2=request.POST["c_bikou2"]
     haisou_deliday=request.POST["c_haisou_deliday"]
+    haisou_delitime=request.POST["c_haisou_delitime"]
     haisou_com=request.POST["c_haisou_com"]
     haisou_cus=request.POST["c_haisou_cus"]
     haisou_yubin=request.POST["c_haisou_yubin"]
@@ -503,6 +508,7 @@ def haisou_cus_success(request):
         shozoku = shozoku,
         tantou = tantou,
         haisou_deliday = haisou_deliday,
+        haisou_delitime = haisou_delitime,
         haisou_com = haisou_com,
         haisou_cus = haisou_cus,
         haisou_yubin = haisou_yubin,
@@ -727,9 +733,78 @@ def cancel_ajax(request):
     return JsonResponse(d)
 
 
+#CSV作成準備
+def csv_make(request):
+    irai_list=request.POST.get("irai_list").split(",")
+    irai_list=list(map(int,irai_list))
+    request.session["csv_list"]=irai_list
+    d={"":""}
+    return JsonResponse(d)
+
+
 # CSVダウンロード
 def csv_download(request):
-    pass
+    irai_list=request.session["csv_list"]
+    exp_csv=[]
+    a=[
+        "ブランド","商品番号","商品名","カラー","サイズ","サンプルNo","加工","商品備考","依頼No","依頼日","貸出期限","所属","担当",
+        "納品書会社","納品書氏名","納品書備考","依頼書備考",
+        "会社名","氏名","郵便番号","都道府県","市区町村","番地","建物","電話番号","メール",
+        "元_会社名","元_氏名","元_郵便番号","元_都道府県","元_市区町村","元_番地","元_建物","元_電話番号","指定日","指定時間"
+       ]
+    exp_csv.append(a)
+    for num in irai_list:
+        irai=Rireki_rental.objects.get(irai_num=num)
+        items=Shouhin.objects.filter(irai_num=num)
+        for item in items:
+            a=[
+                item.brand, #ブランド
+                item.shouhin_num, #商品番号
+                item.shouhin_name, #商品名
+                item.color, #カラー
+                item.size, #サイズ
+                item.sample_num, #サンプルNo
+                item.kakou, #加工
+                item.bikou, #商品備考
+                irai.irai_num, #依頼No
+                irai.nouhin_day, #依頼日
+                irai.rental_maxday, #貸出期限
+                irai.shozoku, #所属
+                irai.tantou, #担当
+                irai.nouhin_com, #納品書会社
+                irai.nouhin_cus, #納品書氏名
+                irai.bikou1, #納品書備考
+                irai.bikou2, #依頼書備考
+                irai.haisou_com, #会社名
+                irai.haisou_cus, #氏名
+                irai.haisou_yubin, #郵便番号
+                irai.haisou_pref, #都道府県
+                irai.haisou_city, #市区町村
+                irai.haisou_banchi, #番地
+                irai.haisou_build, #建物
+                irai.haisou_tel, #電話番号
+                irai.haisou_mail, #メール
+                irai.haisou_com_m, #元_会社名
+                irai.haisou_cus_m, #元_氏名
+                irai.haisou_yubin_m, #元_郵便番号
+                irai.haisou_pref_m, #元_都道府県
+                irai.haisou_city_m, #元_市区町村
+                irai.haisou_banchi_m, #元_番地
+                irai.haisou_build_m, #元_建物
+                irai.haisou_tel_m, #元_電話番号
+                irai.haisou_deliday, #指定日
+                irai.haisou_delitime, #指定時間
+            ]
+            exp_csv.append(a)
+    now=datetime.datetime.now()
+    filename=urllib.parse.quote("サンプル発送_" + format(now,"%Y%m%d%H%M%S") +".csv")
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] =  "attachment;  filename='{}'; filename*=UTF-8''{}".format(filename, filename)
+    writer = csv.writer(response)
+    for line in exp_csv:
+        writer.writerow(line)
+    request.session["csv_list"].clear()
+    return response
 
 
 # 元DB取込

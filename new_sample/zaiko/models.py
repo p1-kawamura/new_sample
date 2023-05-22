@@ -71,6 +71,7 @@ class Rireki_rental(models.Model):
     tantou=models.CharField("担当者",max_length=30,blank=True)
     haisou_tempo=models.CharField("配送店舗",max_length=30,blank=True)
     haisou_deliday=models.CharField("配送指定日",max_length=30,null=True,blank=True,default="")
+    haisou_delitime=models.CharField("時間指定",max_length=30,null=True,blank=True,default="")
     haisou_com=models.CharField("会社名",max_length=30,blank=True)
     haisou_cus=models.CharField("名前",max_length=30,blank=True)
     haisou_yubin=models.CharField("郵便番号",max_length=30,blank=True)
