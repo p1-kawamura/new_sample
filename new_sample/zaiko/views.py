@@ -84,6 +84,8 @@ def index(request):
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
         data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         if shouhin.sample_num=="":
@@ -654,6 +656,8 @@ def irai_success(request):
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
         data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun
@@ -693,6 +697,8 @@ def rireki_kakunin(request,pk):
         data2["hontai_num"]=shouhin.hontai_num
         data2["sample_num"]=shouhin.sample_num
         data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun
