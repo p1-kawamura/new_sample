@@ -118,7 +118,14 @@
                     <tr class="table-secondary"><td colspan="4">配送先</td></tr>
                     <tr>
                         <td>店舗</td><td>{{irai_detail.haisou_tempo}}</td>
-                        <td>配送指定日</td><td>{{irai_detail.haisou_deliday}}　{{irai_detail.haisou_delitime}}</td>    
+                        <td>配送指定日時</td>
+                        <td>
+                            {% if irai_detail.haisou_deliday == "" %}
+                                {{irai_detail.haisou_delitime}}
+                            {% else %}
+                                {{irai_detail.haisou_deliday}}　{{irai_detail.haisou_delitime}}
+                            {% endif %}
+                        </td>    
                     </tr>
                     <tr>
                         <td>会社</td><td>{{irai_detail.haisou_com}}</td>
