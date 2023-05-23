@@ -744,6 +744,10 @@ def csv_make(request):
     irai_list=request.POST.get("irai_list").split(",")
     irai_list=list(map(int,irai_list))
     request.session["csv_list"]=irai_list
+    for i in irai_list:
+        item=Rireki_rental.objects.get(irai_num=i)
+        item.status=1
+        item.save()
     d={"":""}
     return JsonResponse(d)
 

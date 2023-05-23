@@ -98,8 +98,7 @@ def sample_num_auto(request):
     if category=="":
         sample_num="no_cate"
     else:
-        items=Shouhin.objects.filter(category=category) #model.pyでself.sample_numなのでサンプルNoのみ返ってくる
-        print(items.count())
+        items=Shouhin.objects.filter(category=category,status=0) #model.pyでself.sample_numなのでサンプルNoのみ返ってくる
         if items.count() == 0:
             sample_num="no_get"
         else:
