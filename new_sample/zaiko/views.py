@@ -76,6 +76,19 @@ def index(request):
 
     request.session["comment"]="" # zaiko2:index2 の制御
 
+    # キープ解除
+    items=Shouhin.objects.filter(joutai=2)
+    for item_s in items:
+        item_r=Rental.objects.get(irai_num_rental=item_s.irai_num)
+        day=datetime.date.today() - item_r.rental_day
+        if day.days >14:
+            print(item_s.irai_num)
+            # item_s.joutai=0
+            # item_s.irai_num=0
+            # item_s.save()
+            # item_r.delete()
+
+    # 依頼商品一覧
     irai_shouhin_list=list(request.session["sample"])
     data=[]
     for i in irai_shouhin_list:
