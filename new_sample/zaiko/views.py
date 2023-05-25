@@ -779,6 +779,18 @@ def csv_download(request):
     for num in irai_list:
         irai=Rireki_rental.objects.get(irai_num=num)
         items=Shouhin.objects.filter(irai_num=num)
+
+        bikou11=irai.bikou1.splitlines()
+        if len(bikou11)>0:
+            bikou11="&&".join(bikou11)
+        else:
+            bikou11=irai.bikou1
+        bikou22=irai.bikou2.splitlines()
+        if len(bikou22)>0:
+            bikou22="&&".join(bikou22)
+        else:
+            bikou22=irai.bikou2
+
         for item in items:
             a=[
                 item.brand, #ブランド
@@ -796,8 +808,8 @@ def csv_download(request):
                 irai.tantou, #担当
                 irai.nouhin_com, #納品書会社
                 irai.nouhin_cus, #納品書氏名
-                irai.bikou1, #納品書備考
-                irai.bikou2, #依頼書備考
+                bikou11, #納品書備考
+                bikou22, #依頼書備考
                 irai.haisou_com, #会社名
                 irai.haisou_cus, #氏名
                 irai.haisou_yubin, #郵便番号
