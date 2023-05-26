@@ -81,8 +81,8 @@ def index(request):
     for item_s in items:
         item_r=Rental.objects.get(irai_num_rental=item_s.irai_num)
         day=datetime.date.today() - item_r.rental_day
-        if day.days >14:
-            print(item_s.irai_num)
+        # if day.days >14:
+        #     print(item_s.irai_num)
             # item_s.joutai=0
             # item_s.irai_num=0
             # item_s.save()
@@ -770,10 +770,10 @@ def csv_download(request):
     irai_list=request.session["csv_list"]
     exp_csv=[]
     a=[
-        "ブランド","商品番号","商品名","カラー","サイズ","サンプルNo","加工","商品備考","依頼No","依頼日","貸出期限","所属","担当",
+        "ブランド","商品番号","商品名","カラー","サイズ","サンプルNo","加工","商品備考","区分","依頼No","依頼日","貸出期限","所属","担当",
         "納品書会社","納品書氏名","納品書備考","依頼書備考",
-        "会社名","氏名","郵便番号","都道府県","市区町村","番地","建物","電話番号","メール",
-        "元_会社名","元_氏名","元_郵便番号","元_都道府県","元_市区町村","元_番地","元_建物","元_電話番号","指定日","指定時間"
+        "店舗名","会社名","氏名","郵便番号","都道府県","市区町村","番地","建物","電話番号","メール",
+        "元_会社名","元_氏名","元_郵便番号","元_都道府県","元_市区町村","元_番地","元_建物","元_電話番号","指定日","指定時間","依頼内容"
        ]
     exp_csv.append(a)
     for num in irai_list:
@@ -792,6 +792,7 @@ def csv_download(request):
             bikou22=irai.bikou2
 
         for item in items:
+            kubun=Rireki_shouhin.objects.get(irai_num=num,irai_hontai_num=item.hontai_num).irai_hontai_kubun
             a=[
                 item.brand, #ブランド
                 item.shouhin_num, #商品番号
@@ -801,6 +802,7 @@ def csv_download(request):
                 item.sample_num, #サンプルNo
                 item.kakou, #加工
                 item.bikou, #商品備考
+                kubun, #商品区分
                 irai.irai_num, #依頼No
                 irai.nouhin_day, #依頼日
                 irai.rental_maxday, #貸出期限
@@ -810,6 +812,7 @@ def csv_download(request):
                 irai.nouhin_cus, #納品書氏名
                 bikou11, #納品書備考
                 bikou22, #依頼書備考
+                irai.haisou_tempo, #店舗名
                 irai.haisou_com, #会社名
                 irai.haisou_cus, #氏名
                 irai.haisou_yubin, #郵便番号
@@ -829,6 +832,7 @@ def csv_download(request):
                 irai.haisou_tel_m, #元_電話番号
                 irai.haisou_deliday, #指定日
                 irai.haisou_delitime, #指定時間
+                irai.irai_type, #内容
             ]
             exp_csv.append(a)
     now=datetime.datetime.now()
