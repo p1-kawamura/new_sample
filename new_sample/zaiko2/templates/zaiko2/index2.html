@@ -230,6 +230,13 @@
   
         //カテゴリ選択
         $('#category').on('click', function(e) {
+            if ($('#category').val() == "取寄せ"){
+                document.getElementById("btn_label_add").disabled=true;
+                document.getElementById("btn_copy").disabled=true;
+            } else {
+                document.getElementById("btn_label_add").disabled=false;
+                document.getElementById("btn_copy").disabled=false;
+            };
             $.ajax({
                 'url': '{% url "zaiko2:category_click_ajax" %}',
                 'type': 'POST',

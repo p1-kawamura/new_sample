@@ -296,6 +296,7 @@ def hinban_click_ajax(request):
     color_list=[]
     size_list=[]
     for item in items:
+        print(item.color,item.size_num,item.size)
         shouhin_name=item.shouhin_name
         brand=item.brand
         if item.color not in color_list:

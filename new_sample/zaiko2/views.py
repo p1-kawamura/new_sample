@@ -366,13 +366,14 @@ def size_num(request):
 # サイズ名称
 def size_name(request):
     old_n=request.POST.get("size_name1")
+    old_num=Size.objects.get(size=old_n).size_num
     new_n=request.POST.get("size_name2")
     # サイズ一覧
     ins=Size.objects.get(size=old_n)
     ins.size=new_n
     ins.save()
     #商品一覧
-    ins=Shouhin.objects.filter(size=old_n)
+    ins=Shouhin.objects.filter(size_num=old_num)
     if ins.count() != 0:
         for ins2 in ins:
             ins2.size=new_n
