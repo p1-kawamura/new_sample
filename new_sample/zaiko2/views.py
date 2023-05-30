@@ -29,8 +29,8 @@ def index2(request):
 def category_click_ajax(request):
     category=request.POST.get("category")
     if category == "取寄せ":
-        items=list(Shouhin.objects.filter(sample_num = "").values())
-        hinban=Shouhin.objects.filter(sample_num = "")
+        items=list(Shouhin.objects.filter(sample_num = "", status=0).values())
+        hinban=Shouhin.objects.filter(sample_num = "", status=0)
     else:
         items=list(Shouhin.objects.filter(category=category, status=0).values())
         hinban=Shouhin.objects.filter(category=category, status=0)
