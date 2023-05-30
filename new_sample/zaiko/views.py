@@ -81,12 +81,13 @@ def index(request):
     for item_s in items:
         item_r=Rental.objects.get(irai_num_rental=item_s.irai_num)
         day=datetime.date.today() - item_r.rental_day
-        # if day.days >14:
-        #     print(item_s.irai_num)
-            # item_s.joutai=0
-            # item_s.irai_num=0
-            # item_s.save()
-            # item_r.delete()
+        if day.days > 14:
+            item_s.joutai=0
+            moto_num=item_s.irai_num
+            item_s.irai_num=0
+            item_s.save()
+            if Shouhin.objects.filter(irai_num=moto_num).count()==0:
+                Rental.objects.get(irai_num_rental=moto_num).delete()
 
     # 依頼商品一覧
     irai_shouhin_list=list(request.session["sample"])
@@ -296,7 +297,6 @@ def hinban_click_ajax(request):
     color_list=[]
     size_list=[]
     for item in items:
-        print(item.color,item.size_num,item.size)
         shouhin_name=item.shouhin_name
         brand=item.brand
         if item.color not in color_list:
