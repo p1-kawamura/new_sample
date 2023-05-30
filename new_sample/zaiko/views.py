@@ -847,6 +847,33 @@ def csv_download(request):
     return response
 
 
+def unsou_page(request):
+    return render(request,"zaiko/unsou_page.html")
+
+
+# 発送完了CSV取込
+def unsou_csv_imp(request):
+    data = io.TextIOWrapper(request.FILES['csv1'].file, encoding="cp932")
+    csv_content = csv.reader(data)
+    csv_list=list(csv_content)
+    
+    h=0
+    for i in csv_list:
+        if h!=0:
+            ins=Rireki_rental.objects.get(irai_num=int(i[0]))
+            if i[1]=="0":
+                ins.status=0
+                ins.save()
+            else:
+                ins.status=2
+                ins.unsou_com=i[2]
+                ins.unsou_num=i[3]
+                ins.save()
+        h+=1
+    return render(request,"zaiko/unsou_page.html",{"message":"CSVの読み込みが完了しました"})
+
+
+
 # 元DB取込
 def csv_imp(request):
 
