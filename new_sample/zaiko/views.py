@@ -502,6 +502,9 @@ def haisou_cus_success(request):
         item.joutai=1
         item.irai_num=irai_num
         item.save()
+        # サイズDB
+        if item.size_num==0:
+            Size.objects.create(size_num=0,size=item.size)
         # 商品履歴DB
         if item.sample_num=="":
             kubun="取り寄せ"
@@ -575,6 +578,9 @@ def haisou_tempo_success(request):
         item.joutai=1
         item.irai_num=irai_num
         item.save()
+        # サイズDB
+        if item.size_num==0:
+            Size.objects.create(size_num=0,size=item.size)
         # 商品履歴DB
         if item.sample_num=="":
             kubun="取り寄せ"
@@ -625,6 +631,9 @@ def haisou_keep_success(request):
         item.joutai=2
         item.irai_num=irai_num
         item.save()
+        # サイズDB
+        if item.size_num==0:
+            Size.objects.create(size_num=0,size=item.size)
         # 商品履歴DB
         if item.sample_num=="":
             kubun="取り寄せ"
