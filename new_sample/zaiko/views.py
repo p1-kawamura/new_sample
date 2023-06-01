@@ -639,7 +639,6 @@ def haisou_keep_success(request):
         tantou = tantou,
         com_name = nouhin_com,
         cus_name = nouhin_cus,
-        status = 4,
     )
     #貸出履歴DB
     Rireki_rental.objects.create(
@@ -650,6 +649,7 @@ def haisou_keep_success(request):
         nouhin_com = nouhin_com,
         nouhin_cus = nouhin_cus,
         bikou2 = bikou2,
+        status = 4,
     )
     request.session["sample"].clear()
     request.session["success_num"]=irai_num
