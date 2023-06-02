@@ -751,7 +751,9 @@ def cancel_ajax(request):
     for i in can:
         i.joutai=0
         i.irai_num=0
-        i.save()
+        if i.sample_num=="":
+            i.status=1
+        i.save()  
     # 履歴　貸出一覧
     can=Rireki_rental.objects.get(irai_num=irai_num)
     can.status=3
