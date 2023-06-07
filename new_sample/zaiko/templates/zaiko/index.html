@@ -150,7 +150,7 @@
                                 <div><input class="form-control" type="text" id="c_haisou_pref" name="c_haisou_pref" style="width: 150px;"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">市区町村：</div>
-                                <div><input class="form-control" type="text" id="c_haisou_city" name="c_haisou_city" style="width: 150px;"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_city" name="c_haisou_city" style="width: 200px;"></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
@@ -196,9 +196,9 @@
                             </div>
                             <div class="flex2 mt-3">
                                 <div>会社名：</div>
-                                <div><input class="form-control" type="text" id="c_haisou_com_m" name="c_haisou_com_m" value="プラスワンインターナショナル"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_com_m" name="c_haisou_com_m"></div>
                                 <div style="margin-left: 50px;">氏名：</div>
-                                <div><input class="form-control" type="text" id="c_haisou_cus_m" name="c_haisou_cus_m" value="物流センター"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_cus_m" name="c_haisou_cus_m" value="プラスワンインターナショナル"></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
@@ -209,12 +209,12 @@
                                 <div><input class="form-control" type="text" id="c_haisou_pref_m" name="c_haisou_pref_m" style="width: 150px;" value="香川県"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">市区町村：</div>
-                                <div><input class="form-control" type="text" id="c_haisou_city_m" name="c_haisou_city_m" style="width: 150px;" value="高松市"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_city_m" name="c_haisou_city_m" style="width: 200px;" value="高松市朝日町"></div>
                                 <div class="hissu">*</div>
                             </div>
                             <div class="flex2 mt-3">
                                 <div>番地：</div>
-                                <div><input class="form-control" type="text" id="c_haisou_banchi_m" name="c_haisou_banchi_m" style="width: 305px;" value="朝日町2丁目"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_banchi_m" name="c_haisou_banchi_m" style="width: 305px;" value="2丁目"></div>
                                 <div class="hissu">*</div>
                                 <div style="margin-left: 50px;">建物名（部屋番号）：</div>
                                 <div><input class="form-control" type="text" id="c_haisou_build_m" name="c_haisou_build_m" style="width: 310px;"></div>
@@ -835,18 +835,16 @@
         butsu.addEventListener("click",function(){
             butsu.checked=true;
             shitei.checked=false;
-            document.getElementById("c_haisou_com_m").value="プラスワンインターナショナル";
-            document.getElementById("c_haisou_cus_m").value="物流センター";
+            document.getElementById("c_haisou_cus_m").value="プラスワンインターナショナル";
             document.getElementById("c_haisou_yubin_m").value="7600065";
             document.getElementById("c_haisou_pref_m").value="香川県";
-            document.getElementById("c_haisou_city_m").value="高松市";
-            document.getElementById("c_haisou_banchi_m").value="朝日町2丁目";
+            document.getElementById("c_haisou_city_m").value="高松市朝日町";
+            document.getElementById("c_haisou_banchi_m").value="2丁目";
             document.getElementById("c_haisou_tel_m").value="087-869-8087";
         });
         shitei.addEventListener("click",function(){
             butsu.checked=false;
             shitei.checked=true;
-            document.getElementById("c_haisou_com_m").value="";
             document.getElementById("c_haisou_cus_m").value="";
             document.getElementById("c_haisou_yubin_m").value="";
             document.getElementById("c_haisou_pref_m").value="";
@@ -1085,8 +1083,7 @@
             .then(function (json) {
                 var adress=json["results"];
                 document.getElementById("c_haisou_pref").value=adress[0]["address1"]
-                document.getElementById("c_haisou_city").value=adress[0]["address2"]
-                document.getElementById("c_haisou_banchi").value=adress[0]["address3"]
+                document.getElementById("c_haisou_city").value=adress[0]["address2"] + adress[0]["address3"]
             });
         })
 
@@ -1103,8 +1100,7 @@
             .then(function (json) {
                 var adress=json["results"];
                 document.getElementById("c_haisou_pref_m").value=adress[0]["address1"]
-                document.getElementById("c_haisou_city_m").value=adress[0]["address2"]
-                document.getElementById("c_haisou_banchi_m").value=adress[0]["address3"]
+                document.getElementById("c_haisou_city_m").value=adress[0]["address2"] + adress[0]["address3"]
             });
         })
 
