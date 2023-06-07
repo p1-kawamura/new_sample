@@ -126,12 +126,6 @@
                                 <div><input class="form-control" type="text" id="c_tantou" name="c_tantou" required></div>
                                 <div class="hissu">*</div>
                             </div>
-                            <div class="mt-3" style="width: 40%;">
-                                <div>依頼書備考：（出荷担当への連絡事項）</div>
-                                <div>
-                                    <textarea placeholder="取り寄せ商品の入荷日、納品希望日など" class="form-control" id="c_bikou2" name="c_bikou2" rows="3"></textarea>
-                                </div>
-                            </div>
 
                             <div class="haisou_kokyaku mt-5" style="width: 120px;">配送先情報</div>
 
@@ -191,7 +185,8 @@
                                     <input class="form-check-input" type="radio" id="c_haisou_moto1" checked>プラスワン物流センター
                                 </div>
                                 <div class="form-check" style="margin-left: 30px;">
-                                    <input class="form-check-input" type="radio" id="c_haisou_moto2">指定住所                                  
+                                    <input class="form-check-input" type="radio" id="c_haisou_moto2">指定住所
+                                    <span style="color: red; font-size: 0.9em;"> ※納品書の同封が不要の場合は「依頼書備考」に「納品書不要」と記載下さい。</span>
                                 </div>
                             </div>
                             <div class="flex2 mt-3">
@@ -221,8 +216,17 @@
                             </div>
                             <div class="flex2 mt-3">
                                 <div>電話番号：</div>
-                                <div><input class="form-control" type="text" id="c_haisou_tel_m" name="c_haisou_tel_m" value="087-869-8087"></div>
+                                <div><input class="form-control" type="text" id="c_haisou_tel_m" name="c_haisou_tel_m" value="087-869-8080"></div>
                                 <div class="hissu">*</div>
+                            </div>
+
+                            <div class="haisou_kokyaku mt-5" style="width: 120px;">依頼書備考</div>
+
+                            <div class="mt-3" style="width: 40%;">
+                                <div>出荷担当への連絡事項</div>
+                                <div>
+                                    <textarea placeholder="取り寄せ商品の入荷日、納品希望日など" class="form-control" id="c_bikou2" name="c_bikou2" rows="3"></textarea>
+                                </div>
                             </div>
 
                             <div class="haisou_kokyaku mt-5" style="width: 120px;">納品書情報</div>
@@ -840,7 +844,7 @@
             document.getElementById("c_haisou_pref_m").value="香川県";
             document.getElementById("c_haisou_city_m").value="高松市朝日町";
             document.getElementById("c_haisou_banchi_m").value="2丁目";
-            document.getElementById("c_haisou_tel_m").value="087-869-8087";
+            document.getElementById("c_haisou_tel_m").value="087-869-8080";
         });
         shitei.addEventListener("click",function(){
             butsu.checked=false;
