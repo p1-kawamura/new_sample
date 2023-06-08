@@ -55,7 +55,11 @@
                             <th>カラー</th>
                             <th>サイズ</th>
                             <th>区分</th>
-                            <th>結果</th>
+                            {% if kubun == "kakunin_no" and irai_detail.status == 2 %}
+                                <th style="text-align: center;">返却</th>
+                            {% else %}
+                                <th>結果</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -69,7 +73,15 @@
                             <td style="vertical-align: middle;">{{i.size}}</td>
                             <td style="vertical-align: middle;">{{i.kubun}}</td>
                             <td style="text-align: center;">
-                                <i class="bi bi-check-circle-fill" style="font-size: 1.5em; color: #349102"></i>
+                                {% if kubun == "kakunin_no" and irai_detail.status == 2 %}
+                                    {% if i.henkyaku == 0 %}
+                                        未返却
+                                    {% else %}
+                                        {{i.henkyaku_day}}
+                                    {% endif %}
+                                {% else %}
+                                    <i class="bi bi-check-circle-fill" style="font-size: 1.5em; color: #349102"></i>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}
@@ -81,7 +93,7 @@
             <div class="mt-5">
                 
                 <div style="width: 1100px; align-items: end;">
-                    <span style="font-size: 1.5em; font-weight: bold;">依頼No.{{irai_detail.irai_num}}</span>　（貸出日：{{irai_detail.rental_day}}）
+                    <span style="font-size: 1.5em; font-weight: bold;">依頼No.{{irai_detail.irai_num}}</span>　（依頼日：{{irai_detail.rental_day}}）
                 </div>
 
                 <div id="irai_num" style="display: none;">{{irai_detail.irai_num}}</div>
@@ -118,7 +130,7 @@
                     <tr class="table-secondary"><td colspan="4">配送先</td></tr>
                     <tr>
                         <td>店舗</td><td>{{irai_detail.haisou_tempo}}</td>
-                        <td>配送指定日時</td>
+                        <td>納品指定日時</td>
                         <td>
                             {% if irai_detail.haisou_deliday == "" %}
                                 {{irai_detail.haisou_delitime}}

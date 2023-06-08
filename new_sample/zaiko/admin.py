@@ -28,7 +28,7 @@ class A_rireki_rental(ModelAdmin):
 
 class A_Rireki_shouhin(ModelAdmin):
     model=Rireki_shouhin
-    list_display=["irai_num","irai_hontai_num"]
+    list_display=["irai_num","irai_hontai_num","henkyaku"]
 
 class A_Label(ModelAdmin):
     model=Label

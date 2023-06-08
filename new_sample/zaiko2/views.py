@@ -1,9 +1,13 @@
 from django.shortcuts import render,redirect
-from zaiko.models import Size,Shouhin,Category,Rental,Label,Rireki_rental
+from zaiko.models import Size,Shouhin,Category,Rental,Label,Rireki_rental,Rireki_shouhin
 from django.http import JsonResponse
 import json
 from django.db.models import Max
 from django.contrib.auth.decorators import login_required
+import datetime
+import csv
+from django.http import HttpResponse
+import urllib.parse
 
 
 @login_required
@@ -257,7 +261,7 @@ def henkyaku(request):
 
     msg=request.session["henkyaku"]["msg"]
     item_list=request.session["henkyaku"]["items"]
-    items=Shouhin.objects.filter(sample_num__in=item_list)
+    items=Shouhin.objects.filter(hontai_num__in=item_list)
     #user認証
     kanri=0
     if request.user.username == "p1masao":
@@ -278,19 +282,19 @@ def henkyaku_kensaku(request):
             if irai_num2 == 0:
                 msg="サンプルNo." + sample_num +  " は貸出中ではありません。"
             else:
-                items=list(Shouhin.objects.filter(irai_num=irai_num2).values_list("sample_num",flat=True))
+                items=list(Shouhin.objects.filter(irai_num=irai_num2).values_list("hontai_num",flat=True))
         except:
             msg="サンプルNo." + sample_num +  " は存在しません。"
             items=""
     if irai_num != "":
         try:
-            items=list(Shouhin.objects.filter(irai_num=irai_num).values_list("sample_num",flat=True))
+            items=list(Shouhin.objects.filter(irai_num=irai_num).values_list("hontai_num",flat=True))
             irai_max=Rireki_rental.objects.all().aggregate(Max("irai_num"))
             irai_max=irai_max['irai_num__max']
             if int(irai_num) > irai_max:
                 msg="依頼No." + str(irai_num) +  " は存在しません。"
             elif len(items) == 0:
-                msg="依頼No." + str(irai_num) +  " はすでに返却されるか、存在しません。"
+                msg="依頼No." + str(irai_num) +  " はすでに返却されているか、存在しません。"
         except:
             msg="依頼No." + str(irai_num) +  " は存在しません。"
 
@@ -303,7 +307,7 @@ def henkyaku_kensaku(request):
 def henkyaku_del(request):
     hen_del=request.POST.get("hen_del")
     items=request.session["henkyaku"]["items"]
-    items.remove(hen_del)
+    items.remove(int(hen_del))
     request.session["henkyaku"]["items"]=items
     d={"":""}
     return JsonResponse(d)
@@ -312,17 +316,64 @@ def henkyaku_del(request):
 # 一括返却処理
 def henkyaku_all(request):
     item_list=request.session["henkyaku"]["items"]
-    irai_num=Shouhin.objects.get(sample_num=item_list[0]).irai_num
-    items=Shouhin.objects.filter(sample_num__in=item_list)
+    today=datetime.date.today().strftime("%Y-%m-%d")
+    irai_num=Shouhin.objects.get(hontai_num=item_list[0]).irai_num
+    items=Shouhin.objects.filter(hontai_num__in=item_list)
+    # 商品DB、貸出DB
     for i in items:
         i.joutai=0
         i.irai_num=0
         i.save()
     if Shouhin.objects.filter(irai_num=irai_num).count() == 0:
         Rental.objects.get(irai_num_rental=irai_num).delete()
+    # 履歴商品DB
+    ins=Rireki_shouhin.objects.filter(irai_num=irai_num)
+    for i in ins:
+        if i.irai_hontai_num in item_list:
+            i.henkyaku=1
+            i.henkyaku_day=today
+            i.save()
     request.session["henkyaku"]["items"].clear()
     d={"":""}
     return JsonResponse(d)
+
+
+# 未返却ダウンロード
+def henkyaku_csv(request):
+    exp_csv=[]
+    a=["依頼No","依頼日","期限","所属","担当","店舗","会社","氏名","サンプルNo","商品番号","商品名","カラー","サイズ"]
+    exp_csv.append(a)
+    today=datetime.date.today().strftime("%Y-%m-%d")
+    ins=Rireki_rental.objects.filter(status=2, rental_maxday__lt=today)
+    for i in ins:
+        shouhin=Rireki_shouhin.objects.filter(irai_num=i.irai_num,henkyaku=0)
+        if shouhin.count() > 0:
+            for h in shouhin:
+                if Shouhin.objects.get(hontai_num=h.irai_hontai_num).status == 0:
+                    a=[
+                        i.irai_num, #依頼No
+                        format(i.rental_day,"%Y-%m-%d %H:%M"), #依頼日
+                        i.rental_maxday, #期限
+                        i.shozoku, #所属
+                        i.tantou, #担当
+                        i.haisou_tempo, #店舗
+                        i.haisou_com, #会社
+                        i.haisou_cus, #氏名
+                        Shouhin.objects.get(hontai_num=h.irai_hontai_num).sample_num, #サンプルNo
+                        Shouhin.objects.get(hontai_num=h.irai_hontai_num).shouhin_num, #商品番号
+                        Shouhin.objects.get(hontai_num=h.irai_hontai_num).shouhin_name, #商品名
+                        Shouhin.objects.get(hontai_num=h.irai_hontai_num).color, #カラー
+                        Shouhin.objects.get(hontai_num=h.irai_hontai_num).size, #サイズ
+                    ]
+                    exp_csv.append(a)
+    now=datetime.datetime.now()
+    filename=urllib.parse.quote("サンプル未返却_" + format(now,"%Y%m%d%H%M%S") +".csv")
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] =  "attachment;  filename='{}'; filename*=UTF-8''{}".format(filename, filename)
+    writer = csv.writer(response)
+    for line in exp_csv:
+        writer.writerow(line)
+    return response
 
 
 @login_required

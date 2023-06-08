@@ -19,16 +19,21 @@
             <!-- メニュー -->
             {% include "zaiko/menu.html" with kanri=kanri %}
 
-            <div style="margin-top: 50px;">
-                <form action="{% url 'zaiko2:henkyaku_kensaku' %}" method="post">{% csrf_token %}
-                    <div class="flex2">
-                        <div>サンプルNo.：</div>
-                        <div><input class="form-control" id="sample_num" name="sample_num" type="text" style="width: 150px;"></div>
-                        <div style="margin-left: 30px;">依頼No.：</div>
-                        <div><input class="form-control" id="irai_num" name="irai_num" type="text" style="width: 150px;"></div>
-                        <div style="margin-left: 30px;"><button class="btn btn-secondary" type="submit">検索</button></div>
-                    </div>
-                </form>
+            <div class="flex4" style="margin-top: 50px;">
+                <div>
+                    <form action="{% url 'zaiko2:henkyaku_kensaku' %}" method="post">{% csrf_token %}
+                        <div class="flex2">
+                            <div>サンプルNo.：</div>
+                            <div><input class="form-control" id="sample_num" name="sample_num" type="text" style="width: 150px;"></div>
+                            <div style="margin-left: 30px;">依頼No.：</div>
+                            <div><input class="form-control" id="irai_num" name="irai_num" type="text" style="width: 150px;"></div>
+                            <div style="margin-left: 30px;"><button class="btn btn-secondary" type="submit">検索</button></div>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <a href="{% url 'zaiko2:henkyaku_csv' %}"><button class="btn btn-secondary"><i class="bi bi-download"></i> 未返却を抽出</button></a>
+                </div>
             </div>
             
             <div class="mt-3">
@@ -60,7 +65,7 @@
                                     <td style="vertical-align: middle;">{{i.color}}</td>
                                     <td style="vertical-align: middle;">{{i.size}}</td>
                                     <td style="text-align: center;">
-                                        <button type="button" class="btn btn-outline-dark btn-sm" id="henkyaku_del" name={{i.sample_num}}>
+                                        <button type="button" class="btn btn-outline-dark btn-sm" id="henkyaku_del" name={{i.hontai_num}}>
                                             <i class="bi bi-x-lg"></i>
                                         </button>
                                     </td>

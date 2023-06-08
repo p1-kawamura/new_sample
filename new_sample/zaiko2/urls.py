@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index2,category_click_ajax,hinban_click_ajax,list_click_ajax,ikkatsu_hinban,ikkatsu_del,sample_num_auto,\
-                    kobetsu_del,kobetsu_up,label_add,label_print,label_del,henkyaku,henkyaku_kensaku,henkyaku_del,henkyaku_all,\
+                    kobetsu_del,kobetsu_up,label_add,label_print,label_del,henkyaku,henkyaku_kensaku,henkyaku_del,henkyaku_all,henkyaku_csv,\
                     size_category,size_num,size_name,size_new,category_num,category_name,category_new
 
 app_name="zaiko2"
@@ -21,6 +21,7 @@ urlpatterns = [
     path('henkyaku_kensaku/', henkyaku_kensaku, name="henkyaku_kensaku"),
     path('henkyaku_del/', henkyaku_del, name="henkyaku_del"),
     path('henkyaku_all/', henkyaku_all, name="henkyaku_all"),
+    path('henkyaku_csv/', henkyaku_csv, name="henkyaku_csv"),
     path('size_category/', size_category, name="size_category"),
     path('size_num/', size_num, name="size_num"),
     path('size_name/', size_name, name="size_name"),

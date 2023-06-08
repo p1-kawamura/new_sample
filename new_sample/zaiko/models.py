@@ -66,7 +66,7 @@ class Shozoku(models.Model):
 class Rireki_rental(models.Model):
     irai_num=models.IntegerField("依頼No",null=False)
     irai_type=models.IntegerField("内容")
-    rental_day=models.DateField("貸出日",auto_now_add=True)
+    rental_day=models.DateTimeField("依頼日",auto_now_add=True)
     shozoku=models.CharField("所属",max_length=30,blank=True)
     tantou=models.CharField("担当者",max_length=30,blank=True)
     haisou_tempo=models.CharField("配送店舗",max_length=30,blank=True)
@@ -113,9 +113,14 @@ class Rireki_shouhin(models.Model):
     irai_num=models.IntegerField("依頼No")
     irai_hontai_num=models.IntegerField("本体No")
     irai_hontai_kubun=models.CharField("区分",max_length=5,null=True,blank=True,default="")
+    henkyaku=models.IntegerField("状態",default=0)
+    henkyaku_day=models.CharField("返却日",max_length=30,null=True,blank=True,default="")
 
     def __str__(self):
         return str(self.irai_num)
+    
+    # irai_hontai_kubun（区分）　在庫　取り寄せ
+    # henkyaku（状態） 0:未返却　1:済
     
 
 class Label(models.Model):

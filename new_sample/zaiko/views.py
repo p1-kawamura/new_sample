@@ -725,6 +725,8 @@ def rireki_kakunin(request,pk):
         data2["color"]=shouhin.color
         data2["size"]=shouhin.size
         data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun
+        data2["henkyaku"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).henkyaku
+        data2["henkyaku_day"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).henkyaku_day
         data.append(data2)
     #user認証
     kanri=0
