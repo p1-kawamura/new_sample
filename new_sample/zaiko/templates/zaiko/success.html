@@ -34,11 +34,15 @@
                     </div>
                 {% elif kubun == "kakunin_no" %}
                     <div class="title00">
-                        <h2><span class="number">済</span>サンプル依頼内容の確認<span>（この案件は既に手配済みです）</span></h2>
+                        {% if irai_detail.status == 5 %}
+                            <h2><span class="number">完</span>サンプル依頼内容の確認<span>（この案件は既に返却が完了しています）</span></h2>
+                        {% else %}
+                            <h2><span class="number">済</span>サンプル依頼内容の確認<span>（この案件は既に手配済みです）</span></h2>
+                        {% endif %}
                     </div>
                 {% elif kubun == "junbi" %}
                     <div class="title04">
-                        <h2><span class="number">準</span>サンプル依頼内容の確認<span>（この案件は現在発送準備中です）</span></h2>
+                        <h2><span class="number">準</span>サンプル依頼内容の確認<span>（この案件は現在準備中で、まもなく発送されます）</span></h2>
                     </div>
                 {% endif %}
             </div>
@@ -57,7 +61,9 @@
                             <th>区分</th>
                             {% if kubun == "kakunin_no" and irai_detail.status == 2 %}
                                 <th style="text-align: center;">返却</th>
-                            {% else %}
+                            {% elif irai_detail.status == 5 %}
+                                <th style="text-align: center;"><i class="bi bi-check-circle-fill" style="font-size: 1.2em; color: #349102"></i> 返却</th>
+                            {% elif kubun == "new" %}
                                 <th>結果</th>
                             {% endif %}
                         </tr>
@@ -72,15 +78,16 @@
                             <td style="vertical-align: middle;">{{i.color}}</td>
                             <td style="vertical-align: middle;">{{i.size}}</td>
                             <td style="vertical-align: middle;">{{i.kubun}}</td>
-                            <td style="text-align: center;">
                                 {% if kubun == "kakunin_no" and irai_detail.status == 2 %}
                                     {% if i.henkyaku == 0 %}
-                                        未返却
+                                    <td style="text-align: center;">未返却</td>
                                     {% else %}
-                                        {{i.henkyaku_day}}
+                                    <td style="text-align: center;">{{i.henkyaku_day}}</td>
                                     {% endif %}
-                                {% else %}
-                                    <i class="bi bi-check-circle-fill" style="font-size: 1.5em; color: #349102"></i>
+                                {% elif irai_detail.status == 5 %}
+                                    <td style="text-align: center;">{{i.henkyaku_day}}</td>
+                                {% elif kubun == "new" %}
+                                    <td style="text-align: center;"><i class="bi bi-check-circle-fill" style="font-size: 1.5em; color: #349102"></i></td>
                                 {% endif %}
                             </td>
                         </tr>
@@ -119,7 +126,9 @@
                             {% elif irai_detail.status == 2 %}
                                 発送完了
                             {% elif irai_detail.status == 3 %}
-                                キャンセル：{{irai_detail.cancel_name}} （{{irai_detail.cancel_day}}）
+                                キャンセル（{{irai_detail.cancel_name}}：（{{irai_detail.cancel_day}}）
+                            {% elif irai_detail.status == 5 %}
+                                返却済み
                             {% endif %}
                         </td>
                     </tr>

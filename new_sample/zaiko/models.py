@@ -106,7 +106,7 @@ class Rireki_rental(models.Model):
         return str(self.irai_num)
     
     # irai_type（内容）　0:顧客　1:店舗　2:キープ
-    # status（状態）　0:発送待ち　1:準備中　2:発送完了　3.キャンセル　4:キープ
+    # status（状態）　0:発送待ち　1:準備中　2:発送完了　3:キャンセル　4:キープ　5:返却済み
     
 
 class Rireki_shouhin(models.Model):

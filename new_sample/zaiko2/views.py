@@ -328,11 +328,17 @@ def henkyaku_all(request):
         Rental.objects.get(irai_num_rental=irai_num).delete()
     # 履歴商品DB
     ins=Rireki_shouhin.objects.filter(irai_num=irai_num)
-    for i in ins:
-        if i.irai_hontai_num in item_list:
-            i.henkyaku=1
-            i.henkyaku_day=today
-            i.save()
+    if ins.count() > 0:
+        for i in ins:
+            if i.irai_hontai_num in item_list:
+                i.henkyaku=1
+                i.henkyaku_day=today
+                i.save()
+        # 履歴DB
+        if Rireki_shouhin.objects.filter(irai_num=irai_num, henkyaku=0).count() == 0:
+            ins2=Rireki_rental.objects.get(irai_num=irai_num)
+            ins2.status=5
+            ins2.save()
     request.session["henkyaku"]["items"].clear()
     d={"":""}
     return JsonResponse(d)

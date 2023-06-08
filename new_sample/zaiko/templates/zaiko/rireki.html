@@ -151,11 +151,13 @@
                                     {% elif i.status == 1 %}
                                         <span style="color: red;"><span style="font-size: 1.3em;"><i class="bi bi-cone-striped"></i></span> 準備中</span>
                                     {% elif i.status == 2 %}
-                                        <span style="font-size: 1.3em;"><i class="bi bi-truck"></i></span> 発送済
+                                        <span style="color: blue"><span style="font-size: 1.3em;"><i class="bi bi-truck"></i></span> 発送済</span>
                                     {% elif i.status == 3 %}
                                         キャンセル
                                     {% elif i.status == 4 %}
                                         -
+                                    {% elif i.status == 5 %}
+                                        <span style="font-size: 1.3em;"><i class="bi bi-emoji-sunglasses"></i></span> 返却済
                                     {% endif %}
                                 </td>
                             </tr>
