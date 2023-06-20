@@ -76,18 +76,18 @@ def index(request):
 
     request.session["comment"]="" # zaiko2:index2 の制御
 
-    # キープ解除
-    items=Shouhin.objects.filter(joutai=2)
-    for item_s in items:
-        item_r=Rental.objects.get(irai_num_rental=item_s.irai_num)
-        day=datetime.date.today() - item_r.rental_day
-        if day.days > 14:
-            item_s.joutai=0
-            moto_num=item_s.irai_num
-            item_s.irai_num=0
-            item_s.save()
-            if Shouhin.objects.filter(irai_num=moto_num).count()==0:
-                Rental.objects.get(irai_num_rental=moto_num).delete()
+    # # キープ解除
+    # items=Shouhin.objects.filter(joutai=2)
+    # for item_s in items:
+    #     item_r=Rental.objects.get(irai_num_rental=item_s.irai_num)
+    #     day=datetime.date.today() - item_r.rental_day
+    #     if day.days > 14:
+    #         item_s.joutai=0
+    #         moto_num=item_s.irai_num
+    #         item_s.irai_num=0
+    #         item_s.save()
+    #         if Shouhin.objects.filter(irai_num=moto_num).count()==0:
+    #             Rental.objects.get(irai_num_rental=moto_num).delete()
 
     # 依頼商品一覧
     irai_shouhin_list=list(request.session["sample"])
@@ -890,59 +890,56 @@ def unsou_csv_imp(request):
 # 元DB取込
 def csv_imp(request):
 
-    # #在庫リスト
-    # data = io.TextIOWrapper(request.FILES['csv1'].file, encoding="cp932")
-    # csv_content = csv.reader(data)
+    #在庫リスト
+    data = io.TextIOWrapper(request.FILES['csv1'].file, encoding="cp932")
+    csv_content = csv.reader(data)
     
-    # csv_list=list(csv_content)
+    csv_list=list(csv_content)
         
-    # h=0
-    # for i in csv_list:
-    #     if h!=0:
-    #         Shouhin.objects.update_or_create(
-    #             sample_num=i[1],
-    #             defaults={
-    #                 "sample_num":i[1],
-    #                 "category":i[2],
-    #                 "shouhin_num":i[3],
-    #                 "brand":i[4],
-    #                 "shouhin_name":i[5],
-    #                 "color":i[6],
-    #                 "size":i[7],
-    #                 "size_num":i[8],
-    #                 "kakou":i[9],
-    #                 "bikou":i[10],
-    #                 "joutai":i[13],
-    #                 "irai_num":i[14],
-    #             }            
-    #         )
-    #     h+=1
+    h=0
+    for i in csv_list:
+        if h!=0:
+            Shouhin.objects.update_or_create(
+                sample_num=i[0],
+                defaults={
+                    "sample_num":i[0],
+                    "category":i[1],
+                    "shouhin_num":i[2],
+                    "brand":i[3],
+                    "shouhin_name":i[4],
+                    "color":i[5],
+                    "size":i[6],
+                    "size_num":i[7],
+                    "kakou":i[8],
+                    "bikou":i[9],
+                    "joutai":i[10],
+                    "irai_num":i[11],
+                }            
+            )
+        h+=1
 
 
-    # #貸出リスト
-    # data = io.TextIOWrapper(request.FILES['csv2'].file, encoding="cp932")
-    # csv_content = csv.reader(data)
+    #貸出リスト
+    data = io.TextIOWrapper(request.FILES['csv2'].file, encoding="cp932")
+    csv_content = csv.reader(data)
     
-    # csv_list=list(csv_content)
+    csv_list=list(csv_content)
         
-    # h=0
-    # for i in csv_list:
-    #     if h!=0:
-    #         Rental.objects.update_or_create(
-    #             irai_num_rental=i[0],
-    #             defaults={
-    #                 "irai_num_rental":i[0],
-    #                 "rental_day":i[1],
-    #                 "busho":i[2],
-    #                 "tantou":i[3],
-    #                 "com_name":i[4],
-    #                 "cus_name":i[5],
-    #                 "nouhin_day":i[6],
-    #                 "bikou1":i[7],
-    #                 "bikou2":i[8],
-    #             }            
-    #         )
-    #     h+=1
+    h=0
+    for i in csv_list:
+        if h!=0:
+            Rental.objects.update_or_create(
+                irai_num_rental=i[0],
+                defaults={
+                    "irai_num_rental":i[0],
+                    "rental_day":i[1],
+                    "busho":i[2],
+                    "tantou":i[3],
+                    "com_name":i[4],
+                    "cus_name":i[5],
+                }            
+            )
+        h+=1
 
     
     # #サイズリスト
@@ -964,23 +961,10 @@ def csv_imp(request):
     #     h+=1
 
 
-    #カテゴリリスト
-    data = io.TextIOWrapper(request.FILES['csv4'].file, encoding="cp932")
-    csv_content = csv.reader(data)
-    
-    csv_list=list(csv_content)
-        
-    h=0
-    for i in csv_list:
-        if h!=0:
-            Category.objects.update_or_create(
-                category_num=i[0],
-                defaults={
-                    "category_num":i[0],
-                    "category":i[1],
-                    "category_ex":i[2],
-                }            
-            )
-        h+=1  
-
     return render(request,"zaiko/csv_imp.html",{"message":"CSVの読み込みが完了しました"})
+
+
+def all_delete(request):
+    Shouhin.objects.all().delete()
+    Rental.objects.all().delete()
+    return redirect("zaiko:index")
