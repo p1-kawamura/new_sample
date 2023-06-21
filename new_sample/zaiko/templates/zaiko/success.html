@@ -34,7 +34,9 @@
                     </div>
                 {% elif kubun == "kakunin_no" %}
                     <div class="title00">
-                        {% if irai_detail.status == 5 %}
+                        {% if irai_detail.status == 3 %}
+                            <h2><span class="number">消</span>サンプル依頼内容の確認<span>（この案件はキャンセルされています）</span></h2>
+                        {% elif irai_detail.status == 5 %}
                             <h2><span class="number">完</span>サンプル依頼内容の確認<span>（この案件は既に返却が完了しています）</span></h2>
                         {% else %}
                             <h2><span class="number">済</span>サンプル依頼内容の確認<span>（この案件は既に手配済みです）</span></h2>
