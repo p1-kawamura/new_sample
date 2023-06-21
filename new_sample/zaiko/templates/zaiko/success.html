@@ -126,7 +126,7 @@
                             {% elif irai_detail.status == 2 %}
                                 発送完了
                             {% elif irai_detail.status == 3 %}
-                                キャンセル（{{irai_detail.cancel_name}}：（{{irai_detail.cancel_day}}）
+                                キャンセル（{{irai_detail.cancel_name}}：{{irai_detail.cancel_day}}）
                             {% elif irai_detail.status == 5 %}
                                 返却済み
                             {% endif %}
