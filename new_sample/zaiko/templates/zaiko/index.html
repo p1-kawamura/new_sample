@@ -334,7 +334,12 @@
                 <div id="haisou_keep" style="display: none;">
                     <form action="{% url 'zaiko:haisou_keep_success' %}" method="post" name="haisou_keep_form">{% csrf_token %}
                         <div>
-                            <div class="haisou_title">キープ</div>
+                            <div class="flex2">
+                                <div class="haisou_title">キープ（2週間）</div>
+                                <div style="margin-left: 10px;">※2週間後に自動的に解除されますのでご注意ください。</div>
+                            </div>
+
+
                             <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
 
                             <div class="flex2 mt-4">
