@@ -95,14 +95,16 @@
                         <thead>
                             <tr class="table-secondary">
                                 {% if kanri == 1 %}
-                                <th><input class="form-check-input" type="checkbox" id="check_all"></th>
+                                    <th><input class="form-check-input" type="checkbox" id="check_all"></th>
                                 {% endif %}
                                 <th>依頼NO.</th>
                                 <th>依頼日</th>
                                 <th>内容</th>
                                 <th>所属</th>
                                 <th>担当者</th>
-                                <th>貸出期限</th>
+                                {% if kanri != 1 %}
+                                    <th>貸出期限</th>
+                                {% endif %}
                                 <th>顧客会社</th>
                                 <th>顧客氏名</th>
                                 <th style="text-align: center;">状態</th>
@@ -140,7 +142,9 @@
                                 </td>
                                 <td style="vertical-align: middle;">{{i.shozoku}}</td>
                                 <td style="vertical-align: middle;">{{i.tantou}}</td>
-                                <td style="vertical-align: middle;">{{i.rental_maxday}}</td>
+                                {% if kanri != 1 %}
+                                    <td style="vertical-align: middle;">{{i.rental_maxday}}</td>
+                                {% endif %}
                                 <td style="vertical-align: middle;">{{i.nouhin_com}}</td>
                                 <td style="vertical-align: middle;">{{i.nouhin_cus}}</td>
                                 <td style="vertical-align: middle; text-align: center;">
