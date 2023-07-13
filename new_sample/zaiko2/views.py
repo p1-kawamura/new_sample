@@ -19,7 +19,7 @@ def index2(request):
     if request.user.username == "p1masao":
         kanri=1
     params={
-        "ins":Category.objects.all(),
+        "ins":Category.objects.all().order_by("category_num"),
         "sizes":Size.objects.all().order_by("size_num"),
         "label":Label.objects.all().count(),
         "comment":comment,
