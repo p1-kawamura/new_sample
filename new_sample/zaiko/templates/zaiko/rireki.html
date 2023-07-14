@@ -122,7 +122,7 @@
                                     <td></td>
                                     {% endif %}
                                 {% endif %}
-                                <td style="vertical-align: middle; text-align: center;">
+                                <td style="vertical-align: middle; text-align: center; white-space: nowrap;">
                                     <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
                                         <button type="submit" class="btn btn-sm">
                                             <span style="color: #2ab1e7; font-weight: bold;"><i class="bi bi-box-arrow-up-right"></i> {{i.irai_num}}</span>
@@ -130,8 +130,8 @@
                     
                                     </form>
                                 </td>
-                                <td style="vertical-align: middle;">{{i.rental_day}}</td>
-                                <td style="vertical-align: middle;">
+                                <td style="vertical-align: middle; white-space: nowrap;">{{i.rental_day}}</td>
+                                <td style="vertical-align: middle; white-space: nowrap;">
                                     {% if i.irai_type == 0 %}
                                         顧客あて
                                     {% elif i.irai_type == 1 %}
@@ -140,14 +140,14 @@
                                         キープ
                                     {% endif %}
                                 </td>
-                                <td style="vertical-align: middle;">{{i.shozoku}}</td>
-                                <td style="vertical-align: middle;">{{i.tantou}}</td>
+                                <td style="vertical-align: middle; white-space: nowrap;">{{i.shozoku}}</td>
+                                <td style="vertical-align: middle; white-space: nowrap;">{{i.tantou}}</td>
                                 {% if kanri != 1 %}
-                                    <td style="vertical-align: middle;">{{i.rental_maxday}}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap;">{{i.rental_maxday}}</td>
                                 {% endif %}
                                 <td style="vertical-align: middle;">{{i.nouhin_com}}</td>
                                 <td style="vertical-align: middle;">{{i.nouhin_cus}}</td>
-                                <td style="vertical-align: middle; text-align: center;">
+                                <td style="vertical-align: middle; text-align: center; white-space: nowrap;">
                                     {% if i.status == 0 %}
                                         <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
                                             <button type="submit" class="btn btn-success btn-sm">発送待ち</button>
