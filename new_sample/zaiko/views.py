@@ -13,25 +13,6 @@ from django.db.models import Q
 import urllib.parse
 
 
-# -----------顧客APIテスト----------
-def kokyaku_index(request):
-    return render(request,"zaiko/kokyaku.html")
-
-def kokyaku_api(request):
-    cus_id=request.POST["cus_id"]
-    url="https://core-sys.p1-intl.co.jp/p1web/v1/customers/" + cus_id + "/receivedOrders"
-    res=requests.get(url)
-    res=res.json()
-    res=res["receivedOrders"]
-
-
-    url2="https://core-sys.p1-intl.co.jp/p1web/v1/customers/" + cus_id
-    res2=requests.get(url2)
-    res2=res2.json()
-
-    return render(request,"zaiko/kokyaku.html",{"res":res,"res2":res2})
-
-# -----------ここまで----------
 
 @login_required
 def index(request):
@@ -455,12 +436,15 @@ def irai_del_ajax(request):
 #依頼前最終確認
 def last_kakunin(request):
     ses=list(request.session["sample"])
+    ans="yes"
+    if len(ses)==0:
+        ans="no"
     data=[]
     for i in ses:
         joutai=Shouhin.objects.get(hontai_num=i).joutai
         if joutai !=0:
             data.append(i)
-    d={"data":data}
+    d={"data":data,"ans":ans}
     return JsonResponse(d)
 
 

@@ -988,11 +988,14 @@
                 'type': 'POST',
             })
             .done(function(response){
-                if (response.data.length == 0){
+                if (response.ans == "yes" && response.data.length == 0){
                     document.haisou_cus_form.submit();
+                } else if (response.ans == "no"){
+                    window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
+                    window.location.reload();
                 } else {
                     getfail(response.data);
-                }
+                };
             });            
         });
 
@@ -1029,11 +1032,14 @@
                 'type': 'POST',
             })
             .done(function(response){
-                if (response.data.length == 0){
+                if (response.ans == "yes" && response.data.length == 0){
                     document.haisou_tempo_form.submit();
+                } else if (response.ans == "no"){
+                    window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
+                    window.location.reload();
                 } else {
                     getfail(response.data);
-                }
+                };
             });            
         });
 
@@ -1064,11 +1070,14 @@
                 'type': 'POST',
             })
             .done(function(response){
-                if (response.data.length == 0){
+                if (response.ans == "yes" && response.data.length == 0){
                     document.haisou_keep_form.submit();
+                } else if (response.ans == "no"){
+                    window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
+                    window.location.reload();
                 } else {
                     getfail(response.data);
-                }
+                };
             });            
         });
 
