@@ -28,9 +28,9 @@
                 {% elif kubun == "kakunin_ok" %}
                     <div class="title03">
                         <h2><span class="number">未</span>サンプル依頼内容の確認
-                            <span>（修正またはキャンセルが可能です）</span>
-                            <span><button type="button" class="btn btn-outline-dark btn-sm" id="shusei" style="width: 90px;">修正</button></span>
-                            <span><button type="button" class="btn btn-outline-danger btn-sm" id="cancel" style="width: 90px;">キャンセル</button></span>
+                            <span>（商品以外の修正 / 依頼キャンセルが可能です）</span>
+                            <span><button type="button" class="btn btn-outline-dark btn-sm" id="shusei" style="width: 80px;">修正</button></span>
+                            <span><button type="button" class="btn btn-outline-danger btn-sm" id="cancel" style="width: 80px;">キャンセル</button></span>
                         </h2>
                     </div>
                 {% elif kubun == "kakunin_no" %}
@@ -157,7 +157,7 @@
                     <tr>
                         <td>住所</td>
                         <td colspan="3">
-                            {{irai_detail.haisou_yubin}}　{{irai_detail.haisou_pref}}{{irai_detail.haisou_city}}{{irai_detail.haisou_banchi}}{{irai_detail.haisou_build}}
+                            {{irai_detail.haisou_yubin}}　{{irai_detail.haisou_pref}}{{irai_detail.haisou_city}}{{irai_detail.haisou_banchi}} {{irai_detail.haisou_build}}
                         </td>
                     </tr>
                     <tr>

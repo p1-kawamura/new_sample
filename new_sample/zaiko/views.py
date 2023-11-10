@@ -56,6 +56,8 @@ def index(request):
         request.session["comment"]=""
     if "shusei_num" not in request.session:
         request.session["shusei_num"]=""
+    if "shusei_pk" not in request.session:
+        request.session["shusei_pk"]=""
 
     request.session["comment"]="" # zaiko2:index2 の制御
 
@@ -446,14 +448,15 @@ def irai_num_copy(request):
 #依頼前最終確認
 def last_kakunin(request):
     ses=list(request.session["sample"])
-    ans="yes"
+    data=[]
     if len(ses)==0:
         ans="no"
-    data=[]
-    for i in ses:
-        joutai=Shouhin.objects.get(hontai_num=i).joutai
-        if joutai !=0:
-            data.append(i)
+    else:
+        ans="yes"
+        for i in ses:
+            joutai=Shouhin.objects.get(hontai_num=i).joutai
+            if joutai !=0:
+                data.append(i)
     d={"data":data,"ans":ans}
     return JsonResponse(d)
 
@@ -696,6 +699,7 @@ def irai_success(request):
 
 # 履歴確認ボタン
 def rireki_kakunin(request,pk):
+    request.session["shusei_pk"]=pk
     irai_detail=Rireki_rental.objects.get(pk=pk)
     status=irai_detail.status
     if status==0: #success.htmlのタイトル用
@@ -780,6 +784,8 @@ def irai_shusei_index(request):
 # 依頼内容修正_表示
 def irai_shusei(request):
     shusei_num=request.session["shusei_num"]
+    pk=request.session["shusei_pk"]
+    # 変更
     ins=Rireki_rental.objects.get(irai_num=shusei_num)
     ins.haisou_tempo=request.POST["haisou_tempo"]
     ins.haisou_deliday=request.POST["haisou_deliday"]
@@ -808,8 +814,7 @@ def irai_shusei(request):
     ins.bikou1=request.POST["bikou1"]
     ins.bikou2=request.POST["bikou2"]
     ins.save()
-
-    return render(request,"zaiko/shusei.html")
+    return redirect("zaiko:rireki_kakunin",pk=pk)
 
 
 # キャンセル依頼
