@@ -103,6 +103,36 @@
     text-align: center;
     cursor: pointer;
 }
+
+.title00 h2 span,
+.title01 h2 span,
+.title02 h2 span,
+.title03 h2 span,
+.title04 h2 span,
+.title05 h2 span {
+color: #333333;
+font-size: 18px;
+padding-left: 18px;
+}
+
+.title00 h2 span.number,
+.title01 h2 span.number,
+.title02 h2 span.number,
+.title03 h2 span.number,
+.title04 h2 span.number,
+.title05 h2 span.number
+{
+    position: absolute;
+    display: block;
+    top: 3px;
+    left: 0;
+    z-index: 1;
+    font-size: 30px;
+    font-size: 3rem;
+    padding-left: 16px;
+    color: #fff;
+}
+
 .title00 h2{
     position: relative;
     overflow: hidden;
@@ -138,33 +168,6 @@
     height: 300%;
     transform: rotate(25deg);
     background: #27acd9;
-}
-
-.title00 h2 span,
-.title01 h2 span,
-.title02 h2 span,
-.title03 h2 span,
-.title04 h2 span {
-color: #333333;
-font-size: 18px;
-padding-left: 18px;
-}
-
-.title00 h2 span.number,
-.title01 h2 span.number,
-.title02 h2 span.number,
-.title03 h2 span.number,
-.title04 h2 span.number
-{
-    position: absolute;
-    display: block;
-    top: 3px;
-    left: 0;
-    z-index: 1;
-    font-size: 30px;
-    font-size: 3rem;
-    padding-left: 16px;
-    color: #fff;
 }
 .title02 h2{
     position: relative;
@@ -218,7 +221,25 @@ padding-left: 18px;
     width: 200px;
     height: 300%;
     transform: rotate(25deg);
-    background: #ff0000;;
+    background: #ff0000;
+}
+.title05 h2{
+    position: relative;
+    overflow: hidden;
+    padding: 1rem 2rem 1rem 120px;
+    border: solid 2px #c300ff;
+    width: 1100px;
+    margin: 0 auto;
+}
+.title05 h2:before {
+    position: absolute;
+    content: '';
+    top: -150%;
+    left: -100px;
+    width: 200px;
+    height: 300%;
+    transform: rotate(25deg);
+    background: #c300ff;
 }
 .point {
     position: relative;

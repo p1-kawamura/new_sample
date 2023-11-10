@@ -54,6 +54,8 @@ def index(request):
         request.session["csv_list"]=""
     if "comment" not in request.session:
         request.session["comment"]=""
+    if "shusei_num" not in request.session:
+        request.session["shusei_num"]=""
 
     request.session["comment"]="" # zaiko2:index2 の制御
 
@@ -433,6 +435,14 @@ def irai_del_ajax(request):
     return JsonResponse(d)
 
 
+# 履歴から配送先複写
+def irai_num_copy(request):
+    irai_num=request.POST.get("irai_num")
+    ins=list(Rireki_rental.objects.filter(irai_num=irai_num).values())
+    d={"ins":ins}
+    return JsonResponse(d)
+
+
 #依頼前最終確認
 def last_kakunin(request):
     ses=list(request.session["sample"])
@@ -723,6 +733,83 @@ def rireki_kakunin(request,pk):
             "kanri":kanri,
         }
     return render(request,"zaiko/success.html",params)
+
+
+# 依頼内容修正_ajax
+def irai_shusei_ajax(request):
+    shusei_num=request.POST.get("shusei_num")
+    request.session["shusei_num"]=shusei_num
+    d={}
+    return JsonResponse(d)
+
+
+# 依頼内容修正_表示
+def irai_shusei_index(request):
+    shusei_num=request.session["shusei_num"]
+    irai_detail=Rireki_rental.objects.get(irai_num=shusei_num)
+    items=Rireki_shouhin.objects.filter(irai_num=shusei_num).values_list("irai_hontai_num",flat=True)
+    irai_shouhin_list=list(items)
+    data=[]
+    for i in irai_shouhin_list:
+        data2={}
+        shouhin=Shouhin.objects.get(hontai_num=i)
+        data2["sample_num"]=shouhin.sample_num
+        data2["shouhin_num"]=shouhin.shouhin_num
+        data2["brand"]=shouhin.brand
+        data2["shouhin_name"]=shouhin.shouhin_name
+        data2["color"]=shouhin.color
+        data2["size"]=shouhin.size
+        data2["kubun"]=Rireki_shouhin.objects.get(irai_num=shusei_num,irai_hontai_num=i).irai_hontai_kubun
+        data.append(data2)
+    delitime=["","午前中","14時～16時","16時～18時","18時～20時","19時～21時"]
+    shozoku_list=list(Shozoku.objects.all().values_list("shozoku",flat=True))
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
+    params={
+        "irai_shouhin_list":data,
+        "irai_detail":irai_detail,
+        "shozoku_list":shozoku_list,
+        "delitime":delitime,
+        "kanri":kanri,
+    }
+    return render(request,"zaiko/shusei.html",params)
+
+
+# 依頼内容修正_表示
+def irai_shusei(request):
+    shusei_num=request.session["shusei_num"]
+    ins=Rireki_rental.objects.get(irai_num=shusei_num)
+    ins.haisou_tempo=request.POST["haisou_tempo"]
+    ins.haisou_deliday=request.POST["haisou_deliday"]
+    ins.haisou_delitime=request.POST["haisou_delitime"]
+    ins.haisou_com=request.POST["haisou_com"]
+    ins.haisou_cus=request.POST["haisou_cus"]
+    ins.haisou_yubin=request.POST["haisou_yubin"]
+    ins.haisou_pref=request.POST["haisou_pref"]
+    ins.haisou_city=request.POST["haisou_city"]
+    ins.haisou_banchi=request.POST["haisou_banchi"]
+    ins.haisou_build=request.POST["haisou_build"]
+    ins.haisou_tel=request.POST["haisou_tel"]
+    ins.haisou_mail=request.POST["haisou_mail"]
+    ins.haisou_com_m=request.POST["haisou_com_m"]
+    ins.haisou_cus_m=request.POST["haisou_cus_m"]
+    ins.haisou_yubin_m=request.POST["haisou_yubin_m"]
+    ins.haisou_pref_m=request.POST["haisou_pref_m"]
+    ins.haisou_city_m=request.POST["haisou_city_m"]
+    ins.haisou_banchi_m=request.POST["haisou_banchi_m"]
+    ins.haisou_build_m=request.POST["haisou_build_m"]
+    ins.haisou_tel_m=request.POST["haisou_tel_m"]
+    ins.nouhin_com=request.POST["nouhin_com"]
+    ins.nouhin_cus=request.POST["nouhin_cus"]
+    ins.nouhin_day=request.POST["nouhin_day"]
+    ins.rental_maxday=request.POST["rental_maxday"]
+    ins.bikou1=request.POST["bikou1"]
+    ins.bikou2=request.POST["bikou2"]
+    ins.save()
+
+    return render(request,"zaiko/shusei.html")
 
 
 # キャンセル依頼

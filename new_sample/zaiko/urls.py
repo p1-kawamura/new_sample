@@ -1,9 +1,9 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import index,shouhin_all,csv_imp,csv_imp_page,dele,hinban_enter_ajax,hinban_click_ajax,color_size_click_ajax,\
-                    kakou_click_ajax,swatch_click_ajax,keep_kaijo_ajax,check_addlist_ajax,irai_del_ajax,\
-                    hinban_click_ajax2,color_size_click_ajax2,toriyose_add_ajax,\
-                    last_kakunin,haisou_cus_success,haisou_tempo_success,haisou_keep_success,irai_success,irai_rireki,\
+                    kakou_click_ajax,swatch_click_ajax,keep_kaijo_ajax,check_addlist_ajax,irai_del_ajax,irai_num_copy,\
+                    hinban_click_ajax2,color_size_click_ajax2,toriyose_add_ajax,last_kakunin,\
+                    haisou_cus_success,haisou_tempo_success,haisou_keep_success,irai_success,irai_rireki,irai_shusei_ajax,irai_shusei_index,irai_shusei,\
                     rireki_kakunin,page_prev,page_first,page_next,page_last,rireki_kensaku,rireki_kensaku_all,cancel_ajax,\
                     csv_make,csv_download,unsou_page,unsou_csv_imp,all_delete
 
@@ -16,6 +16,9 @@ urlpatterns = [
     path('shouhin_all/', shouhin_all, name="shouhin_all"), 
     path('irai_success/', irai_success, name="irai_success"), 
     path('irai_rireki/', irai_rireki, name="irai_rireki"), 
+    path('irai_shusei_ajax/', irai_shusei_ajax, name="irai_shusei_ajax"), 
+    path('irai_shusei_index/', irai_shusei_index, name="irai_shusei_index"), 
+    path('irai_shusei/', irai_shusei, name="irai_shusei"), 
     path('rireki_kensaku/', rireki_kensaku, name="rireki_kensaku"),
     path('rireki_kensaku_all/', rireki_kensaku_all, name="rireki_kensaku_all"), 
     path('page_prev/', page_prev, name="page_prev"), 
@@ -33,6 +36,7 @@ urlpatterns = [
     path('keep_kaijo_ajax/', keep_kaijo_ajax, name="keep_kaijo_ajax"),
     path('check_addlist_ajax/', check_addlist_ajax, name="check_addlist_ajax"),
     path('irai_del_ajax/', irai_del_ajax, name="irai_del_ajax"),
+    path('irai_num_copy/', irai_num_copy, name="irai_num_copy"),
     path('hinban_click_ajax2/', hinban_click_ajax2, name="hinban_click_ajax2"),
     path('color_size_click_ajax2/', color_size_click_ajax2, name="color_size_click_ajax2"),
     path('toriyose_add_ajax/', toriyose_add_ajax, name="toriyose_add_ajax"),

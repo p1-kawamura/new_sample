@@ -110,6 +110,18 @@
                     <form action="{% url 'zaiko:haisou_cus_success' %}" method="post" name="haisou_cus_form">{% csrf_token %}
                         <div>
                             <div class="haisou_title">顧客あて</div>
+                            <div class="mt-2">
+                                <div>依頼履歴から配送先をコピーする場合は、依頼No.を入力してください。</div>
+                                <div class="flex2 mt-2">
+                                    <div>依頼No.：</div>
+                                    <div><input  class="form-control form-control-sm" type="text" id="irai_num" style="width: 100px;"></div>
+                                    <div style="margin-left: 10px;">
+                                        <button type="button" class="btn btn-outline-dark btn-sm" id="btn_irai">取込</button>
+                                    </div>
+                                    <div id="irai_ans" style="margin-left: 20px; color: red;"></div>
+                                </div>
+                            </div>
+                            
                             <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
 
                             <div class="flex2 mt-4">
@@ -839,6 +851,64 @@
             tempo2.style.display="none";
             cus2.style.display="none";
             keep2.style.display="block";
+        })
+
+
+        // 顧客あて_配送先複写
+        document.getElementById("btn_irai").addEventListener("click",function(){
+            var irai_num=document.getElementById("irai_num").value;
+            if (irai_num==""){
+                window.alert("依頼No.を入力してください");
+                return
+            };
+            $.ajax({
+                'url': '{% url "zaiko:irai_num_copy" %}',
+                'type': 'POST',
+                'data': {'irai_num':irai_num},
+                'dataType': 'json'
+            })
+            .done(function(response){
+                if (response.ins.length == 0){
+                    document.getElementById("irai_ans").innerText="依頼No.が存在しません。";
+                } else {
+                    var i = response.ins["0"];
+                    document.getElementById("c_shozoku").value=i["shozoku"];
+                    document.getElementById("c_tantou").value=i["tantou"];
+                    document.getElementById("c_haisou_com").value=i["haisou_com"];
+                    document.getElementById("c_haisou_cus").value=i["haisou_cus"];
+                    document.getElementById("c_haisou_yubin").value=i["haisou_yubin"];
+                    document.getElementById("c_haisou_pref").value=i["haisou_pref"];
+                    document.getElementById("c_haisou_city").value=i["haisou_city"];
+                    document.getElementById("c_haisou_banchi").value=i["haisou_banchi"];
+                    document.getElementById("c_haisou_build").value=i["haisou_build"];
+                    document.getElementById("c_haisou_tel").value=i["haisou_tel"];
+                    document.getElementById("c_haisou_mail").value=i["haisou_mail"];
+                    document.getElementById("c_haisou_deliday").value=i["haisou_deliday"];
+                    document.getElementById("c_haisou_delitime").value=i["haisou_delitime"];
+                    document.getElementById("c_haisou_com_m").value=i["haisou_com_m"];
+                    document.getElementById("c_haisou_cus_m").value=i["haisou_cus_m"];
+                    document.getElementById("c_haisou_yubin_m").value=i["haisou_yubin_m"];
+                    document.getElementById("c_haisou_pref_m").value=i["haisou_pref_m"];
+                    document.getElementById("c_haisou_city_m").value=i["haisou_city_m"];
+                    document.getElementById("c_haisou_banchi_m").value=i["haisou_banchi_m"];
+                    document.getElementById("c_haisou_build_m").value=i["haisou_build_m"];
+                    document.getElementById("c_haisou_tel_m").value=i["haisou_tel_m"];
+                    document.getElementById("c_bikou2").value=i["bikou2"];
+                    document.getElementById("c_nouhin_com").value=i["nouhin_com"];
+                    document.getElementById("c_nouhin_cus").value=i["nouhin_cus"];
+                    document.getElementById("c_nouhin_day").value=i["nouhin_day"];
+                    document.getElementById("c_rental_maxday").value=i["rental_maxday"];
+                    document.getElementById("c_bikou1").value=i["bikou1"];
+                    if (i["haisou_cus_m"]=="プラスワンインターナショナル"){
+                        document.getElementById("c_haisou_moto1").checked=true;
+                        document.getElementById("c_haisou_moto2").checked=false;
+                    } else{
+                        document.getElementById("c_haisou_moto1").checked=false;
+                        document.getElementById("c_haisou_moto2").checked=true;
+                    };
+                    document.getElementById("irai_ans").innerText="";
+                };
+            });   
         })
 
 
