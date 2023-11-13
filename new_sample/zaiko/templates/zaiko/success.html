@@ -47,6 +47,13 @@
                     <div class="title04">
                         <h2><span class="number">準</span>サンプル依頼内容の確認<span>（この案件は現在準備中で、まもなく発送されます）</span></h2>
                     </div>
+                {% elif kubun == "hassou_ok" %}
+                    <div class="title00">
+                        <h2><span class="number">キ</span>サンプル依頼内容の確認
+                            <span>（この案件はキープから発送へ変更できます）</span>
+                            <span><button type="button" class="btn btn-outline-dark btn-sm" id="hassou">発送に変更する</button></span>
+                        </h2>
+                    </div>
                 {% endif %}
             </div>
 
@@ -235,7 +242,21 @@
                 }
             }
         });
-  
+        
+
+        // キープを発送
+        $('#hassou').on('click', function(e) {
+            var irai_num=document.getElementById("irai_num").innerText;
+            $.ajax({
+                'url': '{% url "zaiko:keep_hassou" %}',
+                'type': 'POST',
+                'data': {'irai_num': irai_num},
+                'dataType': 'json'
+            })
+            .done(function(response){
+                window.location.href="{% url 'zaiko:index' %}";
+            });
+        });
   
         
         //修正

@@ -455,7 +455,7 @@ def last_kakunin(request):
         ans="yes"
         for i in ses:
             joutai=Shouhin.objects.get(hontai_num=i).joutai
-            if joutai !=0:
+            if joutai == 1:
                 data.append(i)
     d={"data":data,"ans":ans}
     return JsonResponse(d)
@@ -706,8 +706,16 @@ def rireki_kakunin(request,pk):
         kubun="kakunin_ok"
     elif status==1:
         kubun="junbi"
+    elif status==4:
+        kubun="kakunin_no"
+        day=datetime.date.today() - irai_detail.rental_day.date()
+        if day.days<=14:
+            ins=Shouhin.objects.filter(irai_num=irai_detail.irai_num)
+            if ins.count()>0: #キー解除/貸し出し中は、キープ時の依頼Noが無くなるため
+                kubun="hassou_ok"
     else:
         kubun="kakunin_no"
+    # 商品情報        
     irai_num=irai_detail.irai_num
     items=Rireki_shouhin.objects.filter(irai_num=irai_num).values_list("irai_hontai_num",flat=True)
     irai_shouhin_list=list(items)
@@ -815,6 +823,19 @@ def irai_shusei(request):
     ins.bikou2=request.POST["bikou2"]
     ins.save()
     return redirect("zaiko:rireki_kakunin",pk=pk)
+
+
+# キープから発送
+def keep_hassou(request):
+    irai_num=request.POST.get("irai_num")
+    request.session["sample"].clear()
+    li=[]
+    ins=Shouhin.objects.filter(irai_num=irai_num)
+    for i in ins:
+        li.append(str(i.hontai_num))
+    request.session["sample"]=li
+    d={"":""}
+    return JsonResponse(d)
 
 
 # キャンセル依頼
