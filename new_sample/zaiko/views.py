@@ -844,7 +844,10 @@ def cancel_ajax(request):
     name=request.POST.get("name")
     today=datetime.date.today().strftime("%Y-%m-%d")
     # 貸出一覧
-    Rental.objects.get(irai_num_rental=irai_num).delete()
+    try:
+        Rental.objects.get(irai_num_rental=irai_num).delete()
+    except:
+        pass
     # 商品一覧
     can=Shouhin.objects.filter(irai_num=irai_num)
     for i in can:
