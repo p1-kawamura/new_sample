@@ -1068,3 +1068,45 @@ def all_delete(request):
     Shouhin.objects.all().delete()
     Rental.objects.all().delete()
     return redirect("zaiko:index")
+
+
+# 営業用CSVダウンロード
+def eigyou_csv_download(request):
+    ins=Rireki_rental.objects.filter(status__in=[2,5])
+    exp_csv=[]
+    a=["依頼日","部署","営業担当","内容","納品書会社名","納品書氏名","都道府県","社名","顧客名","電話番号","メールアドレス",
+       "住所","貸出点数","ブランド","品番","品名","カラー","サイズ","返却日"]
+    kubun={0:"顧客",1:"店舗"}
+    exp_csv.append(a)
+    for i in ins:
+        ins2=Rireki_shouhin.objects.filter(irai_num=i.irai_num)
+        for h in ins2:
+            a=[
+                i.rental_day, #依頼日
+                i.shozoku, #部署
+                i.tantou, #担当者
+                kubun[i.irai_type], #内容
+                i.nouhin_com, #納品書会社名
+                i.nouhin_cus, #納品書氏名
+                i.haisou_pref, #都道府県
+                i.haisou_com, #配送先会社名
+                i.haisou_cus, #配送先顧客
+                i.haisou_tel, #電話
+                i.haisou_mail, #メール
+                i.haisou_pref + i.haisou_city, #住所
+                ins2.count(), #貸出点数
+                Shouhin.objects.get(hontai_num=h.irai_hontai_num).brand, #ブランド
+                Shouhin.objects.get(hontai_num=h.irai_hontai_num).shouhin_num, #品番
+                Shouhin.objects.get(hontai_num=h.irai_hontai_num).shouhin_name, #品名
+                Shouhin.objects.get(hontai_num=h.irai_hontai_num).color, #カラー
+                Shouhin.objects.get(hontai_num=h.irai_hontai_num).size, #サイズ
+                h.henkyaku_day, #返却
+            ]
+            exp_csv.append(a)
+    filename=urllib.parse.quote("サンプル発送履歴.csv")
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] =  "attachment;  filename='{}'; filename*=UTF-8''{}".format(filename, filename)
+    writer = csv.writer(response)
+    for line in exp_csv:
+        writer.writerow(line)
+    return response

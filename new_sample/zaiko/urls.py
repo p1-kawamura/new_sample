@@ -5,7 +5,7 @@ from .views import index,shouhin_all,csv_imp,csv_imp_page,dele,hinban_enter_ajax
                     hinban_click_ajax2,color_size_click_ajax2,toriyose_add_ajax,last_kakunin,\
                     haisou_cus_success,haisou_tempo_success,haisou_keep_success,irai_success,irai_rireki,irai_shusei_ajax,irai_shusei_index,irai_shusei,\
                     rireki_kakunin,page_prev,page_first,page_next,page_last,rireki_kensaku,rireki_kensaku_all,cancel_ajax,keep_hassou,\
-                    csv_make,csv_download,unsou_page,unsou_csv_imp,all_delete
+                    csv_make,csv_download,unsou_page,unsou_csv_imp,all_delete,eigyou_csv_download
 
 
 app_name="zaiko"
@@ -52,4 +52,5 @@ urlpatterns = [
     path('unsou_page/', unsou_page, name="unsou_page"),
     path('unsou_csv_imp/', unsou_csv_imp, name="unsou_csv_imp"),
     path('all_delete/', all_delete, name="all_delete"),
+    path('eigyou_csv_download/', eigyou_csv_download, name="eigyou_csv_download"),
 ]
