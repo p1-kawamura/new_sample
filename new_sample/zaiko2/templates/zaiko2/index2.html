@@ -49,10 +49,10 @@
 
             <!-- 一括編集 -->
             <div>
+                <div style="color: brown;">
+                    <span style="font-size: 1.3em;"><i class="bi bi-dice-6-fill"></i></span> 一括編集
+                </div>
                 <div>
-                    <div style="color: brown;">
-                        <span style="font-size: 1.3em;"><i class="bi bi-dice-6-fill"></i></span> 一括編集
-                    </div>
                     <form method="post" id="form1">{% csrf_token %}
                         <div class="flex2 mt-2">
                             <div><input type="text" class="form-control" id="hinban_all" name="hinban_all" style="width: 150px;" readonly></div>
@@ -63,10 +63,13 @@
                             </div>
                             <div style="margin-left: 30px;">
                                 <button class="btn btn-outline-danger" type="submit"  id="btn_ikkatsu_del"
-                                     formaction="{% url 'zaiko2:ikkatsu_del' %}" onclick="return confirm('本当に削除しますか？')" disabled>登録削除</button>
+                                    formaction="{% url 'zaiko2:ikkatsu_del' %}" onclick="return confirm('本当に削除しますか？')" disabled>登録削除</button>
                             </div>
                         </div>
                     </form>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-danger" type="button" id="shouhin_csv"><i class="bi bi-download"></i> 一覧ダウンロード</button>
                 </div>
             </div>
 
@@ -226,7 +229,7 @@
             }
         });
   
-  
+
   
         //カテゴリ選択
         $('#category').on('click', function(e) {
@@ -413,6 +416,12 @@
                     window.location.reload();
                 });
             }
+        });
+
+
+        // CSVダウンロード
+        document.getElementById("shouhin_csv").addEventListener("click",function(){
+            window.location.href = "{% url 'zaiko2:shouhin_csv_download' %}";
         });
 
     </script>

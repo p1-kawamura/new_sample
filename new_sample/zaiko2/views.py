@@ -492,3 +492,37 @@ def category_new(request):
     return JsonResponse(d)
 
 
+# 登録商品CSVダウンロード
+def shouhin_csv_download(request):
+    ins=Shouhin.objects.all()
+    exp_csv=[]
+    a=["本体No","サンプルNo","カテゴリ","商品番号","ブランド","商品名","カラー","サイズ","サイズ値","加工","備考",
+       "登録日","更新日","状態","依頼No","有効"]
+    exp_csv.append(a)
+    for i in ins:
+        a=[
+            i.hontai_num, #本体No
+            i.sample_num, #サンプルNo
+            i.category, #カテゴリ
+            i.shouhin_num, #商品番号
+            i.brand, #ブランド
+            i.shouhin_name, #商品名
+            i.color, #カラー
+            i.size, #サイズ
+            i.size_num, #サイズ値
+            i.kakou, #加工
+            i.bikou, #備考
+            i.touroku_day, #登録日
+            i.koushin_day, #更新日
+            i.joutai, #状態
+            i.irai_num, #依頼No
+            i.status #有効
+        ]
+        exp_csv.append(a)
+    filename=urllib.parse.quote("サンプル登録一覧.csv")
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] =  "attachment;  filename='{}'; filename*=UTF-8''{}".format(filename, filename)
+    writer = csv.writer(response)
+    for line in exp_csv:
+        writer.writerow(line)
+    return response

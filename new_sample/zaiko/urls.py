@@ -52,5 +52,5 @@ urlpatterns = [
     path('unsou_page/', unsou_page, name="unsou_page"),
     path('unsou_csv_imp/', unsou_csv_imp, name="unsou_csv_imp"),
     path('all_delete/', all_delete, name="all_delete"),
-    path('eigyou_csv_download/', eigyou_csv_download, name="eigyou_csv_download"),
+    path('eigyou_csv_download/', eigyou_csv_download, name="eigyou_csv_download")
 ]

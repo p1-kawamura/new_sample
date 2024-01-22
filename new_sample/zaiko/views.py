@@ -1110,3 +1110,6 @@ def eigyou_csv_download(request):
     for line in exp_csv:
         writer.writerow(line)
     return response
+
+
+

@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import index2,category_click_ajax,hinban_click_ajax,list_click_ajax,ikkatsu_hinban,ikkatsu_del,sample_num_auto,\
                     kobetsu_del,kobetsu_up,label_add,label_print,label_del,henkyaku,henkyaku_kensaku,henkyaku_del,henkyaku_all,henkyaku_csv,\
-                    size_category,size_num,size_name,size_new,category_num,category_name,category_new
+                    size_category,size_num,size_name,size_new,category_num,category_name,category_new,shouhin_csv_download
 
 app_name="zaiko2"
 urlpatterns = [
@@ -29,4 +29,5 @@ urlpatterns = [
     path('category_num/', category_num, name="category_num"),
     path('category_name/', category_name, name="category_name"),
     path('category_new/', category_new, name="category_new"),
+    path('shouhin_csv_download/', shouhin_csv_download, name="shouhin_csv_download"),
 ]
