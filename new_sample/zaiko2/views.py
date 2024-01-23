@@ -102,7 +102,7 @@ def sample_num_auto(request):
     if category=="":
         sample_num="no_cate"
     else:
-        items=Shouhin.objects.filter(category=category,status=0) #model.pyでself.sample_numなのでサンプルNoのみ返ってくる
+        items=Shouhin.objects.filter(category=category) #model.pyでself.sample_numなのでサンプルNoのみ返ってくる
         if items.count() == 0:
             sample_num="no_get"
         else:
@@ -205,14 +205,17 @@ def kobetsu_up(request):
 # ラベル一覧に追加
 def label_add(request):
     sample_num=request.POST.get("sample_num")
-    item=Shouhin.objects.get(sample_num=sample_num)
-    Label.objects.create(
-                sample_num=sample_num,
-                shouhin_num=item.shouhin_num,
-                shouhin_name=item.shouhin_name,
-                color=item.color,
-                size=item.size,
+    item=Shouhin.objects.filter(sample_num=sample_num)
+    for i in item:
+        if i.status==0:
+            Label.objects.create(
+                sample_num=i.sample_num,
+                shouhin_num=i.shouhin_num,
+                shouhin_name=i.shouhin_name,
+                color=i.color,
+                size=i.size,
             )
+            break
     d={"":""}
     return JsonResponse(d)
 
