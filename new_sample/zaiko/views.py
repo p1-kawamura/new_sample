@@ -48,6 +48,8 @@ def index(request):
         request.session["kensaku"]["nouhin_com"]=""
     if "nouhin_cus" not in request.session["kensaku"]:
         request.session["kensaku"]["nouhin_cus"]=""
+    if "mail" not in request.session["kensaku"]:
+        request.session["kensaku"]["mail"]=""
     if "success_num" not in request.session:
         request.session["success_num"]=""
     if "csv_list" not in request.session:
@@ -130,6 +132,7 @@ def irai_rireki(request):
     nouhin_cus=request.session["kensaku"]["nouhin_cus"]
     status=request.session["kensaku"]["status"]
     tel=request.session["kensaku"]["tel"]
+    mail=request.session["kensaku"]["mail"]
     
     request.session["comment"]="" # zaiko2:index2 の制御
 
@@ -153,6 +156,8 @@ def irai_rireki(request):
         str["status"]=status
     if tel != "":
         str["haisou_tel_kensaku"]=tel.replace("-","")
+    if mail != "":
+        str["haisou_mail"]=mail
         
 
     items=Rireki_rental.objects.filter(**str).order_by("irai_num").reverse()
@@ -194,6 +199,7 @@ def rireki_kensaku(request):
     nouhin_cus=request.POST["nouhin_cus"]
     status=request.POST["status"]
     tel=request.POST["tel"]
+    mail=request.POST["mail"]
 
     request.session["kensaku"]["irai_num"]=irai_num
     request.session["kensaku"]["rental_day_st"]=rental_day_st
@@ -204,6 +210,7 @@ def rireki_kensaku(request):
     request.session["kensaku"]["nouhin_cus"]=nouhin_cus
     request.session["kensaku"]["status"]=status
     request.session["kensaku"]["tel"]=tel
+    request.session["kensaku"]["mail"]=mail
     request.session["page_num"]=1
 
     return redirect("zaiko:irai_rireki")
@@ -219,6 +226,7 @@ def rireki_kensaku_all(request):
     request.session["kensaku"]["nouhin_cus"]=""
     request.session["kensaku"]["status"]=""
     request.session["kensaku"]["tel"]=""
+    request.session["kensaku"]["mail"]=""
     request.session["page_num"]=1
     return redirect("zaiko:irai_rireki")
 
