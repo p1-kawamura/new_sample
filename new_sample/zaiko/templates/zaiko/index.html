@@ -1059,6 +1059,7 @@
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
+                    document.getElementById("haisou_cus_add").disabled = true;
                     document.haisou_cus_form.submit();
                 } else if (response.ans == "no"){
                     window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
@@ -1103,6 +1104,7 @@
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
+                    document.getElementById("haisou_tempo_add").disabled = true;
                     document.haisou_tempo_form.submit();
                 } else if (response.ans == "no"){
                     window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
@@ -1141,6 +1143,7 @@
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
+                    document.getElementById("haisou_keep_add").disabled = true;
                     document.haisou_keep_form.submit();
                 } else if (response.ans == "no"){
                     window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
