@@ -455,6 +455,7 @@ def irai_num_copy(request):
 
 #依頼前最終確認
 def last_kakunin(request):
+    irai_type=request.POST.get("irai_type")
     ses=list(request.session["sample"])
     data=[]
     if len(ses)==0:
@@ -463,8 +464,12 @@ def last_kakunin(request):
         ans="yes"
         for i in ses:
             joutai=Shouhin.objects.get(hontai_num=i).joutai
-            if joutai == 1:
-                data.append(i)
+            if irai_type=="keep":
+                if joutai == 1 or joutai == 2:
+                    data.append(i)
+            else:
+                if joutai == 1:
+                    data.append(i)
     d={"data":data,"ans":ans}
     return JsonResponse(d)
 

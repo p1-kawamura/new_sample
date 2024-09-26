@@ -1056,6 +1056,8 @@
             $.ajax({
                 'url': '{% url "zaiko:last_kakunin" %}',
                 'type': 'POST',
+                'data': {'irai_type':"cus"},
+                'dataType': 'json'
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
@@ -1101,6 +1103,8 @@
             $.ajax({
                 'url': '{% url "zaiko:last_kakunin" %}',
                 'type': 'POST',
+                'data': {'irai_type':"tempo"},
+                'dataType': 'json'
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
@@ -1140,6 +1144,8 @@
             $.ajax({
                 'url': '{% url "zaiko:last_kakunin" %}',
                 'type': 'POST',
+                'data': {'irai_type':"keep"},
+                'dataType': 'json'
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
