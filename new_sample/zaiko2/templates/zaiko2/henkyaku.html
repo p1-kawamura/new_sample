@@ -31,8 +31,18 @@
                         </div>
                     </form>
                 </div>
-                <div>
-                    <a href="{% url 'zaiko2:henkyaku_csv' %}"><button class="btn btn-outline-dark"><i class="bi bi-download"></i> 未返却を抽出</button></a>
+                <div class="flex" style="margin: auto 0;">
+                    <div>
+                        <div>
+                            <a href="{% url 'zaiko2:henkyaku_spread' %}"><button class="btn btn-outline-dark"><i class="bi bi-arrow-repeat"></i> 未返却をスプシへ反映</button></a>
+                        </div>
+                        {% if ans %}
+                        <div style="color: red;">完了しました！</div>
+                        {% endif %}
+                    </div>
+                    <div style="margin-left: 50px;">
+                        <a href="{% url 'zaiko2:henkyaku_csv' %}"><button class="btn btn-outline-dark"><i class="bi bi-download"></i> 未返却を抽出</button></a>
+                    </div>
                 </div>
             </div>
             

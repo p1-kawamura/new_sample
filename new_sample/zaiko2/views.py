@@ -8,6 +8,7 @@ import datetime
 import csv
 from django.http import HttpResponse
 import urllib.parse
+import requests
 
 
 @login_required
@@ -383,6 +384,41 @@ def henkyaku_csv(request):
     for line in exp_csv:
         writer.writerow(line)
     return response
+
+
+def henkyaku_spread(request):
+    henkyaku_list=[]
+    today=datetime.date.today().strftime("%Y-%m-%d")
+    ins=Rireki_rental.objects.filter(status=2, rental_maxday__lt=today)
+    for i in ins:
+        shouhin=Rireki_shouhin.objects.filter(irai_num=i.irai_num,henkyaku=0)
+        if shouhin.count() > 0:
+            dic={
+                "id":i.id, #pk
+                "irai_num":i.irai_num, #依頼No
+                "rental_day":format(i.rental_day,"%Y-%m-%d"), #依頼日
+                "rental_maxday":i.rental_maxday, #期限
+                "shozoku":i.shozoku, #所属
+                "tantou":i.tantou, #担当
+                "haisou_tempo":i.haisou_tempo, #店舗
+                "haisou_com":i.haisou_com, #会社
+                "haisou_cus":i.haisou_cus, #氏名
+            }
+            henkyaku_list.append(dic)
+
+    # スプレッドシートへPOST
+    url="https://script.google.com/macros/s/AKfycbxPfgge-XFGXSPg02BK7o_ZZGIusOWN-njEDw0Y_Zt7JqtoEq3ZkRNa8ME6TGiDZbLX/exec"
+    henkyaku_list=json.dumps(henkyaku_list)
+    requests.post(url,data=henkyaku_list)
+
+    params={"ans":"yes"}
+    #user認証
+    kanri=0
+    if request.user.username == "p1masao":
+        kanri=1
+    params["kanri"]=kanri
+
+    return render(request,"zaiko2/henkyaku.html",params)
 
 
 @login_required
