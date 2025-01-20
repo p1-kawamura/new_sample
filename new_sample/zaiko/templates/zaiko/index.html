@@ -958,7 +958,11 @@
         var t_haisou_tempo = document.getElementById("t_haisou_tempo");
         t_shozoku.addEventListener("change",function(){
             num=t_shozoku.selectedIndex;
-            t_haisou_tempo.selectedIndex=num;
+            if (num > 0){
+                t_haisou_tempo.selectedIndex=num + 1;
+            } else {
+                t_haisou_tempo.selectedIndex=0;
+            };          
         })
         var c_haisou_com = document.getElementById("c_haisou_com");
         var c_haisou_cus = document.getElementById("c_haisou_cus");
