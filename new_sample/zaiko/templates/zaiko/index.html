@@ -89,7 +89,7 @@
                     <button type="button" class="btn btn-outline-danger" id="btn_cus" style="width: 150px;">顧客あて</button>
                 </div>
                 <div style="margin-left: 50px;">
-                    <button type="button" class="btn btn-outline-danger" id="btn_tempo" style="width: 150px;">店舗あて</button>
+                    <button type="button" class="btn btn-outline-danger" id="btn_tempo" style="width: 150px;">店舗 / 加工場あて</button>
                 </div>
                 <div style="margin-left: 50px;">
                     <button type="button" class="btn btn-outline-danger" id="btn_keep" style="width: 150px;">キープ</button>
@@ -280,7 +280,7 @@
                 <div id="haisou_tempo" style="display: none;">
                     <form action="{% url 'zaiko:haisou_tempo_success' %}"  method="post" name="haisou_tempo_form">{% csrf_token %}
                         <div>
-                            <div class="haisou_title">店舗あて</div>
+                            <div class="haisou_title">店舗 / 加工場あて</div>
                             <div class="haisou_kokyaku mt-4" style="width: 120px;">担当者</div>
 
                             <div class="flex2 mt-4">
@@ -301,6 +301,7 @@
                                 <div>
                                     <select class="form-select" id="t_haisou_tempo" name="t_haisou_tempo">
                                         <option></option>
+                                        <option value="kakouba">加工場</option>
                                         {% for i in shozoku_list %}
                                         <option>{{i}}</option>
                                         {% endfor %}
@@ -308,9 +309,12 @@
                                 </div>
                                 <div class="hissu">*</div>
                             </div>
-                            <div class="mt-3" style="width: 40%;">
-                                <div>依頼書備考：（出荷担当への連絡事項）</div>
-                                <div>
+                            <div class="mt-3">
+                                <div class="flex2">
+                                    <div>依頼書備考：（出荷担当への連絡事項）</div>
+                                    <div id="kakouba_comment" style="margin-left: 20px; color: red; display: none;">↓加工場名を記入してください！</div>
+                                </div>
+                                <div style="width: 40%;">
                                     <textarea placeholder="取り寄せ商品の入荷日、納品希望日など" class="form-control" id="t_bikou2" name="t_bikou2" rows="3"></textarea>
                                 </div>
                             </div>
@@ -934,6 +938,18 @@
             document.getElementById("c_haisou_city_m").value="";
             document.getElementById("c_haisou_banchi_m").value="";
             document.getElementById("c_haisou_tel_m").value="";
+        })
+
+
+        // 加工場あて
+        var t_haisou_tempo = document.getElementById("t_haisou_tempo");
+        var kakouba_comment=document.getElementById("kakouba_comment");
+        t_haisou_tempo.addEventListener("change",function(){
+            if (t_haisou_tempo.value=="kakouba"){
+                kakouba_comment.style.display="block";
+            } else {
+                kakouba_comment.style.display="none";
+            };
         })
 
 
