@@ -683,6 +683,8 @@ def irai_success(request):
     items=Rireki_shouhin.objects.filter(irai_num=irai_num).values_list("irai_hontai_num",flat=True)
     irai_shouhin_list=list(items)
     data=[]
+    flag_ms=False
+    message=""
     for i in irai_shouhin_list:
         data2={}
         shouhin=Shouhin.objects.get(hontai_num=i)
@@ -695,6 +697,23 @@ def irai_success(request):
         data2["size"]=shouhin.size
         data2["kubun"]=Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun
         data.append(data2)
+
+        # if Rireki_shouhin.objects.get(irai_num=irai_num,irai_hontai_num=i).irai_hontai_kubun == "取り寄せ":
+        #     message += shouhin.shouhin_num + "　" + shouhin.shouhin_name + "（" + shouhin.brand + "）　" + shouhin.color + "　" + shouhin.size + "\n"
+        #     flag_ms=True
+    
+    # # chatwork
+    # if flag_ms==True:
+    #     message="サンプル在庫表で「取り寄せ」が発生しました。\n\n" + "【依頼No." + str(irai_num) + "】\n" + message + "\n" + \
+    #         "https://p1sample.pythonanywhere.com/rireki_kakunin/" + str(irai_detail.id)
+    #     api_token="397df928d063bb65b534ec42bbdf2dce"
+    #     room_id="263707810"
+    #     endpoint="https://api.chatwork.com/v2"
+    #     url = endpoint + "/rooms/" + room_id + "/messages"
+    #     headers = {"X-ChatWorkToken":api_token}
+    #     params = {"body":message}
+    #     requests.post(url, headers=headers, params=params)
+                            
     
     #user認証
     kanri=0
