@@ -536,9 +536,15 @@ def shouhin_csv_download(request):
     ins=Shouhin.objects.all()
     exp_csv=[]
     a=["本体No","サンプルNo","カテゴリ","商品番号","ブランド","商品名","カラー","サイズ","サイズ値","加工","備考",
-       "登録日","更新日","状態","依頼No","有効"]
+       "登録日","更新日","状態","依頼No","有効","最終貸出日"]
     exp_csv.append(a)
     for i in ins:
+        try:
+            irai_num=Rireki_shouhin.objects.filter(irai_hontai_num=i.hontai_num).aggregate(Max("irai_num"))["irai_num__max"]
+            last_day=Rireki_rental.objects.get(irai_num=irai_num).rental_day.strftime("%Y-%m-%d")
+        except:
+            last_day=""
+
         a=[
             i.hontai_num, #本体No
             i.sample_num, #サンプルNo
@@ -555,7 +561,8 @@ def shouhin_csv_download(request):
             i.koushin_day, #更新日
             i.joutai, #状態
             i.irai_num, #依頼No
-            i.status #有効
+            i.status, #有効
+            last_day #最終貸出日
         ]
         exp_csv.append(a)
     filename=urllib.parse.quote("サンプル登録一覧.csv")
