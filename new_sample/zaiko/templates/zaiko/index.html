@@ -1073,6 +1073,7 @@
                 window.alert(str);
                 return
             };
+            document.getElementById("haisou_cus_add").disabled = true;
             $.ajax({
                 'url': '{% url "zaiko:last_kakunin" %}',
                 'type': 'POST',
@@ -1081,13 +1082,13 @@
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
-                    document.getElementById("haisou_cus_add").disabled = true;
                     document.haisou_cus_form.submit();
                 } else if (response.ans == "no"){
                     window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
                     window.location.reload();
                 } else {
                     getfail(response.data);
+                    document.getElementById("haisou_cus_add").disabled = false;
                 };
             });            
         });
@@ -1120,6 +1121,7 @@
                 window.alert(str);
                 return
             };
+            document.getElementById("haisou_tempo_add").disabled = true;
             $.ajax({
                 'url': '{% url "zaiko:last_kakunin" %}',
                 'type': 'POST',
@@ -1128,13 +1130,13 @@
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
-                    document.getElementById("haisou_tempo_add").disabled = true;
                     document.haisou_tempo_form.submit();
                 } else if (response.ans == "no"){
                     window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
                     window.location.reload();
                 } else {
                     getfail(response.data);
+                    document.getElementById("haisou_tempo_add").disabled = false;
                 };
             });            
         });
@@ -1161,6 +1163,7 @@
                 window.alert(str);
                 return
             };
+            document.getElementById("haisou_keep_add").disabled = true;
             $.ajax({
                 'url': '{% url "zaiko:last_kakunin" %}',
                 'type': 'POST',
@@ -1169,13 +1172,13 @@
             })
             .done(function(response){
                 if (response.ans == "yes" && response.data.length == 0){
-                    document.getElementById("haisou_keep_add").disabled = true;
                     document.haisou_keep_form.submit();
                 } else if (response.ans == "no"){
                     window.alert("不正な操作です！\n（ブラウザの「戻る」ボタンで表示されたページです）\n\n最初からやり直してください。");
                     window.location.reload();
                 } else {
                     getfail(response.data);
+                    document.getElementById("haisou_keep_add").disabled = false;
                 };
             });            
         });
@@ -1185,11 +1188,11 @@
             for (i=0; i<hontai.length; i++){
                 if (data.includes(hontai[i].name)){
                     hontai[i].parentNode.parentNode.style.backgroundColor="#fb9595";
-                }
-            }
+                };
+            };
             document.getElementById("kekka_fail").style.display="block";
             window.scrollTo(0,0);
-        }
+        };
 
 
         // 住所入力

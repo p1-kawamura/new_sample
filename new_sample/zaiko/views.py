@@ -1097,9 +1097,21 @@ def csv_imp(request):
 
 
 def all_delete(request):
-    Shouhin.objects.all().delete()
-    Rental.objects.all().delete()
-    return redirect("zaiko:index")
+    ins=Size.objects.all()
+    exp_csv=[]
+    for i in ins:
+        a=[
+            i.size, #サイズ
+            i.size_num, #サイズ値
+        ]
+        exp_csv.append(a)
+    filename=urllib.parse.quote("サイズ登録一覧.csv")
+    response = HttpResponse(content_type='text/csv; charset=CP932')
+    response['Content-Disposition'] =  "attachment;  filename='{}'; filename*=UTF-8''{}".format(filename, filename)
+    writer = csv.writer(response)
+    for line in exp_csv:
+        writer.writerow(line)
+    return response
 
 
 # 営業用CSVダウンロード
