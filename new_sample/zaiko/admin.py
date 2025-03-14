@@ -29,6 +29,7 @@ class A_rireki_rental(ModelAdmin):
 class A_Rireki_shouhin(ModelAdmin):
     model=Rireki_shouhin
     list_display=["irai_num","irai_hontai_num","henkyaku"]
+    search_fields = ("irai_num","irai_hontai_num")
 
 class A_Label(ModelAdmin):
     model=Label
