@@ -151,7 +151,7 @@
                                     <td style="vertical-align: middle; white-space: nowrap;">{{i.rental_maxday}}</td>
                                 {% endif %}
                                 <td style="vertical-align: middle;">{{i.nouhin_com}}</td>
-                                <td style="vertical-align: middle;">{{i.nouhin_cus}}</td>
+                                <td style="vertical-align: middle; white-space: nowrap;">{{i.nouhin_cus}}</td>
                                 <td style="vertical-align: middle; text-align: center; white-space: nowrap;">
                                     {% if i.status == 0 %}
                                         <form action="{% url 'zaiko:rireki_kakunin' i.pk %}" method="post">{% csrf_token %}
