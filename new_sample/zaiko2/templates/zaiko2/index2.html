@@ -146,9 +146,15 @@
                                 加工
                                 <input class="form-control" type="text" id="h_kakou" name="h_kakou" style="width: 200px;">
                             </div>
-                            <div style="margin-left: 30px;">
+                        </div>
+                        <div class="flex2 mt-3">
+                            <div>
                                 備考
-                                <input class="form-control" type="text" id="h_bikou" name="h_bikou" style="width: 200px;">
+                                <input class="form-control" type="text" id="h_bikou" name="h_bikou" style="width: 590px;">
+                            </div>
+                            <div style="margin-left: 30px;">
+                                登録日
+                                <input class="form-control" type="date" id="h_touroku_day" name="h_touroku_day" style="width: 150px;">
                             </div>
                         </div>
                         <div class="flex2 mt-4" style="justify-content: space-between;">
@@ -343,6 +349,7 @@
                         document.getElementById("h_shouhin_name").value = item.shouhin_name;
                         document.getElementById("h_kakou").value = item.kakou;
                         document.getElementById("h_bikou").value = item.bikou;
+                        document.getElementById("h_touroku_day").value = item.touroku_day;
                         document.getElementById("btn_kobetsu_del").disabled=false;
                     })
                 },false)
@@ -350,7 +357,7 @@
         };
 
 
-        // 取り寄せモーダル
+        // サンプルNo_モーダル
         $("#modal_sample_num").on("show.bs.modal", function (event) {
             var category = document.getElementById("h_category").value;
             var modal_smp = document.getElementById("modal_smp")

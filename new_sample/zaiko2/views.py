@@ -150,6 +150,7 @@ def kobetsu_up(request):
     shouhin_name=request.POST["h_shouhin_name"]
     kakou=request.POST["h_kakou"]
     bikou=request.POST["h_bikou"]
+    touroku_day=request.POST["h_touroku_day"]
     # 新規（コピーから作成）
     if hontai_num == "":
         size_num=Size.objects.get(size=size).size_num
@@ -187,6 +188,7 @@ def kobetsu_up(request):
         item.size_num=size_num
         item.kakou=kakou
         item.bikou=bikou
+        item.touroku_day=touroku_day
         item.save()
         comment="【内容更新】 サンプルNo." + sample_num + " の情報を更新しました！"
 
