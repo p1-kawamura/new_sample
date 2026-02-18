@@ -11,7 +11,10 @@ from django.db.models import Max
 import datetime
 from django.db.models import Q
 import urllib.parse
-
+import pandas as pd
+from django_pandas.io import read_frame
+from io import BytesIO
+import openpyxl
 
 
 @login_required
@@ -1156,4 +1159,35 @@ def eigyou_csv_download(request):
     return response
 
 
+# 自由に使う
+def free(request):
+    ins=Rireki_rental.objects.all()
+    ins2=Rireki_shouhin.objects.all()
+    ins3=Shouhin.objects.all()
+    df1=read_frame(ins)
+    df2=read_frame(ins2)
+    df3=read_frame(ins3)
+    df1["irai_type"]=df1["irai_type"].replace({0:"顧客",1:"店舗",2:"キープ"})
+    df1["status"]=df1["status"].replace({0:"発送待ち",1:"準備中",2:"発送完了",3:"キャンセル",4:"キープ",5:"終了"})
+    df=df1.merge(df2,on="irai_num")
+    df=df.merge(df3,left_on="irai_hontai_num",right_on="hontai_num")
+    
+    # タイムゾーン付き datetime を naive に変換
+    for col in df.select_dtypes(include=["datetimetz"]).columns:
+        df[col] = df[col].dt.tz_localize(None)
+
+    # Excelファイルをメモリ上に作成
+    buffer = BytesIO()
+    with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='履歴一覧')
+
+    buffer.seek(0)
+
+    # HTTPレスポンスとしてExcelファイルを返す
+    response = HttpResponse(
+        buffer,
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="rental.xlsx"'
+    return response
 
