@@ -1161,6 +1161,8 @@ def eigyou_csv_download(request):
 
 # 自由に使う
 def free(request):
+
+    # 貸出履歴DL
     ins=Rireki_rental.objects.all()
     ins2=Rireki_shouhin.objects.all()
     ins3=Shouhin.objects.all()
