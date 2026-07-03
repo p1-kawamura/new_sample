@@ -56,7 +56,7 @@ def hinban_click_ajax(request):
         items=list(Shouhin.objects.filter(shouhin_num=hinban,sample_num="").values())
     else:
         shouhin_name=Shouhin.objects.filter(shouhin_num=hinban,category=category).first().shouhin_name
-        items=list(Shouhin.objects.filter(shouhin_num=hinban, category=category, status=0).values())
+        items=list(Shouhin.objects.filter(shouhin_num=hinban, category=category, status=0).values().order_by("color","size_num"))
     d={"hinban":hinban,"shouhin_name":shouhin_name,"items":items}
     return JsonResponse(d)
 

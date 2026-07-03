@@ -146,6 +146,14 @@
                                 加工
                                 <input class="form-control" type="text" id="h_kakou" name="h_kakou" style="width: 200px;">
                             </div>
+                            <div style="margin-left: 30px;">
+                                状態
+                                <select  class="form-control" id="h_joutai" name="h_joutai" style="width: 150px;">
+                                    <option value="0" disabled>在庫あり</option>
+                                    <option value="1" disabled>貸出中</option>
+                                    <option value="2" disabled>キープ中</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="flex2 mt-3">
                             <div>
@@ -348,9 +356,16 @@
                         document.getElementById("h_size").value = item.size;
                         document.getElementById("h_shouhin_name").value = item.shouhin_name;
                         document.getElementById("h_kakou").value = item.kakou;
+                        document.getElementById("h_joutai").value = item.joutai;
                         document.getElementById("h_bikou").value = item.bikou;
                         document.getElementById("h_touroku_day").value = item.touroku_day;
                         document.getElementById("btn_kobetsu_del").disabled=false;
+                        var btn_del=document.getElementById("btn_kobetsu_del");
+                        if (item.joutai==1){
+                            btn_del.style.display="none";
+                        } else {
+                            btn_del.style.display="block";
+                        }
                     })
                 },false)
             };
