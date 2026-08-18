@@ -353,7 +353,7 @@ def henkyaku_all(request):
 # 未返却ダウンロード
 def henkyaku_csv(request):
     exp_csv=[]
-    a=["依頼No","依頼日","期限","所属","担当","店舗","会社","氏名","サンプルNo","商品番号","商品名","カラー","サイズ"]
+    a=["依頼No","依頼日","期限","所属","担当","店舗","会社","氏名","サンプルNo","商品番号","商品名","カラー","サイズ","URL"]
     exp_csv.append(a)
     today=datetime.date.today().strftime("%Y-%m-%d")
     ins=Rireki_rental.objects.filter(status=2, rental_maxday__lt=today)
@@ -376,6 +376,7 @@ def henkyaku_csv(request):
                         Shouhin.objects.get(hontai_num=h.irai_hontai_num).shouhin_name, #商品名
                         Shouhin.objects.get(hontai_num=h.irai_hontai_num).color, #カラー
                         Shouhin.objects.get(hontai_num=h.irai_hontai_num).size, #サイズ
+                        "https://p1sample.pythonanywhere.com/rireki_kakunin/" + str(i.id), #URL
                     ]
                     exp_csv.append(a)
     now=datetime.datetime.now()
@@ -388,6 +389,7 @@ def henkyaku_csv(request):
     return response
 
 
+# APIでスプレッドシートへ
 def henkyaku_spread(request):
     henkyaku_list=[]
     today=datetime.date.today().strftime("%Y-%m-%d")
