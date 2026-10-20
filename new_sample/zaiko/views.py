@@ -984,6 +984,7 @@ def csv_download(request):
                 irai.irai_type, #内容
             ]
             exp_csv.append(a)
+            print(a)
     now=datetime.datetime.now()
     filename=urllib.parse.quote("サンプル発送_" + format(now,"%Y%m%d%H%M%S") +".csv")
     response = HttpResponse(content_type='text/csv; charset=CP932')
